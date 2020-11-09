@@ -103,11 +103,11 @@ function doShow(i)
 				
 		
 			if (document.getElementById('ao').checked){
-				//if(0==s.indexOf("http://tieba.baidu.com/f?kw=") || 0==s.indexOf("https://tieba.baidu.com/f?kw=")){s = $URL.decode(s)}
+				if(0==s.indexOf("http://tieba.baidu.com/f?kw=") || 0==s.indexOf("https://tieba.baidu.com/f?kw=")){s = $URL.decode(s)}
 			//console.log(s);
 			//$("#"+i).click(console.log(i));
-			document.getElementById(i).click();
-				//window.open('javascript:location.replace(decodeURIComponent("' + s + '"))');//window.open(s,'_blank','noreferrer');//open_window(s);
+			//document.getElementById(i).click();
+				window.open('javascript:location.replace(decodeURIComponent("' + s + '"))','noopener');//window.open(s,'_blank','noopener');////open_window(s);
 				//p='<html><head><title></title><meta http-equiv="Refresh" content="0; url='+s+'" /></head><body><div>'+i+s+'要添加的内容'+'</div></body><scr'+'ipt language="JavaScript">window.location.href="'+s+'"</scr'+'ipt></html>';
 				//w=window.open('about:blank');
 				//w.document.write(p);
