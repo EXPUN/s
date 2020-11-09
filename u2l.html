@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -89,26 +90,30 @@ function doShow(i)
     //s = "https://www.so.com/s?q="+ encodeURI(s);
 	for(i=0;i<arr.length;i++){
         var s =arr[i].replace(/^\s+|\s+$/g, "");
-		if(s.length){
+		if(s.length){ 
+			var tr = myTable_tbody.insertRow(-1);
+			//if (i%2) tr.style.backgroundColor="#C2C2C2";//"#fafafa";//"#C2C2C2";
+			var otd1 = document.createElement("td");
+				otd1.innerHTML = i+1; 
+				//otd1.style.width = "80px"; 
+				tr.appendChild(otd1);
+			var otd2 = document.createElement("td");
+			otd2.innerHTML = "<a href="+s+" target=_blank rel='noopener noreferrer' id='"+i+"'>"+s+"</a>";
+			tr.appendChild(otd2);
+				
+		
 			if (document.getElementById('ao').checked){
-				if(0==s.indexOf("http://tieba.baidu.com/f?kw=") || 0==s.indexOf("https://tieba.baidu.com/f?kw=")){s = $URL.decode(s)}
+				//if(0==s.indexOf("http://tieba.baidu.com/f?kw=") || 0==s.indexOf("https://tieba.baidu.com/f?kw=")){s = $URL.decode(s)}
 			//console.log(s);
-				window.open('javascript:location.replace(decodeURIComponent("' + s + '"))');//window.open(s,'_blank','noreferrer');//open_window(s);
+			$("#"+i).click(console.log(i));
+			document.getElementById(i).click();
+				//window.open('javascript:location.replace(decodeURIComponent("' + s + '"))');//window.open(s,'_blank','noreferrer');//open_window(s);
 				//p='<html><head><title></title><meta http-equiv="Refresh" content="0; url='+s+'" /></head><body><div>'+i+s+'要添加的内容'+'</div></body><scr'+'ipt language="JavaScript">window.location.href="'+s+'"</scr'+'ipt></html>';
 				//w=window.open('about:blank');
 				//w.document.write(p);
 				//w.document.close();
 				//w.print();
-            } 
-			var tr = myTable_tbody.insertRow(-1)
-		//if (i%2) tr.style.backgroundColor="#C2C2C2";//"#fafafa";//"#C2C2C2";
-		var otd1 = document.createElement("td");
-			otd1.innerHTML = i+1; 
-			//otd1.style.width = "80px"; 
-			tr.appendChild(otd1);
-		var otd2 = document.createElement("td");
-			otd2.innerHTML = "<a href="+s+" target=_blank rel='noreferrer'>"+s+"</a>";
-			tr.appendChild(otd2);
+            }
 		}
 	}
     //if (s.length)
