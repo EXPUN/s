@@ -252,4 +252,4 @@ function so() {
 
 
 //console.log(localStorage["allso_state"]);
-$('div.loading').fadeOut('fast');
+$('div.spinner').fadeOut('fast');
