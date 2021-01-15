@@ -87,7 +87,7 @@ function set(a0b1, set_so) {
     localStorage["allso_" + a0b1] = set_so;
     if (set_so == 0) {
         set_url[a0b1] = "https://www.baidu.com/s?wd=";
-        set_top[a0b1] = -55; set_left[a0b1] = -100; set_foot[a0b1] = 80;
+        set_top[a0b1] = -55; set_left[a0b1] = -100; set_foot[a0b1] = 70;
     }
     else if (set_so == 1) {
         set_url[a0b1] = "https://www.so.com/s?src=360chrome_newtab_search&q=";
