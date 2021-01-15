@@ -99,7 +99,7 @@ function set(a0b1, set_so) {
     }
     else if (set_so == 3) {
         set_url[a0b1] = "https://www.sogou.com/web?query=";
-        set_top[a0b1] = -55; set_left[a0b1] = -100; set_foot[a0b1] = 127;
+        set_top[a0b1] = -55; set_left[a0b1] = -100; set_foot[a0b1] = 80;
     }
     need_respond = true;
 }
