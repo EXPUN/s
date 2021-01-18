@@ -31,7 +31,7 @@ body, td, input, textarea {
 
 </style>
 <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://helper.log.cx/gbk.js"></script>
+<!--script src="https://helper.log.cx/gbk.js"></script-->
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
 <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
 <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
@@ -85,31 +85,21 @@ function doShow(i)
         document.getElementById("adds1").value="Finished! //共"+arr.length+"条";
         return;
     }
-    //s1 = "http://video.so.com/v?q="+ encodeURI(s);
-    //s2 = "https://www.baidu.com/s?ie=utf-8&wd="+ encodeURI(s);
-    //s = "https://www.so.com/s?q="+ encodeURI(s);
+
 	for(i=0;i<arr.length;i++){
         var s =arr[i].replace(/^\s+|\s+$/g, "");
 		if(s.length){
-			if (document.getElementById('ao').checked){
-				//if(0==s.indexOf("http://tieba.baidu.com/f?kw=") || 0==s.indexOf("https://tieba.baidu.com/f?kw=")){s = $URL.decode(s)}
-			//console.log(s);
-				window.open('javascript:location.replace(decodeURIComponent("' + s + '"))');//window.open(s,'_blank','noreferrer');//open_window(s);
-				//p='<html><head><title></title><meta http-equiv="Refresh" content="0; url='+s+'" /></head><body><div>'+i+s+'要添加的内容'+'</div></body><scr'+'ipt language="JavaScript">window.location.href="'+s+'"</scr'+'ipt></html>';
-				//w=window.open('about:blank');
-				//w.document.write(p);
-				//w.document.close();
-				//w.print();
-            } 
 			var tr = myTable_tbody.insertRow(-1)
-		//if (i%2) tr.style.backgroundColor="#C2C2C2";//"#fafafa";//"#C2C2C2";
-		var otd1 = document.createElement("td");
-			otd1.innerHTML = i+1; 
-			//otd1.style.width = "80px"; 
-			tr.appendChild(otd1);
-		var otd2 = document.createElement("td");
-			otd2.innerHTML = "<a href="+s+" target=_blank rel='noreferrer'>"+s+"</a>";
-			tr.appendChild(otd2);
+			//if (i%2) tr.style.backgroundColor="#C2C2C2";//"#fafafa";//"#C2C2C2";
+			var otd1 = document.createElement("td");
+				otd1.innerHTML = i+1; 
+				//otd1.style.width = "80px"; 
+				tr.appendChild(otd1);
+			var otd2 = document.createElement("td");
+				otd2.innerHTML = "<a href="+s+" target='_blank' rel='noreferrer noopener' id="+i+">"+s+"</a>";
+				//otd2.id = i;
+				tr.appendChild(otd2);
+			if (document.getElementById('ao').checked){document.getElementById(i).click();}
 		}
 	}
     //if (s.length)
@@ -157,11 +147,5 @@ function doShow(i)
 }
 </script>
 
-<SCRIPT LANGUAGE="JavaScript">
-function open_window(link){ 
-    var arg = '\u003cscript\u003elocation.replace("'+link+'")\u003c/script\u003e';
-    window.open('javascript:window.name;', arg,'rel:noreferrer');
-}
-</script>
 </body>
 </html>
