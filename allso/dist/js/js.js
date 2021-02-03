@@ -57,27 +57,27 @@ else {
 function load_local(){
     if (localStorage["allso_0"] == undefined) {
         set(0, 1);
-        obj_list1_buttons.eq(3).removeClass("btn-info").addClass("btn-danger");
+        obj_list1_buttons.eq(3).removeClass("btn-default").addClass("btn-success");
     }
     else {
         set(0, localStorage["allso_0"]);
-        obj_list1_buttons.eq(localStorage["allso_0"]).removeClass("btn-info").addClass("btn-danger");
+        obj_list1_buttons.eq(localStorage["allso_0"]).removeClass("btn-default").addClass("btn-success");
     }
     if (localStorage["allso_1"] == undefined) {
         set(1, 0);
-        obj_list2_buttons.eq(1).removeClass("btn-warning").addClass("btn-success");
+        obj_list2_buttons.eq(1).removeClass("btn-default").addClass("btn-success");
     }
     else {
         set(1, localStorage["allso_1"]);
-        obj_list2_buttons.eq(localStorage["allso_1"]).removeClass("btn-warning").addClass("btn-success");
+        obj_list2_buttons.eq(localStorage["allso_1"]).removeClass("btn-default").addClass("btn-success");
     }
     if (localStorage["allso_2"] == undefined) {
         set(2, 3);
-        obj_list3_buttons.eq(3).removeClass("btn-warning").addClass("btn-success");
+        obj_list3_buttons.eq(3).removeClass("btn-default").addClass("btn-success");
     }
     else {
         set(2, localStorage["allso_2"]);
-        obj_list3_buttons.eq(localStorage["allso_2"]).removeClass("btn-warning").addClass("btn-success");
+        obj_list3_buttons.eq(localStorage["allso_2"]).removeClass("btn-default").addClass("btn-success");
     }
 }
 
@@ -107,16 +107,16 @@ function set(a0b1, set_so) {
 
 //设置按钮点击后颜色变化
 obj_list1_buttons.click(function () {
-    obj_list1_buttons.removeClass("btn-danger").addClass("btn-info");
-    $(this).removeClass("btn-info").addClass("btn-danger");
+    obj_list1_buttons.removeClass("btn-success").addClass("btn-default");
+    $(this).removeClass("btn-default").addClass("btn-success");
 });
 obj_list2_buttons.click(function () {
-    obj_list2_buttons.removeClass("btn-success").addClass("btn-warning");
-    $(this).removeClass("btn-warning").addClass("btn-success");
+    obj_list2_buttons.removeClass("btn-success").addClass("btn-default");
+    $(this).removeClass("btn-default").addClass("btn-success");
 });
 obj_list3_buttons.click(function () {
-    obj_list3_buttons.removeClass("btn-success").addClass("btn-warning");
-    $(this).removeClass("btn-warning").addClass("btn-success");
+    obj_list3_buttons.removeClass("btn-success").addClass("btn-default");
+    $(this).removeClass("btn-default").addClass("btn-success");
 });
 
 // 实时搜索开关
