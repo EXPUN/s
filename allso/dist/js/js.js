@@ -73,7 +73,7 @@ function load_local(){
     }
     if (localStorage["allso_2"] == undefined) {
         set(2, 3);
-        obj_list3_buttons.eq(1).removeClass("btn-warning").addClass("btn-success");
+        obj_list3_buttons.eq(3).removeClass("btn-warning").addClass("btn-success");
     }
     else {
         set(2, localStorage["allso_2"]);
@@ -114,7 +114,10 @@ obj_list2_buttons.click(function () {
     obj_list2_buttons.removeClass("btn-success").addClass("btn-warning");
     $(this).removeClass("btn-warning").addClass("btn-success");
 });
-
+obj_list3_buttons.click(function () {
+    obj_list3_buttons.removeClass("btn-success").addClass("btn-warning");
+    $(this).removeClass("btn-warning").addClass("btn-success");
+});
 
 // 实时搜索开关
 obj_autoSO.change(function(){
