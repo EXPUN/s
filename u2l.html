@@ -89,7 +89,7 @@ function doShow(i)
 	for(i=0;i<arr.length;i++){
         var s =arr[i].replace(/^\s+|\s+$/g, "");
 		if(s.length){
-			if (s.indexof("http")!=0) s = "http://"+s;
+			if (s.indexOf("http")!=0) s = "http://"+s;
 			var tr = myTable_tbody.insertRow(-1)
 			//if (i%2) tr.style.backgroundColor="#C2C2C2";//"#fafafa";//"#C2C2C2";
 			var otd1 = document.createElement("td");
