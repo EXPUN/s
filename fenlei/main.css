@@ -1,0 +1,189 @@
+.table_workspace {
+	width: 100%;
+	border: 1px solid #e5e5e5;
+	font-size: 18px;
+}
+
+.table_workspace .col:after {
+	clear: both;
+	display: block;
+	visibility: hidden;
+	overflow: hidden;
+	height: 0;
+	content: ".";
+}
+
+.table_workspace .cell {
+	float: left;
+}
+
+.table_workspace .cell_1 {
+	width: 80%;
+}
+
+.table_workspace .cell_2 {
+	width: 20%;
+	text-align: center;
+}
+
+.table_workspace .row_master .cell_1 {
+	text-indent: 120px;
+}
+
+.table_workspace .row_data .col {
+	border: 1px solid #fff;
+}
+
+.table_workspace .row_data .cell_1 {
+	padding: 18px 0;
+}
+
+.table_workspace .row_master {
+	border-bottom: 1px solid #dbdbdb;
+	background-color: #f0f0f0;
+}
+
+.table_workspace .row_master .cell {
+	color: #666;
+	font-size: 14px;
+	line-height: 36px;
+}
+
+.table_workspace .row_secondary {
+	border-bottom: 1px solid #eaeaea;
+	background-color: #f8f8f8;
+}
+
+.table_workspace .row_secondary .cell {
+	line-height: 26px;
+    color: #666;
+    font-size: 14px;
+}
+
+.table_workspace .row_secondary .cell_1 {
+	position: relative;
+	left: -1px;
+	padding-left: 15px;
+	border-left: 5px solid #d51c17;
+}
+
+.table_workspace .row_data {
+	border-bottom: 1px solid #eaeaea;
+}
+
+.table_workspace .row_data .icon_l {
+	float: left;
+	display: block;
+	margin-left: 30px;
+	width: 16px;
+	height: 6px;
+	background: url(https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-icons/1.3.0/icons/arrow-right.svg) no-repeat -41px 0;
+}
+
+.table_workspace .row_data .icon_tag_1,.table_workspace .row_data .icon_tag_2,.table_workspace .row_data .icon_tag_3,.table_workspace .row_data .icon_tag_4,.table_workspace .row_data .icon_tag_5 {
+	display: inline-block;
+	overflow: hidden;
+	margin: -3px -5px 0 10px;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icon_car_attr.png) no-repeat;
+	vertical-align: middle;
+	text-indent: -9999px;
+}
+
+.table_workspace .row_data .icon_tag_1 {
+	background-position: 0 0;
+}
+
+.table_workspace .row_data .icon_tag_2 {
+	background-position: -18px 0;
+}
+
+.table_workspace .row_data .icon_tag_3 {
+	display: none;
+	background-position: -36px 0;
+}
+
+.table_workspace .row_data .icon_tag_4 {
+	background-position: -54px 0;
+}
+
+.table_workspace .row_data .icon_tag_5 {
+	background-position: -72px 0;
+}
+
+.table_workspace .row_data .icon_add {
+	font-style: normal;
+}
+
+.table_workspace .row_data a {
+	color: #18429c;
+}
+
+.table_workspace .row_data span.icon_tag_stop {
+	display: inline-block;
+	overflow: hidden;
+	margin: -3px -5px 0 10px;
+	padding: 0 3px;
+	height: 16px;
+	background: #c6c6c6;
+	color: #fff;
+	vertical-align: middle;
+	line-height: 16px;
+}
+
+.table_workspace .row_data .link {
+	color: #18429c;
+}
+
+.table_workspace .row_data .tip {
+	padding-left: 46px;
+	color: #999;
+}
+
+.table_workspace .row_data .text-success {
+	color: #31c1a4;
+	font-weight: 700;
+}
+
+.table_workspace .row_data .cell_2 {
+	padding-top: 15px;
+}
+
+.table_workspace .percent_bar {
+	display: inline-block;
+	overflow: hidden;
+	width: 45px;
+	height: 5px;
+	background-color: #e5e5e5;
+	font-size: 0;
+}
+
+.table_workspace .percent_bar i {
+	display: block;
+	height: 5px;
+	background-color: #d51c17;
+}
+
+.table_workspace .link_calculator {
+	display: inline-block;
+	width: 18px;
+	height: 15px;
+	background: url(https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-icons/1.3.0/icons/arrow-right.svg) center top no-repeat;
+	vertical-align: middle;
+}
+
+.table_workspace .link_calculator:hover {
+	background-position: center bottom;
+}
+
+.table_workspace .row_hover .col {
+	position: relative;
+	border-color: #bfbfbf;
+	-webkit-box-shadow: 0 2px 2px #e5e5e5;
+	box-shadow: 0 2px 2px #e5e5e5;
+}
+
+.table_workspace .row_last {
+	border-bottom: none;
+}
