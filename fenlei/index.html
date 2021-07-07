@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <title>垂类文本分类</title>
     <!--link rel="stylesheet" href="http://static.ws.126.net/163/f2e/auto/product_pc/product_series/static/css/series_index.css"-->
-    <link rel="stylesheet" href="./main.css?v1">
+    <link rel="stylesheet" href="./main.css">
     <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css" rel="stylesheet">
     <!--link href="https://cdn.staticfile.org/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet"-->
     <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
@@ -107,6 +107,10 @@
             width:400px;
             height:550px;
             }
+        #type_list{
+            font-size:14px;
+            width:100%;
+        }
     </style>
 </head>
 <body>
@@ -131,9 +135,9 @@
                     </div>
                 </div>
                 <div class="row_data">
-                    <div class="col">
+                    <div class="col" style="height: 74px;">
                         <div class="cell cell_1">
-                            <i class="icon_l"></i><span id="text_display">绝对不能心跳不止！第08话-绝对不能心跳不止！漫画-动漫之家漫画网</span></div>
+                            <i class="icon_l"></i><span id="text_display"></span></div>
                         <div class="cell cell_2">
                             <span> <a id="search_link" target="_blank">搜索</a></span>
                         </div>
@@ -181,17 +185,17 @@
                             <div class="fenlei_radio"><input type="radio" value="house" name="fenlei" />房产</div>
                             <div class="fenlei_radio"><input type="radio" value="other" name="fenlei" />其他</div>
                             <div class="fenlei_radio"><input type="radio" value="null" name="fenlei" />待定</div>
-                            <div class="fenlei_radio" style="display:none;"><input type="radio" id="hidden_radio" value="" name="fenlei"/>hidden</div>
+                            <!--div class="fenlei_radio" style="display:none;"><input type="radio" id="hidden_radio" value="" name="fenlei"/>hidden</div-->
                         </div>
                     </div>
-                    <div class="alert alert-light" role="alert">
+                    <div id="lastiteam" class="alert alert-light" role="alert">
                         A simple light alert—check it out!
                     </div>
                     <hr class="style-one">
                     <div class="col">
-                        <button type="button" class="btn btn-outline-secondary btn-block">上一条</button>
-                        <button type="button" class="btn btn-light btn-block" disabled>---</button>
-                        <button type="button" class="btn btn-outline-secondary btn-block">下一条</button>
+                        <button id="pre_btn" type="button" class="btn btn-outline-secondary btn-block">上一条</button>
+                        <!--button type="button" class="btn btn-light btn-block" disabled>---</button>
+                        <button type="button" class="btn btn-outline-secondary btn-block" disabled>下一条</button-->
                     </div>
                     <br>
                 </div>
@@ -206,7 +210,144 @@
             </div>
         </div>
     </div>
-
+    <div >
+        <table id="type_list" class="table table-hover">
+            <thead>
+                <tr>
+                <th scope="col">#<a id="type_list_toggle" onclick='$(".wrapper").toggle(100);'> ➤ 点此展开/收起 类别释义</a></th>
+                <th scope="col">分类名称</th>
+                <th scope="col">释义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>影视</td>
+                    <td>以电影、电视剧类视频内容为主的内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>动漫</td>
+                    <td>以动漫类视频内容为主的内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>漫画</td>
+                    <td>漫画资源及漫画周边相关内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>体育</td>
+                    <td>各类体育相关的内容，体育类包括潜水、登山、自行车、赛鸽</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">5</th>
+                    <td>小说</td>
+                    <td>小说推荐、阅读、下载，有声小说、小说内容</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">6</th>
+                    <td>音乐</td>
+                    <td>以听歌为目的的音乐内容或者音乐曲目下载内容，吉他谱、钢琴谱等乐谱聚合内容，以音频广播节目为主的聚合内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>游戏</td>
+                    <td>大型游戏官网、网页游戏导航内容、游戏攻略</td>
+                </tr>
+                <tr>
+                    <th scope="row">8</th>
+                    <td>医疗</td>
+                    <td>提供疾病、症状、药品、健康科普、医院等信息的综合查询内容。</td>
+                </tr>
+                <tr>
+                    <th scope="row">9</th>
+                    <td>教育</td>
+                    <td>幼儿园、小学、中学、高中教育相关的内容（学习资料、辅导、考试、资讯等）大学、研究生及其相关的成人继续教育等相关内容（学习资料、辅导、考试、资讯等）</td>
+                </tr>
+                <tr>
+                    <th scope="row">10</th>
+                    <td>技能培训</td>
+                    <td>技能学习但不领证的辅导培训内容。包括ps培训、前端培训等;语言学习相关的内容;各类执业资格证书考试相关的内容；样稿、文档模板</td>
+                </tr>
+                <tr>
+                    <th scope="row">11</th>
+                    <td>财经</td>
+                    <td>股票、税务、保险、银行、其他金融内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">12</th>
+                    <td>家电数码</td>
+                    <td>手机、个人护理电器、影音设备、摄影设备、家用电器、办公设备、其他3c等。</td>
+                </tr>
+                <tr>
+                    <th scope="row">13</th>
+                    <td>工具</td>
+                    <td>邮箱、天气、日历、计算器、电话、邮编、ip查询、站长工具等</td>
+                </tr>
+                <tr>
+                    <th scope="row">14</th>
+                    <td>软件下载</td>
+                    <td>各类软件下载相关官网或者下载汇聚内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">15</th>
+                    <td>线下服务</td>
+                    <td>提供快递、外卖、健身、搬家、家居装修、维修、票务购买等线下服务内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">16</th>
+                    <td>汽车</td>
+                    <td>汽车、二手车相关内容；摩托车相关内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">17</th>
+                    <td>图片</td>
+                    <td>美女图片、写真、摄影，壁纸等图片类都可以算，不局限于美女</td>
+                </tr>
+                <tr>
+                    <th scope="row">18</th>
+                    <td>娱乐/明星</td>
+                    <td>以娱乐明星相关内容为主的内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">19</th>
+                    <td>星座</td>
+                    <td>命理星座</td>
+                </tr>
+                <tr>
+                    <th scope="row">20</th>
+                    <td>服装美容</td>
+                    <td>服装鞋搭配、美妆、发型、时尚相关内容</td>
+                </tr>
+                <tr>
+                    <th scope="row">21</th>
+                    <td>资讯</td>
+                    <td>政务、社会热点、国际热点</td>
+                </tr>
+                <tr>
+                    <th scope="row">22</th>
+                    <td>法律</td>
+                    <td>法律法规、法律问答、律师</td>
+                </tr>
+                <tr>
+                    <th scope="row">23</th>
+                    <td>房产</td>
+                    <td>二手房、新房、租赁等 装修</td>
+                </tr>
+                <tr>
+                    <th scope="row">24</th>
+                    <td>其他</td>
+                    <td>不属于以上类别</td>
+                </tr>
+                <tr>
+                    <th scope="row">25</th>
+                    <td>待定</td>
+                    <td>先跳过</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
     <script type='text/javascript'>
     /*右侧inputbox*/ /*读取当前指针*/
@@ -258,15 +399,31 @@
     }
 
     /*分类click*/
-    $('.fenlei_radio input[type=radio]').click(function(){
+    $('.fenlei_radio').on("click","input[type=radio]",function(){
         if(Number(localStorage.index) <Number(localStorage.item_total)){
-            var fenlei_str = $('#text_display').text()+"\t"+$(this).attr("value");
-            $('#hidden_radio').attr("checked",true);
-            localStorage.setItem("ti"+localStorage.index, fenlei_str);
-            console.log(fenlei_str);
-            localStorage.index = Number(localStorage.index)+1;
-            loadtext(Number(localStorage.index));
+            var fenlei_str = $('#text_display').text().replace(/\t.*$/,"")+"\t"+$(this).attr("value");
+            //$('#hidden_radio').attr("checked",true);
+            var temp_str = $(this).parent().html();
+            $(this).toggle(140).toggle(140,function(){
+
+                $(this).parent().empty().prepend(temp_str);
+                //console.log(temp_str);
+                temp_str = "";
+                localStorage.setItem("ti"+localStorage.index, fenlei_str);
+                console.log(fenlei_str);
+                $("#lastiteam").text("上一条： "+fenlei_str);
+                localStorage.index = Number(localStorage.index)+1;
+                loadtext(Number(localStorage.index));
+
+
+            });
         }
+    });
+
+    /*上一条*/
+    $("#pre_btn").click(function(){
+        localStorage.index = Number(localStorage.index)-1;
+        loadtext(Number(localStorage.index));
     });
     </script>
 </html>
