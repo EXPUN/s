@@ -15,6 +15,9 @@
             margin: 0;
             padding: 0;
             }
+        html, body{
+            height: 100%;
+            }
         hr.style-one {
             width: 98%;
             margin: 5px auto;
@@ -25,6 +28,8 @@
             }
         .wrapper {
             margin: 0 auto;
+            height: calc(100% - 50px);
+            overflow-y: auto;
             width: 1200px!important;
             }
         .cell {
@@ -78,7 +83,7 @@
             }
         .input_box_title {
             width:30px;
-            height:600px;
+            height:620px;
             text-align:center;
             display:block;
             float:left;
@@ -95,7 +100,7 @@
             }
         .input_box_textarea {
             width:0px;
-            height:600px;
+            height:620px;
             overflow:hidden;
             float:left;
             background-color:#CCC;
@@ -105,12 +110,15 @@
             }
         .input_box_textarea textarea {
             width:400px;
-            height:550px;
+            height:525px;
             }
         #type_list{
             font-size:14px;
             width:100%;
         }
+        .pointer{
+            cursor: pointer;
+            }
     </style>
 </head>
 <body>
@@ -121,6 +129,9 @@
             <!--ul class="tab"><li><a class="btn_red btn_s" href="javascript:void(0)"><em>在售</em></a></li> <li><a class="btn_s  " href="javascript:void(0)"><em>停产</em></a></li></ul-->
         </div>
         <br/>
+        <div id="tips" class="alert alert-light" role="alert">
+            tips
+        </div>
         <div class="tab_content">
             <div class="table_workspace">
                 <div class="row_master">
@@ -206,7 +217,12 @@
             <div class="input_box_textarea">
                 <textarea id="input_box_text"></textarea>
                 <button id="input_submit" type="button" class="btn btn-outline-secondary btn-block">提交</button>
-                <a onclick='document.getElementById("input_submit").disabled="";'>解锁</a>
+                <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-outline-success" onclick="txtoutput();">导出</button>
+                    <button type="button" class="btn btn-secondary btn-sm" disabled>--</button>
+                    <button type="button" class="btn btn-warning btn-sm" onclick='document.getElementById("input_submit").disabled="";'>解锁</button>
+                </div>
+                <!--a onclick='document.getElementById("input_submit").disabled="";' class="pointer">解锁</a-->
             </div>
         </div>
     </div>
@@ -214,7 +230,7 @@
         <table id="type_list" class="table table-hover">
             <thead>
                 <tr>
-                <th scope="col">#<a id="type_list_toggle" onclick='$(".wrapper").toggle(100);'> ➤ 点此展开/收起 类别释义</a></th>
+                <th scope="col">#<a id="type_list_toggle" onclick='$(".wrapper").toggle(100);' class="pointer"> ➤ 点此展开/收起 类别释义</a></th>
                 <th scope="col">分类名称</th>
                 <th scope="col">释义</th>
                 </tr>
@@ -404,7 +420,7 @@
             var fenlei_str = $('#text_display').text().replace(/\t.*$/,"")+"\t"+$(this).attr("value");
             //$('#hidden_radio').attr("checked",true);
             var temp_str = $(this).parent().html();
-            $(this).toggle(140).toggle(140,function(){
+            $(this).toggle(100).toggle(50,function(){
 
                 $(this).parent().empty().prepend(temp_str);
                 //console.log(temp_str);
@@ -425,5 +441,26 @@
         localStorage.index = Number(localStorage.index)-1;
         loadtext(Number(localStorage.index));
     });
+
+    
+    /*导出*/
+    function txtoutput(){
+        var txt = "";
+        for(i=0;i<localStorage.item_total;i++){
+            txt += localStorage.getItem("ti"+i)+"\n";
+        }
+        console.log(txt);
+        download("导出数据.txt",txt);
+    }
+
+    /*下载*/
+    function download(filename,content,contentType) {
+        if (!contentType) contentType = 'application/octet-stream';
+        var a = document.createElement('a');
+        var blob = new Blob([content], { 'type': contentType });
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+    }
     </script>
 </html>
