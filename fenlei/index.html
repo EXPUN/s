@@ -7,8 +7,8 @@
     <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css" rel="stylesheet">
     <!--link href="https://cdn.staticfile.org/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet"-->
     <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
-    <!--script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/1.4.2/jquery.min.js"></script-->
-    
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.bundle.min.js"></script>
+     <!--https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.min.js-->
     
     <style>
         body, div,input, form, h1, h2, h3, h4, h5, h6, html {
@@ -216,14 +216,34 @@
             <strong class="input_box_title"><span>展开输入框</span></strong>
             <div class="input_box_textarea">
                 <textarea id="input_box_text"></textarea>
-                <button id="input_submit" type="button" class="btn btn-outline-secondary btn-block">提交</button>
+                <button id="input_submit" type="button" class="btn btn-outline-secondary btn-block" data-toggle="tooltip" title="提交新数据前请先导出已完成数据!">提交</button>
                 <div class="btn-group btn-block" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-outline-success" onclick="txtoutput();">导出</button>
-                    <button type="button" class="btn btn-secondary btn-sm" disabled>--</button>
-                    <button type="button" class="btn btn-warning btn-sm" onclick='document.getElementById("input_submit").disabled="";'>解锁</button>
+                    <button type="button" class="btn btn-secondary btn-sm" disabled >--</button>
+                    <button type="button" class="btn btn-warning btn-sm" onclick='unlock()'>解锁</button>
                 </div>
                 <!--a onclick='document.getElementById("input_submit").disabled="";' class="pointer">解锁</a-->
             </div>
+            <!--模态框-->
+            <div  id="no_output_modal"  class="modal" tabindex="-1">
+                <div class="modal-dialog modal-sm  modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-info">还没有导出呢！</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="alert alert-warning">上次提交数据后，有点击分类按钮行为。需要先导出，再解锁新数据输入</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success"  onclick="txtoutput();">导出</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
     <div >
@@ -368,6 +388,7 @@
     <script type='text/javascript'>
     /*右侧inputbox*/ /*读取当前指针*/
     var input_box_status;
+    var output_status;
     $(function(){
         $('.input_box_title').click(function(){
             if (!input_box_status) {
@@ -391,6 +412,7 @@
     /*inputbox提交按钮*/
     $("#input_submit").click(function(){
         if($("#input_box_text").val()){
+            localStorage.clear();
             var input_box_text_arr = $("#input_box_text").val().split(/\r?\n/);
             localStorage.item_total = input_box_text_arr.length;
             for (i in input_box_text_arr) {
@@ -426,20 +448,22 @@
                 //console.log(temp_str);
                 temp_str = "";
                 localStorage.setItem("ti"+localStorage.index, fenlei_str);
-                console.log(fenlei_str);
+                //console.log(fenlei_str);
                 $("#lastiteam").text("上一条： "+fenlei_str);
                 localStorage.index = Number(localStorage.index)+1;
                 loadtext(Number(localStorage.index));
-
-
+                output_status = 0;
+                $("#input_submit").attr("disabled" ,true);
             });
         }
     });
 
     /*上一条*/
     $("#pre_btn").click(function(){
-        localStorage.index = Number(localStorage.index)-1;
-        loadtext(Number(localStorage.index));
+        if(Number(localStorage.index)>0){
+            localStorage.index = Number(localStorage.index)-1;
+            loadtext(Number(localStorage.index));
+        }
     });
 
     
@@ -449,8 +473,9 @@
         for(i=0;i<localStorage.item_total;i++){
             txt += localStorage.getItem("ti"+i)+"\n";
         }
-        console.log(txt);
+        //console.log(txt);
         download("导出数据.txt",txt);
+        output_status = 1;
     }
 
     /*下载*/
@@ -461,6 +486,16 @@
         a.href = window.URL.createObjectURL(blob);
         a.download = filename;
         a.click();
+    }
+
+    /*解锁*/
+    function unlock(){
+        if (!output_status){
+            $('#no_output_modal').modal('show');
+            //console.log("1");
+        }else{
+            document.getElementById("input_submit").disabled="";
+        }
     }
     </script>
 </html>
