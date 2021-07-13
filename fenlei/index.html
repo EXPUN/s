@@ -216,7 +216,7 @@
             <strong class="input_box_title"><span>展开输入框</span></strong>
             <div class="input_box_textarea">
                 <textarea id="input_box_text"></textarea>
-                <button id="input_submit" type="button" class="btn btn-outline-secondary btn-block" data-toggle="tooltip" title="提交新数据前请先导出已完成数据!">提交</button>
+                <button id="input_submit" type="button" class="btn btn-outline-secondary btn-block" data-toggle="tooltip">提交</button>
                 <div class="btn-group btn-block" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-outline-success" onclick="txtoutput();">导出</button>
                     <button type="button" class="btn btn-secondary btn-sm" disabled >--</button>
@@ -229,7 +229,7 @@
                 <div class="modal-dialog modal-sm  modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title text-info">还没有导出呢！</h5>
+                      <h5 class="modal-title text-info">数据还没有导出呢！</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -243,7 +243,22 @@
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
+            <div  id="unlocked_modal"  class="modal" tabindex="-1">
+                <div class="modal-dialog modal-sm  modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-info">已解锁！</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="alert alert-warning">请确认导出数据正常保存后,再提交新数据</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
         </div>
     </div>
     <div >
@@ -390,6 +405,7 @@
     var input_box_status;
     var output_status;
     $(function(){
+        //$('[data-toggle="tooltip"]').tooltip();
         $('.input_box_title').click(function(){
             if (!input_box_status) {
                 input_box_status = 1;
@@ -405,7 +421,7 @@
         /*读取当前数据*/
         if(localStorage.index) {
             loadtext(Number(localStorage.index));
-            $("#input_submit").attr("disabled" ,true);
+            $("#input_submit").attr("disabled" ,true).attr("title","提交新数据前请先导出已完成数据!");
         }
     });
 
@@ -495,6 +511,9 @@
             //console.log("1");
         }else{
             document.getElementById("input_submit").disabled="";
+            $('#unlocked_modal').modal('show');
+            //$("#input_submit").attr({"title":"已解锁！","data-placement":"top"});//
+            //$("#input_submit").tooltip('show');
         }
     }
     </script>
