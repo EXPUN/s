@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>网页结构xpath标记助手0723.1_online</title>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/popper.js/2.7.0/cjs/popper.min.js"></script>
+    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.min.js"></script>
+    <!--link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"-->
+    <!--script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script-->
+    <!--script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script-->
+    <!--script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script-->
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .file {
+        vertical-align: top;
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+
+    #filelist {
+        margin: auto;
+        display: inline-block;
+        border-collapse: collapse;
+    }
+
+    #filelist th,
+    td {
+        width: 200px;
+        border: 1px solid #98bf21;
+        font-size: 1em;
+        text-align: right;
+        padding: 3px 7px 2px 7px;
+    }
+
+    #filelist th {
+        font-size: 1.1em;
+        text-align: left;
+        padding-top: 5px;
+        padding-bottom: 4px;
+        background-color: #A7C942;
+        color: #ffffff;
+    }
+
+    #filelist tr:nth-child(even) {
+        color: #000000;
+        background-color: #EAF2D3;
+    }
+    .btn::before {
+        display: inline-block;
+        content: "";
+        vertical-align: -.125em;
+        background-image: url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/></svg>");
+        background-repeat: no-repeat;
+        background-size: 1rem 1rem;
+    }
+    .tipsbar{
+        position: fixed; 
+        top: 0px; 
+        left: 0px; 
+        width: 100%;
+        z-index: 50;
+    }
+    </style>
+    <script type="text/javascript">
+    var localjson={len:"",arr:[]};
+    function fileChange(that) {
+        localjson={len:"",arr:[]};
+        var files = that.files;
+        var filesJson = '[';
+        localjson.len = files.length;
+        for (var i = 0; i < files.length; i++) {
+            //if (i<5) console.log(files[i].webkitRelativePath);
+            let name = files[i].name;
+            let size = Math.round(files[i].size / 1024) + "K";
+            if (/\.html$/ig.test(name)) {//这里按业务要求筛选所有dll文件
+                filesJson += '{"name":"' + name + '","size":"' + size + '"},';
+                localjson.arr.push(name);
+            }
+        }
+        filesJson = filesJson.slice(0, -1) + "]";
+        //if(!localStorage.localjson)
+        let localpath =localStorage.localpath,myid=localStorage.myid; 
+        localStorage.clear();
+        localStorage.localpath = localpath;
+        localStorage.myid=myid;
+        localStorage.localjson=JSON.stringify(localjson);
+        createTable(filesJson);
+        location.reload();
+    }
+
+    function createTable(jsonStr) {
+        var obj = JSON.parse(jsonStr);
+        var tableObject = document.getElementById('filelist');
+        var inputboxhtml = '';
+        inputboxhtml +='<div class="input-group input-group-sm mb-0">';
+        inputboxhtml +='<div class="input-group-prepend"><select class="rounded-0 form-control form-control-sm" id="sel1"><option value ="tuwen" class="dropdown-toggle" data-toggle="dropdown">图文主体</option><div class="dropdown-menu"><option value ="links" class="dropdown-item">链接主体</option><option value ="other" class="dropdown-item">其他主体</option><option value ="del" class="dropdown-item text-warning">删除抛弃</option></div></select></div>';
+        inputboxhtml +='<input type="text" class="form-control" placeholder="点击左侧链接后激活输入框" disabled>';
+        inputboxhtml +='<div class="input-group-append"><button class="btn btn-success rounded-0" disabled>save</button><button class="btn btn-outline-secondary rounded-0" disabled>+</button></div></div>';
+        for (var i in obj) {
+            let TableRow = tableObject.insertRow();
+            let fileName = TableRow.insertCell(0);
+            fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='file:///"+localStorage.localpath+obj[i].name+"'>"+obj[i].name+"</a>";
+            //let fileSize = TableRow.insertCell(1);
+            //fileSize.innerHTML = obj[i].size;
+            let xpath_input = TableRow.insertCell(1);
+            xpath_input.innerHTML = inputboxhtml;
+        }
+        readloacal();
+    }
+
+    function readloacal(){
+        $("tr>td>a").each(function(){
+            let id = $(this).attr("href").replace(/^\..+\/|\_.*$/g,"");
+            //console.log(localStorage.getItem(id));
+            if(localStorage.getItem(id)) $(this).parents('tr').find("input").val("finished");
+        });
+    }
+
+
+    $(function(){
+        /*读取本地.localjson*/
+        if(localStorage.localjson){
+            localjson = JSON.parse(localStorage.localjson);
+            var filesJson = '[';
+        for (var i = 0; i < localjson.arr.length; i++) {
+            let name = localjson.arr[i];
+            let size = 0 +"K";//Math.round(files[i].size / 1024) + "K";
+            if (/\.html$/ig.test(name)) {//这里按业务要求筛选所有dll文件
+                filesJson += '{"name":"' + name + '","size":"' + size + '"},';
+            }
+        }
+        filesJson = filesJson.slice(0, -1) + "]";
+        createTable(filesJson);
+        }
+
+
+        /*点击链接后解锁输入框*/
+        $("#filelist").on("click","a",function(){
+            //console.log(1);
+            $(this).parents("thead").find(".btn-success:not(:disabled)").click();
+            $(this).parents("tr").find("input").attr("disabled",false).attr("placeholder","");
+            $(this).parents("tr").find(".btn").attr("disabled",false);
+        });
+
+        var jsonobj={"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","wrstatus":0};
+
+        /*save按钮点击响应*/
+        $("#filelist").on("click",".btn-success",function(){
+            //console.log(jsonobj);
+            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^\..+\/|\_.*$/g,"");
+            if (0==jsonobj.wrstatus || id==jsonobj.id){
+                jsonobj.id = id;
+                jsonobj.wrstatus = 1;
+                var valuestr =$(this).parents('.input-group').find("#sel1").val()+"|"+$(this).parents('.input-group').find("input").val();
+                var tuwenstr="null",linksstr="null",otherstr="null",delstr ="null";
+                    if("tuwen"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.tuwenstr = $(this).parents('.input-group').find("input").val();
+                    if("links"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.linksstr = $(this).parents('.input-group').find("input").val();
+                    if("other"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.otherstr = $(this).parents('.input-group').find("input").val();
+                    if("del"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.delstr = $(this).parents('.input-group').find("input").val();
+                localStorage.setItem(id,JSON.stringify(jsonobj));
+                //console.log(jsonobj);
+                $("#info1").text(JSON.stringify(jsonobj));
+                $(this).parents('.input-group').find("input").attr("disabled",true);
+                $(this).parents('td').find(".btn").attr("disabled",true);
+                //writedb(id,tuwenstr,linksstr,otherstr,delstr);
+                jsonobj = {"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","wrstatus":0};
+                //console.log(jsonobj);
+            }
+        });
+
+        /*+按钮点击响应*/
+        $("#filelist").on("click",".btn-outline-secondary",function(){
+            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^\..+\/|\_.*$/g,"");
+            if (0==jsonobj.wrstatus || id==jsonobj.id){
+                jsonobj.id = id;
+                jsonobj.wrstatus = 1;
+                //var valuestr =$(this).parents('.input-group').find("#sel1").val()+"|"+$(this).parents('.input-group').find("input").val();
+                var tuwenstr="null",linksstr="null",otherstr="null",delstr ="null";
+                    if("tuwen"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.tuwenstr = $(this).parents('.input-group').find("input").val();
+                    if("links"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.linksstr = $(this).parents('.input-group').find("input").val();
+                    if("other"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.otherstr = $(this).parents('.input-group').find("input").val();
+                    if("del"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.delstr = $(this).parents('.input-group').find("input").val();
+                //localStorage.setItem(id,tuwenstr+"|"+linksstr+"|"+otherstr+"|"+delstr);
+                $("#info1").text(JSON.stringify(jsonobj));
+                $(this).parents('.input-group').find("input").val("");
+                //$(this).parents('.input-group').find("input").attr("disabled",true);
+                //writedb(id,tuwenstr,linksstr,otherstr,delstr);
+                //console.log(jsonobj);
+            }
+        });
+
+        /*删除抛弃点击响应*/
+        $("#filelist").on("change","#sel1",function(){
+            if("del"==$(this).val()){
+                $(this).parents('.input-group').find("input").val("del");
+            }
+        });
+
+        /*myidsubmit*/
+        $("#myidsubmit").click(function(){
+            $(this).attr("disabled",true);
+            localStorage.myid=$("#myid").val();
+        });
+
+        /*localpathsubmit*/
+        $("#localpathsubmit").click(function(){
+            $(this).attr("disabled",true);
+            localStorage.localpath=$("#localpath").val();
+        });
+
+    });
+
+    /*导出*/
+    function downloadfunction(){
+        if(localStorage.localjson){
+            localjson = JSON.parse(localStorage.localjson);
+            let txt ="id\t图文主体\t链接主体\t其他主体\t删除抛弃\n";
+            for (var i = 0; i < localjson.arr.length; i++) {
+                let name = localjson.arr[i].replace(/^\..+\/|\_.*$/g,"");;
+                        //console.log(name);
+                if(localStorage.getItem(name)) {
+                    let tempjson =JSON.parse(localStorage.getItem(name));
+                        //console.log(tempjson);
+                    txt += tempjson.id+"\t"+tempjson.tuwenstr+"\t"+tempjson.linksstr+"\t"+tempjson.otherstr+"\t"+tempjson.delstr+"\n";
+                }
+            }
+        console.log(txt);
+        download(localStorage.myid+"_xpath导出数据_"+currentTime()+".txt",txt);
+        }
+    }
+
+    /*下载*/
+    function download(filename,content,contentType) {
+        if (!contentType) contentType = 'application/octet-stream';
+        var a = document.createElement('a');
+        var blob = new Blob([content], { 'type': contentType });
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+    }
+
+    /*获取当前时间*/
+    function currentTime(){
+            var d = new Date(),str = '';
+            //str += d.getFullYear()+'年';
+            str  += d.getMonth() + 1+'月';
+            str  += d.getDate()+'日';
+            str += d.getHours()+'时'; 
+            str  += d.getMinutes()+'分'; 
+            str+= d.getSeconds()+'秒'; 
+            return str;
+    }
+
+    function writedb(id,tuwenstr,linksstr,otherstr,delstr){ //indexdb
+        /*创建indexdb*/
+        var request = indexedDB.open("mydb", 1);
+        request.onerror = function(e) {
+            console.log(e.currentTarget.error.message);
+        };
+
+        request.onsuccess = function(e) {
+            db = e.target.result;
+            console.log('成功打开DB');
+        };
+
+        request.addEventListener('upgradeneeded', e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('xpath')) {
+            console.log("我需要创建一个新的存储对象");
+            //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
+            var objectStore = db.createObjectStore('xpath', {
+                keyPath: "id",
+                autoIncrement: false
+            });
+        console.log('创建对象仓库成功');
+        }
+        });
+    request.addEventListener('success', e => {
+        const db = e.target.result;
+        const tx = db.transaction('xpath', 'readwrite');
+        const store = tx.objectStore('xpath');
+        const reqAdd = store.add({
+            'id': id,
+            'tuwenstr': tuwenstr,
+            'linksstr': linksstr,
+            'otherstr':otherstr,
+            'delstr':delstr
+        });
+        reqAdd.addEventListener('success', e => {
+            console.log('保存成功')
+        })
+    });
+    }
+    </script>
+</head>
+
+<body>
+    <div class="tipsbar alert alert-info">
+        <button type="button" class="btn btn-sm btn-info" id="download" onclick="downloadfunction();">导出</button><strong>Tips!</strong><span id="ver">0723.1_online</span> <span id="info1"></span>
+    </div>
+    <div style="margin-top: 60px;">
+        <table id="filelist">
+            <thead>
+                <tr>
+                    <th style="width:500px">文件名</th>
+                    <!--th>大小(误差±1K)</th-->
+                    <th style="width:450px">Xpath</th>
+                </tr>
+            </thead>
+        </table>
+        <div>
+            
+            <div class="row">
+                <div class="col col-lg-2">
+                    <a href="javascript:;" class="file">选择文件夹<input type="file" webkitdirectory directory onchange="fileChange(this);" /></a>
+                </div>
+                <div class="col col-lg-5"><span class="input-group input-group-sm mb-0">
+                  <span class="input-group-prepend">
+                    <span class="input-group-text rounded-0">任务ID</span>
+                  </span>
+                  <input type="text" class="form-control" placeholder="part_0000" id="myid" name="username">
+                  <span class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary rounded-0" id="myidsubmit">Submit</button>
+                      <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("myidsubmit").disabled=false;'>重填</button> 
+                  </span>
+                  </span>
+                  </div>
+                <div class="col col-lg-5"><span class="input-group input-group-sm mb-0">
+                  <span class="input-group-prepend">
+                    <span class="input-group-text rounded-0">本地路径</span>
+                  </span>
+                  <input type="text" class="form-control" placeholder="D:/标注项目/test/" id="localpath" name="username">
+                  <span class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary rounded-0" id="localpathsubmit">Submit</button>
+                      <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("localpathsubmit").disabled=false;'>重填</button> 
+                  </span>
+                  </span></div>
+              </div>
+        </div>
+    </div>
+</body>
+
+</html>
