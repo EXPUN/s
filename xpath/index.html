@@ -129,7 +129,7 @@
         for (var i in obj) {
             let TableRow = tableObject.insertRow();
             let fileName = TableRow.insertCell(0);
-            fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='file:///"+localStorage.localpath+obj[i].name+"'>"+obj[i].name+"</a>";
+            fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='"+localStorage.localpath+obj[i].name+"'>"+obj[i].name+"</a>";
             //let fileSize = TableRow.insertCell(1);
             //fileSize.innerHTML = obj[i].size;
             let xpath_input = TableRow.insertCell(1);
@@ -326,7 +326,7 @@
 
 <body>
     <div class="tipsbar alert alert-info">
-        <button type="button" class="btn btn-sm btn-info" id="download" onclick="downloadfunction();">导出</button><strong>Tips!</strong><span id="ver">0723.1_online</span> <span id="info1"></span>
+        <button type="button" class="btn btn-sm btn-info" id="download" onclick="downloadfunction();">导出</button><strong><span id="ver">ver0723.2_online</span></strong> <span id="info1"></span>
     </div>
     <div style="margin-top: 60px;">
         <table id="filelist">
@@ -348,7 +348,7 @@
                   <span class="input-group-prepend">
                     <span class="input-group-text rounded-0">任务ID</span>
                   </span>
-                  <input type="text" class="form-control" placeholder="part_0000" id="myid" name="username">
+                  <input type="text" class="form-control" placeholder="输入我的任务ID，例如 part_0000" id="myid" name="username">
                   <span class="input-group-append">
                     <button type="submit" class="btn btn-outline-secondary rounded-0" id="myidsubmit">Submit</button>
                       <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("myidsubmit").disabled=false;'>重填</button> 
@@ -359,7 +359,7 @@
                   <span class="input-group-prepend">
                     <span class="input-group-text rounded-0">本地路径</span>
                   </span>
-                  <input type="text" class="form-control" placeholder="D:/标注项目/test/" id="localpath" name="username">
+                  <input type="text" class="form-control" placeholder="输入本地存放文件的路径，例如 D:/标注项目/test/" id="localpath" name="username">
                   <span class="input-group-append">
                     <button type="submit" class="btn btn-outline-secondary rounded-0" id="localpathsubmit">Submit</button>
                       <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("localpathsubmit").disabled=false;'>重填</button> 
