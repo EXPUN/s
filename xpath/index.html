@@ -61,6 +61,18 @@
         text-align: right;
         padding: 3px 7px 2px 7px;
     }
+    td a{
+        font-family:simsun;
+    }
+    tr:hover{
+        /*background-position: center bottom;*/
+        position: relative;
+        background-image: -webkit-linear-gradient(#fff,#dcecb5 100px);
+        /*background-color: #777777;*/
+        border-color: #bfbfbf;
+        -webkit-box-shadow: 0 2px 2px #e5e5e5;
+        box-shadow: 0 2px 2px #e5e5e5;
+    }
 
     #filelist th {
         font-size: 1.1em;
@@ -340,9 +352,9 @@
         <table id="filelist">
             <thead>
                 <tr>
-                    <th style="width:500px">文件名</th>
+                    <th style="width:350px">文件名</th>
                     <!--th>大小(误差±1K)</th-->
-                    <th style="width:450px">Xpath</th>
+                    <th style="width:600px">Xpath</th>
                 </tr>
             </thead>
         </table>
