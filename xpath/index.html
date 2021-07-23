@@ -361,21 +361,19 @@
         <div>
             
             <div class="row">
-                <div class="col col-lg-2">
+                <div class="col col-lg-5">
                     <a href="javascript:;" class="file">选择文件夹<input type="file" webkitdirectory directory onchange="fileChange(this);" /></a>
-                </div>
-                <div class="col col-lg-5"><span class="input-group input-group-sm mb-0">
-                  <span class="input-group-prepend">
-                    <span class="input-group-text rounded-0">任务ID</span>
-                  </span>
-                  <input type="text" class="form-control" placeholder="输入我的任务ID，例如 part_0000" id="myid" name="username">
-                  <span class="input-group-append">
-                    <button type="submit" class="btn btn-outline-secondary rounded-0" id="myidsubmit">Submit</button>
-                      <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("myidsubmit").disabled=false;'>重填</button> 
-                  </span>
-                  </span>
-                  </div>
-                <div class="col col-lg-5"><span class="input-group input-group-sm mb-0">
+                <span class="input-group input-group-sm mb-1">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text rounded-0">任务ID</span>
+                    </span>
+                    <input type="text" class="form-control" placeholder="输入我的任务ID，例如 part_0000" id="myid" name="username">
+                    <span class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary rounded-0" id="myidsubmit">Submit</button>
+                        <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("myidsubmit").disabled=false;'>重填</button> 
+                    </span>
+                </span>
+                <span class="input-group input-group-sm mb-1">
                   <span class="input-group-prepend">
                     <span class="input-group-text rounded-0">本地路径</span>
                   </span>
@@ -384,7 +382,11 @@
                     <button type="submit" class="btn btn-outline-secondary rounded-0" id="localpathsubmit">Submit</button>
                       <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("localpathsubmit").disabled=false;'>重填</button> 
                   </span>
-                  </span></div>
+                </span>
+            </div>
+                <div class="col col-lg-5">
+                  </div>
+                <div class="col col-lg-2"></div>
               </div>
         </div>
     </div>
