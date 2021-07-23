@@ -162,8 +162,14 @@
         filesJson = filesJson.slice(0, -1) + "]";
         createTable(filesJson);
         }
-        if(localStorage.localpath){$("#localpath").val(localStorage.localpath)}
-        if(localStorage.myid){$("#myid").val(localStorage.myid)}
+        if(localStorage.localpath){
+            $("#localpath").val(localStorage.localpath);
+            document.getElementById("localpathsubmit").disabled=true;
+        }
+        if(localStorage.myid){
+            $("#myid").val(localStorage.myid);
+            document.getElementById("myid").disabled=true;
+        }
 
 
         /*点击链接后解锁输入框*/
