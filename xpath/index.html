@@ -129,7 +129,7 @@
         for (var i in obj) {
             let TableRow = tableObject.insertRow();
             let fileName = TableRow.insertCell(0);
-            fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='"+localStorage.localpath+obj[i].name.replace(/^\..+\/|\_.*$/g,'')+"'>"+obj[i].name+"</a>";
+            fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='"+localStorage.localpath+obj[i].name+"'>"+obj[i].name.replace(/^\..+\/|\_.*$/g,"")+"</a>";
             //let fileSize = TableRow.insertCell(1);
             //fileSize.innerHTML = obj[i].size;
             let xpath_input = TableRow.insertCell(1);
