@@ -185,7 +185,7 @@
         /*save按钮点击响应*/
         $("#filelist").on("click",".btn-success",function(){
             //console.log(jsonobj);
-            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^\..+\/|\_.*$/g,"");
+            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^.+\/|\_.*$/g,"");
             if (0==jsonobj.wrstatus || id==jsonobj.id){
                 jsonobj.id = id;
                 jsonobj.wrstatus = 1;
@@ -208,7 +208,7 @@
 
         /*+按钮点击响应*/
         $("#filelist").on("click",".btn-outline-secondary",function(){
-            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^\..+\/|\_.*$/g,"");
+            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^.+\/|\_.*$/g,"");
             if (0==jsonobj.wrstatus || id==jsonobj.id){
                 jsonobj.id = id;
                 jsonobj.wrstatus = 1;
@@ -254,7 +254,7 @@
             localjson = JSON.parse(localStorage.localjson);
             let txt ="id\t图文主体\t链接主体\t其他主体\t删除抛弃\n";
             for (var i = 0; i < localjson.arr.length; i++) {
-                let name = localjson.arr[i].replace(/^\..+\/|\_.*$/g,"");;
+                let name = localjson.arr[i].replace(/^.+\/|\_.*$/g,"");;
                         //console.log(name);
                 if(localStorage.getItem(name)) {
                     let tempjson =JSON.parse(localStorage.getItem(name));
