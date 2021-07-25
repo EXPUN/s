@@ -53,13 +53,16 @@
         inputboxhtml +='<div class="input-group-append"><button class="btn btn-success rounded-0" disabled>save</button><button class="btn btn-outline-secondary rounded-0" disabled>+</button></div></div>';
         for (var i in obj) {
             let TableRow = tableObject.insertRow();
-            let fileName = TableRow.insertCell(0);
+            let tid = TableRow.insertCell(0);
+			tid.innerHTML = (parseInt(i)+1);
+            let fileName = TableRow.insertCell(1);
             fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='"+localStorage.localpath+obj[i].name+"'>"+obj[i].name.replace(/^\..+\/|\_.*$/g,"")+"</a>";
             //let fileSize = TableRow.insertCell(1);
             //fileSize.innerHTML = obj[i].size;
-            let xpath_input = TableRow.insertCell(1);
-			TableRow.insertCell(2);
+            let xpath_input = TableRow.insertCell(2);
             xpath_input.innerHTML = inputboxhtml;
+			let finfo = TableRow.insertCell(3);
+			finfo.className = "finfo";
         }
         readloacal();
     }
@@ -70,14 +73,15 @@
             //console.log(localStorage.getItem(id));
             if(localStorage.getItem(id)) {
 				$(this).parents('tr').find("input").val("已完成");
-				$(this).parents('tr').find("td:eq(2)").text(normalreader(localStorage.getItem(id)));
+				$(this).parents('tr').find("td:eq(3)").text(normalreader(localStorage.getItem(id)));
+				$(this).parents('tr').find("td:eq(3)").attr("title",normalreader(localStorage.getItem(id)));
 			}
         });
     }
 	
 	/*读取到第3个td*/
 	function normalreader(obj){
-		obj = JSON.parse(obj);
+		obj = ("object" != typeof obj)?JSON.parse(obj):obj;
 		let resultstr="";
 		if ("null"!= obj.tuwenstr) resultstr+="图文："+obj.tuwenstr+";";
 		if ("null"!= obj.linksstr) resultstr+="链接："+obj.linksstr+";";
@@ -155,7 +159,8 @@
 					localStorage.setItem(id,JSON.stringify(jsonobj));
 					//console.log(jsonobj);
 					//$("#info1").text(JSON.stringify(jsonobj));
-					$(this).parents('tr').find("td:eq(2)").text(normalreader(localStorage.getItem(id)));
+					$(this).parents('tr').find("td:eq(3)").text(normalreader(localStorage.getItem(id)));
+					$(this).parents('tr').find("td:eq(3)").attr("title",normalreader(localStorage.getItem(id)));
 				}
                 $(this).parents('.input-group').find("input").attr("disabled",true);
                 $(this).parents('td').find(".btn").attr("disabled",true);
@@ -168,7 +173,7 @@
 
         /*+按钮点击响应*/
         $("#filelist").on("click",".btn-outline-secondary",function(){
-            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^.+\/|\_.*$/g,"");
+            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^.+[\/\\]|\_.*$/g,"");
             if (0==jsonobj.wrstatus || id==jsonobj.id){
                 jsonobj.id = id;
                 jsonobj.wrstatus = 1;
@@ -179,7 +184,12 @@
                     if("other"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.otherstr = $(this).parents('.input-group').find("input").val();
                     if("del"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.delstr = $(this).parents('.input-group').find("input").val();
                 //localStorage.setItem(id,tuwenstr+"|"+linksstr+"|"+otherstr+"|"+delstr);
-                $("#info1").text(JSON.stringify(jsonobj));
+                //$("#info1").text(JSON.stringify(jsonobj));
+				if("已完成" != $(this).parents('.input-group').find("input").val() && $(this).parents('.input-group').find("input").val()){
+					console.log(jsonobj);
+					$(this).parents('tr').find("td:eq(3)").text(normalreader(jsonobj));
+					$(this).parents('tr').find("td:eq(3)").attr("title",normalreader(jsonobj));
+					}
                 $(this).parents('.input-group').find("input").val("");
                 //$(this).parents('.input-group').find("input").attr("disabled",true);
                 //writedb(id,tuwenstr,linksstr,otherstr,delstr);
@@ -309,7 +319,7 @@
 <body>
     <div class="tipsbar">
 		<div style="height:35px;">
-			<strong><span id="ver">网页结构xpath标记助手_ver_0725.5_online</span></strong> <span id="info1"></span>
+			<strong><span id="ver">网页结构xpath标记助手_ver_0725.7_online</span></strong> <span id="info1"></span>
 			<span class="float-right">
 					<button type="button" class="btn btn-sm btn-outline-secondary rounded-0" id="download" onclick="downloadfunction();"><svg t="1627183789230" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8182" width="16" height="16"><path d="M768 768q0-14.857143-10.857143-25.714286t-25.714286-10.857143-25.714285 10.857143-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857143-25.714286 10.857143-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h265.714286l77.142857 77.714286q33.142857 32 77.714286 32t77.714286-32l77.714285-77.714286h265.142858q22.857143 0 38.857142 16t16 38.857143z m-185.714285-325.142857q9.714286 23.428571-8 40l-256 256q-10.285714 10.857143-25.714286 10.857143t-25.714286-10.857143L230.285714 354.857143q-17.714286-16.571429-8-40 9.714286-22.285714 33.714286-22.285714h146.285714V36.571429q0-14.857143 10.857143-25.714286t25.714286-10.857143h146.285714q14.857143 0 25.714286 10.857143t10.857143 25.714286v256h146.285714q24 0 33.714286 22.285714z" p-id="8183"></path></svg>导出</button>
 					<button type="button" class="btn btn-sm btn-outline-secondary rounded-0" id="download" onclick="uploadfunction();"><svg t="1627183528476" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button>
@@ -347,11 +357,14 @@
         <table id="filelist">
             <thead >
                 <tr>
+					<th style="width:3%;min-width:50px;">#</th>
                     <th style="width:22%">文件名</th>
                     <th style="width:45%">Xpath</th>
-                    <th style="width:33%">标记信息</th>
+                    <th style="width:30%">标记信息</th>
                 </tr>
             </thead>
+			<tbody id="tbody">
+			</tbody>
         </table>
     </div>
 	
@@ -413,7 +426,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-danger"  onclick="$("#upfileistbtn").click();">我确认已经正确保存，现在导入新数据</button>
+                      <button type="button" class="btn btn-danger"  onclick="$('#upfileistbtn').click();">我确认已经正确保存，现在导入新数据</button>
                     </div>
                   </div>
                 </div>
