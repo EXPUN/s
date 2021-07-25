@@ -90,10 +90,12 @@
 	function uploadfunction(){
 		if(!localStorage.myid || !localStorage.localpath){
 			$("#unset_modal").modal('show');
-		}else if(!download_staus) {
+		}else if(localStorage.localjson && !download_staus) {
 			$("#no_output_modal").modal('show');
-		}else{
+		}else if(localStorage.localjson){
 			$("#sure_up_modal").modal('show');
+		}else{
+			$("#upfileistbtn").click();
 		}
 	
 	}
@@ -377,16 +379,16 @@
                 </div>
             </div>
             <div  id="unset_modal"  class="modal" tabindex="-1">
-                <div class="modal-dialog modal-sm  modal-dialog-centered">
+                <div class="modal-dialog  modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title text-info">数据还没有导出呢！</h5>
+                      <h5 class="modal-title text-info">未设置初始数据</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
-                      <p class="alert alert-warning">需要先导出，再解锁新数据输入</p>
+                      <p class="alert alert-warning">请先设置任务ID和本地网页文件路径。然后再导入文件。</p>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -396,7 +398,7 @@
                 </div>
             </div>
             <div  id="sure_up_modal"  class="modal" tabindex="-1">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title text-danger">请确认数据已经保存正确</h5>
