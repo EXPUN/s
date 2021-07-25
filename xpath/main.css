@@ -112,7 +112,7 @@ tr:hover{
 }
 .toolbox_title {
 	width:30px;
-	height:400px;
+	height:200px;
 	text-align:center;
 	display:block;
 	float:left;
@@ -129,7 +129,7 @@ tr:hover{
 }
 .toolbox_main {
 	width:0px;
-	height:400px;
+	height:200px;
 	overflow:hidden;
 	float:left;
 	background-color:#CCC;
@@ -138,6 +138,6 @@ tr:hover{
 	background-color:#343a40;
 }
 .toolbox_main textarea {
-	width:400px;
+	width:200px;
 	height:525px;
 }
