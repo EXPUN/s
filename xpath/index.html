@@ -1,143 +1,427 @@
-* {
-	margin: 0;
-	padding: 0;
-}
-body{
-	background: #f9fafb;
-	padding: 0;
-}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>网页结构xpath标记助手</title>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css" rel="stylesheet">
+    <!--script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/popper.js/2.7.0/cjs/popper.min.js"></script-->
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.min.js"></script>
+    <link href="./main.css" rel="stylesheet">
+    <!--link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"-->
+    <!--script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script-->
+    <!--script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script-->
+    <!--script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script-->
+    <script type="text/javascript">
+    var toolbox_status;
+	var download_staus = 0;
+    var localjson={len:"",arr:[]};
+    function fileChange(that) {
+	//$('#no_output_modal').modal('show');
+        localjson={len:"",arr:[]};
+        var files = that.files;
+        var filesJson = '[';
+        localjson.len = files.length;
+        for (var i = 0; i < files.length; i++) {
+            //if (i<5) console.log(files[i].webkitRelativePath);
+            let name = files[i].name;
+            let size = Math.round(files[i].size / 1024) + "K";
+            if (/\.html$/ig.test(name)) {//这里按业务要求筛选所有dll文件
+                filesJson += '{"name":"' + name + '","size":"' + size + '"},';
+                localjson.arr.push(name);
+            }
+        }
+        filesJson = filesJson.slice(0, -1) + "]";
+        //if(!localStorage.localjson)
+        let localpath =localStorage.localpath,myid=localStorage.myid; 
+        localStorage.clear();
+        localStorage.localpath = localpath;
+        localStorage.myid=myid;
+        localStorage.localjson=JSON.stringify(localjson);
+        createTable(filesJson);
+        location.reload();
+    }
 
-.file {
-	vertical-align: top;
-	position: relative;
-	display: inline-block;
-	background: #D0EEFF;
-	border: 1px solid #99D3F5;
-	border-radius: 4px;
-	padding: 4px 12px;
-	overflow: hidden;
-	color: #1E88C7;
-	text-decoration: none;
-	text-indent: 0;
-	line-height: 20px;
-}
+    function createTable(jsonStr) {
+        var obj = JSON.parse(jsonStr);
+        var tableObject = document.getElementById('filelist');
+        var inputboxhtml = '';
+        inputboxhtml +='<div class="input-group input-group-sm mb-0">';
+        inputboxhtml +='<div class="input-group-prepend"><select class="rounded-0 form-control form-control-sm" id="sel1"><option value ="tuwen" class="dropdown-toggle" data-toggle="dropdown">图文主体</option><div class="dropdown-menu"><option value ="links" class="dropdown-item">链接主体</option><option value ="other" class="dropdown-item">其他主体</option><option value ="del" class="dropdown-item text-warning">删除抛弃</option></div></select></div>';
+        inputboxhtml +='<input type="text" class="form-control" placeholder="点击左侧链接后激活输入框" disabled>';
+        inputboxhtml +='<div class="input-group-append"><button class="btn btn-success rounded-0" disabled>save</button><button class="btn btn-outline-secondary rounded-0" disabled>+</button></div></div>';
+        for (var i in obj) {
+            let TableRow = tableObject.insertRow();
+            let fileName = TableRow.insertCell(0);
+            fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='"+localStorage.localpath+obj[i].name+"'>"+obj[i].name.replace(/^\..+\/|\_.*$/g,"")+"</a>";
+            //let fileSize = TableRow.insertCell(1);
+            //fileSize.innerHTML = obj[i].size;
+            let xpath_input = TableRow.insertCell(1);
+			TableRow.insertCell(2);
+            xpath_input.innerHTML = inputboxhtml;
+        }
+        readloacal();
+    }
 
-.file input {
-	position: absolute;
-	font-size: 100px;
-	right: 0;
-	top: 0;
-	opacity: 0;
-}
+    function readloacal(){
+        $("tr>td>a").each(function(){
+            let id = $(this).attr("href").replace(/^.+[\/\\]|\_.*$/g,"");
+            //console.log(localStorage.getItem(id));
+            if(localStorage.getItem(id)) {
+				$(this).parents('tr').find("input").val("已完成");
+				$(this).parents('tr').find("td:eq(2)").text(normalreader(localStorage.getItem(id)));
+			}
+        });
+    }
+	
+	/*读取到第3个td*/
+	function normalreader(obj){
+		obj = JSON.parse(obj);
+		let resultstr="";
+		if ("null"!= obj.tuwenstr) resultstr+="图文："+obj.tuwenstr+";";
+		if ("null"!= obj.linksstr) resultstr+="链接："+obj.linksstr+";";
+		if ("null"!= obj.otherstr) resultstr+="其他："+obj.otherstr+";";
+		if ("null"!= obj.delstr) resultstr+="删除："+obj.delstr+";";
+		return(resultstr);
+	}
+	
+	/*上传按钮响应*/
+	function uploadfunction(){
+		if(!localStorage.myid || !localStorage.localpath){
+			$("#unset_modal").modal('show');
+		}else if(localStorage.localjson && !download_staus) {
+			$("#no_output_modal").modal('show');
+		}else if(localStorage.localjson){
+			$("#sure_up_modal").modal('show');
+		}else{
+			$("#upfileistbtn").click();
+		}
+	
+	}
 
-.file:hover {
-	background: #AADFFD;
-	border-color: #78C3F3;
-	color: #004974;
-	text-decoration: none;
-}
 
-#filelist {
-	margin: auto;
-	/*display: inline-block;*/
-	border-collapse: collapse;
-	table-layout: fixed; /*必须，表格宽度不随文字增多而变长*/
-}
+    $(function(){
+        /*读取本地.localjson*/
+        if(localStorage.localjson){
+            localjson = JSON.parse(localStorage.localjson);
+            var filesJson = '[';
+        for (var i = 0; i < localjson.arr.length; i++) {
+            let name = localjson.arr[i];
+            let size = 0 +"K";//Math.round(files[i].size / 1024) + "K";
+            if (/\.html$/ig.test(name)) {//这里按业务要求筛选所有dll文件
+                filesJson += '{"name":"' + name + '","size":"' + size + '"},';
+            }
+        }
+        filesJson = filesJson.slice(0, -1) + "]";
+        createTable(filesJson);
+        }
+        if(localStorage.localpath){
+            $("#localpath").val(localStorage.localpath);
+            document.getElementById("localpathsubmit").disabled=true;
+            document.getElementById("localpath").disabled=true;
+        }
+        if(localStorage.myid){
+            $("#myid").val(localStorage.myid);
+            document.getElementById("myidsubmit").disabled=true;
+            document.getElementById("myid").disabled=true;
+        }
 
-#filelist, #filelist thead, #filelist tr{
-	width:100%;
-}
 
+        /*点击链接后解锁输入框*/
+        $("#filelist").on("click","a",function(){
+            //console.log(1);
+            $(this).parents("thead").find(".btn-success:not(:disabled)").click();
+            $(this).parents("tr").find("input").attr("disabled",false).attr("placeholder","");
+            $(this).parents("tr").find(".btn").attr("disabled",false);
+        });
 
-#filelist th,
-td {
-	/*width: 200px;*/
-	border: 1px solid #98bf21;
-	font-size: 1em;
-	/*text-align: right;*/
-	padding: 3px 7px 2px 7px;
-	/*超出隐藏-强制在同一行显示-省略号*/
-	overflow:hidden; 
-    white-space:nowrap; 
-    text-overflow:ellipsis;
-}
-td a{
-	font-family:simsun;
-}
-tr:hover{
-	/*background-position: center bottom;*/
-	position: relative;
-	background-image: -webkit-linear-gradient(#fff,#dcecb5 100px);
-	/*background-color: #777777;*/
-	border-color: #bfbfbf;
-	-webkit-box-shadow: 0 2px 2px #e5e5e5;
-	box-shadow: 0 2px 2px #e5e5e5;
-}
+        var jsonobj={"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","wrstatus":0};
 
-#filelist th {
-	font-size: 1.1em;
-	text-align: left;
-	padding-top: 5px;
-	padding-bottom: 4px;
-	background-color: #A7C942;
-	color: #ffffff;
-}
+        /*save按钮点击响应*/
+        $("#filelist").on("click",".btn-success",function(){
+            //console.log(jsonobj);
+            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^.+[\/\\]|\_.*$/g,"");
+            if ( 0==jsonobj.wrstatus || id==jsonobj.id){
+                jsonobj.id = id;
+                jsonobj.wrstatus = 1;
+                //var valuestr =$(this).parents('.input-group').find("#sel1").val()+"|"+$(this).parents('.input-group').find("input").val();
+                var tuwenstr="null",linksstr="null",otherstr="null",delstr ="null";
+                    if("tuwen"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.tuwenstr = $(this).parents('.input-group').find("input").val();
+                    if("links"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.linksstr = $(this).parents('.input-group').find("input").val();
+                    if("other"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.otherstr = $(this).parents('.input-group').find("input").val();
+                    if("del"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.delstr = $(this).parents('.input-group').find("input").val();
+				if("已完成" != $(this).parents('.input-group').find("input").val() && $(this).parents('.input-group').find("input").val()){
+					localStorage.setItem(id,JSON.stringify(jsonobj));
+					//console.log(jsonobj);
+					//$("#info1").text(JSON.stringify(jsonobj));
+					$(this).parents('tr').find("td:eq(2)").text(normalreader(localStorage.getItem(id)));
+				}
+                $(this).parents('.input-group').find("input").attr("disabled",true);
+                $(this).parents('td').find(".btn").attr("disabled",true);
+				download_staus = 0;
+                //writedb(id,tuwenstr,linksstr,otherstr,delstr);
+                jsonobj = {"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","wrstatus":0};
+                //console.log(jsonobj);
+            }
+        });
 
-#filelist tr:nth-child(even) {
-	color: #000000;
-	background-color: #EAF2D3;
-}
-.btn::before {
-	display: inline-block;
-	content: "";
-	vertical-align: -.125em;
-	background-image: url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/></svg>");
-	background-repeat: no-repeat;
-	background-size: 1rem 1rem;
-}
-.tipsbar{
-	position: fixed; 
-	top: 0px; 
-	left: 0px; 
-	width: 100%;
-	z-index: 50;
-	border-color: #e7e7e7;
-	background-color: #f8f8f8;
-}
-.toolbox {
-	position:fixed;
-	bottom:5px;
-	right:0px;
-	z-index:900000000;
-}
-.toolbox_title {
-	width:30px;
-	height:200px;
-	text-align:center;
-	display:block;
-	float:left;
-	cursor:pointer;
-	background-color:#6c757d;
-	color:#FFF;
-}
-.toolbox_title span {
-	position:relative;
-	top:50%;
-	display:block;
-	z-index:910000000;
-	margin-top:-60px;
-}
-.toolbox_main {
-	width:0px;
-	height:200px;
-	overflow:hidden;
-	float:left;
-	background-color:#CCC;
-}
-.toolbox_this {
-	background-color:#343a40;
-}
-.toolbox_main textarea {
-	width:200px;
-	height:525px;
-}
+        /*+按钮点击响应*/
+        $("#filelist").on("click",".btn-outline-secondary",function(){
+            var id = $(this).parents('tr').find("a[target]").attr("href").replace(/^.+\/|\_.*$/g,"");
+            if (0==jsonobj.wrstatus || id==jsonobj.id){
+                jsonobj.id = id;
+                jsonobj.wrstatus = 1;
+                //var valuestr =$(this).parents('.input-group').find("#sel1").val()+"|"+$(this).parents('.input-group').find("input").val();
+                var tuwenstr="null",linksstr="null",otherstr="null",delstr ="null";
+                    if("tuwen"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.tuwenstr = $(this).parents('.input-group').find("input").val();
+                    if("links"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.linksstr = $(this).parents('.input-group').find("input").val();
+                    if("other"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.otherstr = $(this).parents('.input-group').find("input").val();
+                    if("del"==$(this).parents('.input-group').find("#sel1").val()) jsonobj.delstr = $(this).parents('.input-group').find("input").val();
+                //localStorage.setItem(id,tuwenstr+"|"+linksstr+"|"+otherstr+"|"+delstr);
+                $("#info1").text(JSON.stringify(jsonobj));
+                $(this).parents('.input-group').find("input").val("");
+                //$(this).parents('.input-group').find("input").attr("disabled",true);
+                //writedb(id,tuwenstr,linksstr,otherstr,delstr);
+                //console.log(jsonobj);
+            }
+        });
+
+        /*删除抛弃点击响应*/
+        $("#filelist").on("change","#sel1",function(){
+            if("del"==$(this).val()){
+                $(this).parents('.input-group').find("input").val("del");
+            }
+        });
+
+        /*myidsubmit*/
+        $("#myidsubmit").click(function(){
+            $(this).attr("disabled",true);
+            $("#myid").attr("disabled",true);
+            localStorage.myid=$("#myid").val();
+        });
+
+        /*localpathsubmit*/
+        $("#localpathsubmit").click(function(){
+            $(this).attr("disabled",true);
+            $("#localpath").attr("disabled",true);
+            localStorage.localpath=$("#localpath").val();
+        });
+		
+		/*toolbox*/
+		 $('.toolbox_title').click(function(){
+            if (!toolbox_status) {
+                toolbox_status = 1;
+                $(this).addClass("toolbox_this").html("<span>收起工具栏</span>").next("div").animate({width: '+200px'}, "100");
+            }else{
+                toolbox_status = 0;
+                $(this).removeClass("toolbox_this").html("<span>展开工具栏</span>").next("div").animate({width: '-200px'}, "100");
+            }
+        });
+
+    });
+
+    /*导出*/
+    function downloadfunction(){
+        if(localStorage.localjson){
+            localjson = JSON.parse(localStorage.localjson);
+            let txt ="id\t图文主体\t链接主体\t其他主体\t删除抛弃\n";
+            for (var i = 0; i < localjson.arr.length; i++) {
+                let name = localjson.arr[i].replace(/^.+\/|\_.*$/g,"");;
+                        //console.log(name);
+                if(localStorage.getItem(name)) {
+                    let tempjson =JSON.parse(localStorage.getItem(name));
+                        //console.log(tempjson);
+                    txt += tempjson.id+"\t"+tempjson.tuwenstr+"\t"+tempjson.linksstr+"\t"+tempjson.otherstr+"\t"+tempjson.delstr+"\n";
+                }
+            }
+        console.log(txt);
+        download(localStorage.myid+"_xpath导出数据_"+currentTime()+".txt",txt);
+		download_staus = 1;
+        }
+    }
+
+    /*下载*/
+    function download(filename,content,contentType) {
+        if (!contentType) contentType = 'application/octet-stream';
+        var a = document.createElement('a');
+        var blob = new Blob([content], { 'type': contentType });
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+    }
+
+    /*获取当前时间*/
+    function currentTime(){
+            var d = new Date(),str = '';
+            //str += d.getFullYear()+'年';
+            str  += d.getMonth() + 1+'月';
+            str  += d.getDate()+'日';
+            str += d.getHours()+'时'; 
+            str  += d.getMinutes()+'分'; 
+            str+= d.getSeconds()+'秒'; 
+            return str;
+    }
+
+    function writedb(id,tuwenstr,linksstr,otherstr,delstr){ //indexdb
+        /*创建indexdb*/
+        var request = indexedDB.open("mydb", 1);
+        request.onerror = function(e) {
+            console.log(e.currentTarget.error.message);
+        };
+
+        request.onsuccess = function(e) {
+            db = e.target.result;
+            console.log('成功打开DB');
+        };
+
+        request.addEventListener('upgradeneeded', e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('xpath')) {
+            console.log("我需要创建一个新的存储对象");
+            //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
+            var objectStore = db.createObjectStore('xpath', {
+                keyPath: "id",
+                autoIncrement: false
+            });
+        console.log('创建对象仓库成功');
+        }
+        });
+    request.addEventListener('success', e => {
+        const db = e.target.result;
+        const tx = db.transaction('xpath', 'readwrite');
+        const store = tx.objectStore('xpath');
+        const reqAdd = store.add({
+            'id': id,
+            'tuwenstr': tuwenstr,
+            'linksstr': linksstr,
+            'otherstr':otherstr,
+            'delstr':delstr
+        });
+        reqAdd.addEventListener('success', e => {
+            console.log('保存成功')
+        })
+    });
+    }
+    </script>
+</head>
+
+<body>
+    <div class="tipsbar">
+		<div style="height:35px;">
+			<strong><span id="ver">网页结构xpath标记助手_ver_0725.5_online</span></strong> <span id="info1"></span>
+			<span class="float-right">
+					<button type="button" class="btn btn-sm btn-outline-secondary rounded-0" id="download" onclick="downloadfunction();"><svg t="1627183789230" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8182" width="16" height="16"><path d="M768 768q0-14.857143-10.857143-25.714286t-25.714286-10.857143-25.714285 10.857143-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857143-25.714286 10.857143-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h265.714286l77.142857 77.714286q33.142857 32 77.714286 32t77.714286-32l77.714285-77.714286h265.142858q22.857143 0 38.857142 16t16 38.857143z m-185.714285-325.142857q9.714286 23.428571-8 40l-256 256q-10.285714 10.857143-25.714286 10.857143t-25.714286-10.857143L230.285714 354.857143q-17.714286-16.571429-8-40 9.714286-22.285714 33.714286-22.285714h146.285714V36.571429q0-14.857143 10.857143-25.714286t25.714286-10.857143h146.285714q14.857143 0 25.714286 10.857143t10.857143 25.714286v256h146.285714q24 0 33.714286 22.285714z" p-id="8183"></path></svg>导出</button>
+					<button type="button" class="btn btn-sm btn-outline-secondary rounded-0" id="download" onclick="uploadfunction();"><svg t="1627183528476" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button>
+			</span>
+		</div>
+		<div class="row">
+			<div class="col col-lg-6">
+				<span class="input-group input-group-sm mb-1">
+                    <span class="input-group-prepend">
+						
+                        <span class="input-group-text rounded-0">任务ID</span>
+                    </span>
+                    <input type="text" class="form-control" placeholder="输入我的任务ID，例如 part_0000" id="myid" name="username">
+                    <span class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary rounded-0" id="myidsubmit"><svg t="1627184068520" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8361" width="16" height="16"><path d="M954.857143 323.428571q0 22.857143-16 38.857143l-413.714286 413.714286-77.714286 77.714286q-16 16-38.857142 16t-38.857143-16l-77.714286-77.714286-206.857143-206.857143q-16-16-16-38.857143t16-38.857143l77.714286-77.714285q16-16 38.857143-16t38.857143 16l168 168.571428 374.857142-375.428571q16-16 38.857143-16t38.857143 16l77.714286 77.714286q16 16 16 38.857142z" p-id="8362"></path></svg>提交</button>
+                        <button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("myidsubmit").disabled=false;document.getElementById("myid").disabled=false;'><svg t="1627184204403" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8719" width="16" height="16"><path d="M950.857143 512q0 89.142857-34.857143 170.285714t-93.714286 140-140 93.714286-170.285714 34.857143q-98.285714 0-186.857143-41.428572T174.285714 792.571429q-4-5.714286-3.714285-12.857143t4.857142-11.714286l78.285715-78.857143q5.714286-5.142857 14.285714-5.142857 9.142857 1.142857 13.142857 6.857143 41.714286 54.285714 102.285714 84t128.571429 29.714286q59.428571 0 113.428571-23.142858T718.857143 718.857143t62.571428-93.428572T804.571429 512t-23.142858-113.428571T718.857143 305.142857t-93.428572-62.571428T512 219.428571q-56 0-107.428571 20.285715T313.142857 297.714286l78.285714 78.857143q17.714286 17.142857 8 39.428571-9.714286 22.857143-33.714285 22.857143H109.714286q-14.857143 0-25.714286-10.857143t-10.857143-25.714286V146.285714q0-24 22.857143-33.714285 22.285714-9.714286 39.428571 8l74.285715 73.714285q61.142857-57.714286 139.714285-89.428571T512 73.142857q89.142857 0 170.285714 34.857143t140 93.714286 93.714286 140 34.857143 170.285714z" p-id="8720"></path></svg>重填</button> 
+                    </span>
+                </span>
+			</div>
+			<div class="col col-lg-6">
+				<span class="input-group input-group-sm mb-1">
+					<span class="input-group-prepend">
+						<span class="input-group-text rounded-0">本地路径</span>
+					</span>
+					<input type="text" class="form-control" placeholder="输入本地存放文件的路径，例如 D:\标注项目\test\" id="localpath" name="username">
+					<span class="input-group-append">
+						<button type="submit" class="btn btn-outline-secondary rounded-0" id="localpathsubmit">提交<svg t="1627184068520" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8361" width="16" height="16"><path d="M954.857143 323.428571q0 22.857143-16 38.857143l-413.714286 413.714286-77.714286 77.714286q-16 16-38.857142 16t-38.857143-16l-77.714286-77.714286-206.857143-206.857143q-16-16-16-38.857143t16-38.857143l77.714286-77.714285q16-16 38.857143-16t38.857143 16l168 168.571428 374.857142-375.428571q16-16 38.857143-16t38.857143 16l77.714286 77.714286q16 16 16 38.857142z" p-id="8362"></path></svg></button>
+						<button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("localpathsubmit").disabled=false;document.getElementById("localpath").disabled=false;'><svg t="1627184204403" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8719" width="16" height="16"><path d="M950.857143 512q0 89.142857-34.857143 170.285714t-93.714286 140-140 93.714286-170.285714 34.857143q-98.285714 0-186.857143-41.428572T174.285714 792.571429q-4-5.714286-3.714285-12.857143t4.857142-11.714286l78.285715-78.857143q5.714286-5.142857 14.285714-5.142857 9.142857 1.142857 13.142857 6.857143 41.714286 54.285714 102.285714 84t128.571429 29.714286q59.428571 0 113.428571-23.142858T718.857143 718.857143t62.571428-93.428572T804.571429 512t-23.142858-113.428571T718.857143 305.142857t-93.428572-62.571428T512 219.428571q-56 0-107.428571 20.285715T313.142857 297.714286l78.285714 78.857143q17.714286 17.142857 8 39.428571-9.714286 22.857143-33.714285 22.857143H109.714286q-14.857143 0-25.714286-10.857143t-10.857143-25.714286V146.285714q0-24 22.857143-33.714285 22.285714-9.714286 39.428571 8l74.285715 73.714285q61.142857-57.714286 139.714285-89.428571T512 73.142857q89.142857 0 170.285714 34.857143t140 93.714286 93.714286 140 34.857143 170.285714z" p-id="8720"></path></svg>重填</button> 
+					</span>
+                </span>
+			</div>
+	  </div>
+    </div>
+    <div style="margin-top: 70px;">
+        <table id="filelist">
+            <thead >
+                <tr>
+                    <th style="width:22%">文件名</th>
+                    <th style="width:45%">Xpath</th>
+                    <th style="width:33%">标记信息</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+	
+	<div class="toolbox">
+            <strong class="toolbox_title"><span>展开工具栏</span></strong>
+            <div class="toolbox_main">
+                <a href="javascript:;" class="file rounded-0" style="display:none;">选择文件夹<input  id="upfileistbtn" type="file" webkitdirectory directory  onchange="fileChange(this);" /></a>
+            </div>
+            <!--模态框-->
+            <div  id="no_output_modal"  class="modal" tabindex="-1">
+                <div class="modal-dialog modal-sm  modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-info">数据还没有导出呢！</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="alert alert-warning">需要先导出，再解锁新数据输入</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <!--button type="button" class="btn btn-success"  onclick="txtoutput();">导出</button-->
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div  id="unset_modal"  class="modal" tabindex="-1">
+                <div class="modal-dialog  modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-info">未设置初始数据</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="alert alert-warning">请先设置任务ID和本地网页文件路径。然后再导入文件。</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <!--button type="button" class="btn btn-success"  onclick="txtoutput();">导出</button-->
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div  id="sure_up_modal"  class="modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-danger">请确认数据已经保存正确</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="alert alert-warning">请确认数据已经保存正确！导入新数据后，将会清除现在的数据。</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-danger"  onclick="$("#upfileistbtn").click();">我确认已经正确保存，现在导入新数据</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div >
+	
+</body>
+
+</html>
