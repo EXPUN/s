@@ -23,7 +23,11 @@
     }
     unlockcontextmenu();
     //if(typeof(jQuery) ==='undefined') loadJs();
-    if(typeof(jQuery)!='undefined') {var $jquery_old = $.noConflict(true); console.log($jquery_old().jquery);}
+   if(typeof(jQuery)!='undefined') {
+        try{
+        var $jquery_old = $.noConflict(true);
+        console.log($jquery_old().jquery);} catch (e){}
+    }
     loadJs("https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js",function(){
         console.log($().jquery);
         afterreloadjq();
