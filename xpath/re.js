@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         质检工具
+// @name         质检工具ol
 //== @namespace    http://tampermonkey.net/
 // @version      20210803_1
 //== @require    https://code.jquery.com/jquery-latest.js
