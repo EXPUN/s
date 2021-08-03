@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         质检工具
-// @namespace    http://tampermonkey.net/
-// @version      0.1
+//== @namespace    http://tampermonkey.net/
+// @version      20210803_1
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
 // @description  try to take over the world!
 // @author       You
-// @match        file:///D:/*
+// @match        file:///*
 //@run-at        document-end
 // @grant        none
 // ==/UserScript==
