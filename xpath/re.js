@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         xpathcheck
+// @name         质检工具
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 //== @require    https://code.jquery.com/jquery-latest.js
@@ -17,13 +17,13 @@
     try {$("script").remove();}catch (e){}
     var scripts = document.getElementsByTagName("script");
     for (var i = 0; i < scripts.length; i++) {
-        if (scripts[i] && scripts[i].src && scripts[i].src.indexOf(src) != -1) {
+        if (scripts[i]) {
             scripts[i].parentNode.removeChild(scripts[i]);
         }
     }
     unlockcontextmenu();
     //if(typeof(jQuery) ==='undefined') loadJs();
-    if(typeof(jQuery)) {var $jquery_old = $.noConflict(true); console.log($jquery_old().jquery);}
+    if(typeof(jQuery)!='undefined') {var $jquery_old = $.noConflict(true); console.log($jquery_old().jquery);}
     loadJs("https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js",function(){
         console.log($().jquery);
         afterreloadjq();
@@ -47,8 +47,8 @@ function afterreloadjq(){
         if ("null"!=obj.tuwenstr)  xpathcheck(obj.tuwenstr,"tuwenstr");
         if ("null"!=obj.linksstr)  xpathcheck(obj.linksstr,"linksstr");
         if ("null"!=obj.otherstr)  xpathcheck(obj.otherstr,"otherstr");
-        if ("right"==obj.checkinfo) getElementById("checkinfouserpanel").innerHTML="质检标记为正确";//$("#checkinfouserpanel").html("质检标记为正确");
-        if ("wrong"==obj.checkinfo) getElementById("checkinfouserpanel").innerHTML="质检标记为错误";//$("#checkinfouserpanel").html("质检标记为错误");
+        if ("right"==obj.checkinfo) $("#checkinfouserpanel").html("质检标记为正确");
+        if ("wrong"==obj.checkinfo) $("#checkinfouserpanel").html("质检标记为错误");
     });
 
     $("body").on("click","#checkitsright",function(){
@@ -61,6 +61,13 @@ function afterreloadjq(){
         updatedb(pageid,"wrong");
     });
 
+    $("body").on("click","#savebtn",function(){
+        downloadfunction(function(txt){
+            //console.log(txt);
+            download("质检-"+currentTime().replace(/月|日.*$/g,"")+"_导出数据_"+currentTime()+".csv",txt);
+        });
+    });
+
     addbtn();
     $("#upfile").change(function(){
         //console.log(1);
@@ -71,20 +78,22 @@ function afterreloadjq(){
 
 function xpathcheck(xpath,type){
     var allElements, thisElement;
-    allElements = document.evaluate(
-        xpath,
-        document,
-        null,
-        XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
-        null);
-    for (var i = 0; i < allElements.snapshotLength; i++) {
-        console.log(i);
-        thisElement = allElements.snapshotItem(i);
-        if ("tuwenstr"==type) thisElement.className += ' tuwenstr';
-        if ("linksstr"==type) thisElement.className += ' linksstr';
-        if ("otherstr"==type) thisElement.className += ' otherstr';
-        //thisElement.setAttribute('style', 'border: 5px dashed #e9686b;background-color:#b0c4de;opacity:0.6;');
-    }
+    try{
+        allElements = document.evaluate(
+            xpath,
+            document,
+            null,
+            XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
+            null);
+        for (var i = 0; i < allElements.snapshotLength; i++) {
+            //console.log(i);
+            thisElement = allElements.snapshotItem(i);
+            if ("tuwenstr"==type) thisElement.className += ' tuwenstr';
+            if ("linksstr"==type) thisElement.className += ' linksstr';
+            if ("otherstr"==type) thisElement.className += ' otherstr';
+            //thisElement.setAttribute('style', 'border: 5px dashed #e9686b;background-color:#b0c4de;opacity:0.6;');
+        }
+    }catch (e){}
 }
 
 function unlockcontextmenu(){
@@ -175,7 +184,7 @@ var openFile = function(event) {
 };
 
 function str2json(str){
-    let jsonobj={"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","wrstatus":0};
+    let jsonobj={"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","wrstatus":0,"author":"","day":""};
     let arr2 = str.split(/\t/);
     if(5==arr2.length && 32==arr2[0].length){
         //console.log(arr2.length+"_"+arr2[0].length+"_"+arr2[0]);
@@ -184,6 +193,8 @@ function str2json(str){
         if("null" != arr2[2]) jsonobj.linksstr = arr2[2].replace(/,|，/g,"|");
         if("null" != arr2[3]) jsonobj.otherstr = arr2[3].replace(/,|，/g,"|");
         if("null" != arr2[4]) jsonobj.delstr = arr2[4].replace(/,|，/g,"|");
+        if("null" != arr2[5]) jsonobj.author = arr2[5].replace(/,|，/g,"|");
+        if("null" != arr2[6]) jsonobj.day = arr2[6].replace(/,|，/g,"|");
     }
     return(jsonobj);
 }
@@ -202,6 +213,9 @@ function addbtn(){
     $("#checkinfo").append('<button type="button" class="" id="checkitswrong" style="margin-left:12px;">错误</button>');
     let wsvgstr='<svg t="1627891766395" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8385" width="16" height="16"><path d="M851.428571 755.428571q0 22.857143-16 38.857143l-77.714285 77.714286q-16 16-38.857143 16t-38.857143-16l-168-168-168 168q-16 16-38.857143 16t-38.857143-16l-77.714285-77.714286q-16-16-16-38.857143t16-38.857142l168-168-168-168q-16-16-16-38.857143t16-38.857143l77.714285-77.714286q16-16 38.857143-16t38.857143 16l168 168 168-168q16-16 38.857143-16t38.857143 16l77.714285 77.714286q16 16 16 38.857143t-16 38.857143l-168 168 168 168q16 16 16 38.857142z" p-id="8386" fill="#d81e06"></path></svg>';
     $("#checkitswrong").append(wsvgstr);
+    $("#checkinfo").append('<button type="button" class="" id="savebtn" style="margin-left:48px;">导出</button>');
+    var savebtnstr='<svg t="1627183789230" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8182" width="16" height="16"><path d="M768 768q0-14.857143-10.857143-25.714286t-25.714286-10.857143-25.714285 10.857143-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857143-25.714286 10.857143-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h265.714286l77.142857 77.714286q33.142857 32 77.714286 32t77.714286-32l77.714285-77.714286h265.142858q22.857143 0 38.857142 16t16 38.857143z m-185.714285-325.142857q9.714286 23.428571-8 40l-256 256q-10.285714 10.857143-25.714286 10.857143t-25.714286-10.857143L230.285714 354.857143q-17.714286-16.571429-8-40 9.714286-22.285714 33.714286-22.285714h146.285714V36.571429q0-14.857143 10.857143-25.714286t25.714286-10.857143h146.285714q14.857143 0 25.714286 10.857143t10.857143 25.714286v256h146.285714q24 0 33.714286 22.285714z" p-id="8183"></path></svg>';
+    $("#savebtn").append(savebtnstr);
 }
 
 
@@ -239,6 +253,8 @@ function writedb(jsonobj){ //indexdb
             'linksstr': jsonobj.linksstr,
             'otherstr':jsonobj.otherstr,
             'delstr':jsonobj.delstr,
+            'author':jsonobj.author,
+            'day':jsonobj.day,
             'checkinfo':''
         });
         reqAdd.addEventListener('success', e => {
@@ -303,5 +319,56 @@ function updatedb(pageid,checkinfo,callback){
             if ("wrong"==checkinfo) $("#checkinfouserpanel").html("质检标记为错误");
         };
     };
+}
 
+function downloadfunction(callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        var transaction = db.transaction('xpath');
+        var store = transaction.objectStore('xpath');
+        var reqCur = store.openCursor();//打开游标
+        var dataList = new Array();
+        let txt ="id,tuwen,link,other,delete,author,day,checkinfo\n";
+        var i = 0;
+        reqCur.onsuccess = function(e) {
+            var cursor = e.target.result;
+            if (cursor) {
+                //console.log(cursor.key);
+                dataList[i] = cursor.value;
+                //console.log(dataList[i].checkinfo);
+                txt+=dataList[i].id+","+dataList[i].tuwenstr+","+dataList[i].linksstr+","+dataList[i].otherstr+","+dataList[i].delstr+","+dataList[i].author+","+dataList[i].day+","+dataList[i].checkinfo+"\n";
+                i++;
+                cursor.continue();
+            }else{
+                //data = dataList;
+                if (typeof callback ==="function") {
+                    callback(txt);
+                }
+            }
+        };
+        //console.log(txt);
+    }
+}
+
+/*下载*/
+function download(filename,content,contentType) {
+    if (!contentType) contentType = 'application/octet-stream';
+    var a = document.createElement('a');
+    var blob = new Blob([content], { 'type': contentType });
+    a.href = window.URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+}
+
+/*获取当前时间*/
+function currentTime(){
+    var d = new Date(),str = '';
+    //str += d.getFullYear()+'年';
+    str  += (d.getMonth() + 1 <10)?'0'+(d.getMonth() + 1)+'月':d.getMonth() + 1+'月';
+    str  += (d.getDate()<10)?'0'+d.getDate()+'日':d.getDate()+'日';
+    str += d.getHours()+'时';
+    str  += d.getMinutes()+'分';
+    str+= d.getSeconds()+'秒';
+    return str;
 }
