@@ -36,9 +36,10 @@
 
     function createTable(jsonStr) {
         var obj = JSON.parse(jsonStr);
-        var appendhtml = '';
+        var localpath = $("#localpath").val().trim();
+        if (!localpath.match(/\\$/)) localpath+="\\";
         for (var i in obj) {
-            $("#filelist").append($("#localpath").val()+obj[i].name+"<br>");
+            $("#filelist").append(localpath+obj[i].name+"<br>");
             //fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='"+localStorage.localpath+obj[i].name+"'>"+obj[i].name.replace(/^\..+\/|\_.*$/g,"")+"</a>";
 
         }
