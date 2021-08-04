@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>质检批量生成URL工具</title>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css" rel="stylesheet">
+    <!--script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/popper.js/2.7.0/cjs/popper.min.js"></script-->
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.min.js"></script>
+    <link href="./main.css" rel="stylesheet">
+    <!--link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"-->
+    <!--script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script-->
+    <!--script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script-->
+    <!--script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script-->
+    <script type="text/javascript">
+    var localjson={len:"",arr:[]};
+    function fileChange(that) {
+        localjson={len:"",arr:[]};
+        var files = that.files;
+        var filesJson = '[';
+        localjson.len = files.length;
+        for (var i = 0; i < files.length; i++) {
+            //if (i<5) console.log(files[i].webkitRelativePath);
+            let name = files[i].name;
+            let size = Math.round(files[i].size / 1024) + "K";
+            if (/\.html$/ig.test(name)) {//这里按业务要求筛选所有html文件
+                filesJson += '{"name":"' + name + '","size":"' + size + '"},';
+                localjson.arr.push(name);
+            }
+        }
+        filesJson = filesJson.slice(0, -1) + "]";
+        //if(!localStorage.localjson)
+        createTable(filesJson);
+    }
+
+    function createTable(jsonStr) {
+        var obj = JSON.parse(jsonStr);
+        var appendhtml = '';
+        for (var i in obj) {
+            $("#filelist").append($("#localpath").val()+obj[i].name+"<br>");
+            //fileName.innerHTML = "<a target='_blank' rel='noopener noreferrer' href='"+localStorage.localpath+obj[i].name+"'>"+obj[i].name.replace(/^\..+\/|\_.*$/g,"")+"</a>";
+
+        }
+    }
+	
+	/*上传按钮响应*/
+	function uploadfunction(){
+        if (!$("#localpath").val().trim()){
+            $("#info1").html("请正确填写本次打开文件夹路径！");
+        }else{
+            $("#upfileistbtn").click();
+        }
+	}
+
+
+    $(function(){
+        /*跳转到online版本*/
+        //if ("helper.log.cx" != window.location.host) window.location.href="http://helper.log.cx/xpath/";
+
+    });
+    </script>
+</head>
+
+<body>
+    <a href="javascript:;" class="file rounded-0" style="display:none;">选择文件夹<input  id="upfileistbtn" type="file" webkitdirectory directory  onchange="fileChange(this);" /></a>
+    <div class="tipsbar">
+		<div style="height:35px;">
+			<strong><span id="ver">质检批量生成URL工具_ver_0804.1_online</span></strong> <span id="info1"></span>
+			<span class="float-right">
+					<button type="button" class="btn btn-sm btn-outline-secondary rounded-0" id="download" onclick="uploadfunction();"><svg t="1627183528476" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button>
+			</span>
+		</div>
+		<div class="row">
+			<div class="col col-lg-6">
+				<span class="input-group input-group-sm mb-1">
+					<span class="input-group-prepend">
+						<span class="input-group-text rounded-0">本地路径</span>
+					</span>
+					<input type="text" class="form-control" placeholder="输入本地存放文件的路径，例如 D:\标注项目\test\" id="localpath">
+					<!--span class="input-group-append">
+						<button type="submit" class="btn btn-outline-secondary rounded-0" id="localpathsubmit"><svg t="1627184068520" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8361" width="16" height="16"><path d="M954.857143 323.428571q0 22.857143-16 38.857143l-413.714286 413.714286-77.714286 77.714286q-16 16-38.857142 16t-38.857143-16l-77.714286-77.714286-206.857143-206.857143q-16-16-16-38.857143t16-38.857143l77.714286-77.714285q16-16 38.857143-16t38.857143 16l168 168.571428 374.857142-375.428571q16-16 38.857143-16t38.857143 16l77.714286 77.714286q16 16 16 38.857142z" p-id="8362"></path></svg>提交</button>
+						<button class="btn btn-outline-danger rounded-0" type="button" onclick='document.getElementById("localpathsubmit").disabled=false;document.getElementById("localpath").disabled=false;'><svg t="1627184204403" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8719" width="16" height="16"><path d="M950.857143 512q0 89.142857-34.857143 170.285714t-93.714286 140-140 93.714286-170.285714 34.857143q-98.285714 0-186.857143-41.428572T174.285714 792.571429q-4-5.714286-3.714285-12.857143t4.857142-11.714286l78.285715-78.857143q5.714286-5.142857 14.285714-5.142857 9.142857 1.142857 13.142857 6.857143 41.714286 54.285714 102.285714 84t128.571429 29.714286q59.428571 0 113.428571-23.142858T718.857143 718.857143t62.571428-93.428572T804.571429 512t-23.142858-113.428571T718.857143 305.142857t-93.428572-62.571428T512 219.428571q-56 0-107.428571 20.285715T313.142857 297.714286l78.285714 78.857143q17.714286 17.142857 8 39.428571-9.714286 22.857143-33.714285 22.857143H109.714286q-14.857143 0-25.714286-10.857143t-10.857143-25.714286V146.285714q0-24 22.857143-33.714285 22.285714-9.714286 39.428571 8l74.285715 73.714285q61.142857-57.714286 139.714285-89.428571T512 73.142857q89.142857 0 170.285714 34.857143t140 93.714286 93.714286 140 34.857143 170.285714z" p-id="8720"></path></svg>重填</button> 
+					</span-->
+                </span>
+			</div>
+	  </div>
+    </div>
+    <div style="margin-top: 70px;">
+        <div id="filelist">
+        </div>
+    </div>
+	
+
+    </div>
+    <div >
+	
+</body>
+
+</html>
