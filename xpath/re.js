@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         质检工具ol
+// @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210803_1
-// @updateURL      http://helper.log.cx/xpath/re.js
+// @version      20210804_1
+// @updateURL         http://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
 // @description  try to take over the world!
@@ -24,7 +24,7 @@
     }
     unlockcontextmenu();
     //if(typeof(jQuery) ==='undefined') loadJs();
-   if(typeof(jQuery)!='undefined') {
+    if(typeof(jQuery)!='undefined') {
         try{
         var $jquery_old = $.noConflict(true);
         console.log($jquery_old().jquery);} catch (e){}
@@ -191,7 +191,7 @@ var openFile = function(event) {
 function str2json(str){
     let jsonobj={"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","wrstatus":0,"author":"","day":""};
     let arr2 = str.split(/\t/);
-    if(5==arr2.length && 32==arr2[0].length){
+    if(7==arr2.length && 32==arr2[0].length){
         //console.log(arr2.length+"_"+arr2[0].length+"_"+arr2[0]);
         jsonobj.id = arr2[0];
         if("null" != arr2[1]) jsonobj.tuwenstr = arr2[1].replace(/,|，/g,"|");
@@ -358,12 +358,21 @@ function downloadfunction(callback){
 
 /*下载*/
 function download(filename,content,contentType) {
-    if (!contentType) contentType = 'application/octet-stream';
-    var a = document.createElement('a');
-    var blob = new Blob([content], { 'type': contentType });
-    a.href = window.URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
+    //if (!contentType) contentType = 'application/octet-stream';
+    //var a = document.createElement('a');
+    //var blob = new Blob([content], { 'type': contentType });
+    //a.href = window.URL.createObjectURL(blob);
+    //a.download = filename;
+    //a.click();
+
+    var uri = 'data:application/csv;charset=utf-8,' + escape(content);
+    var link = document.createElement("a");
+    link.href = uri;
+    link.style = "visibility:hidden";
+    link.download = filename ;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 /*获取当前时间*/
