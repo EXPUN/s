@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210804_1
+// @version      20210805_1
 // @updateURL         http://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
@@ -164,6 +164,7 @@ function addstyle(){
     let cssstr = '.tuwenstr{border: 10px dashed #e9686b !important;background-color:#b0c4de !important;opacity:0.6 !important;} .tuwenstr::before{content: "图文主体";background-color:yellow;color:red;font-weight:bold;font-size:24;z-index:10000;position: absolute;}';
     cssstr += '.linksstr{border: 10px dashed #e9686b !important;background-color:#b0c4de !important;opacity:0.6 !important;} .linksstr::before{content: "链接主体";background-color:yellow;color:red;font-weight:bold;font-size:24;z-index:10000;position: absolute;}';
     cssstr += '.otherstr{border: 10px dashed #e9686b !important;background-color:#b0c4de !important;opacity:0.6 !important;} .otherstr::before{content: "其他主体";background-color:yellow;color:red;font-weight:bold;font-size:24;z-index:10000;position: absolute;}';
+    cssstr += '#upbtnbar button{cursor: pointer;line-height: 25px;border: 1px solid #777;border-radius: 0;display:inline-block !important;font-size:13px;font-weight:normal;padding: 1px 6px;margin:0;background-image: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ccc));font-family: sans-serif;}'
     style.appendChild(document.createTextNode(cssstr));
     var head = document.getElementsByTagName("head")[0];
     head.appendChild(style);
@@ -205,14 +206,14 @@ function str2json(str){
 }
 
 function addbtn(){
-    var btnstr ='<button type="button" class=" " id="upload" onclick="upfile.click();" style="float:left !important;display:block !important;"><svg t="1627183528476" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button><input type="file" id="upfile" accept="text/plain" style="display:none;">';
-    $("body").append('<span id="upbtnbar" style="position:fixed;left:0;bottom:0;width:100%;height:25px; z-index:10000;border:2px;border-color:grey;background:#fff;box-shadow:0 -2px 4px 0 rgba(0,0,0,.05);padding-left:2px;"></span>');
+    var btnstr ='<button type="button" class=" " id="upload" onclick="upfile.click();" style="float:left !important;"><svg t="1627183528476" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button><input type="file" id="upfile" accept="text/plain" style="display:none;">';
+    $("body").append('<span id="upbtnbar" style="position:fixed;left:0;bottom:0;width:100%;height:28px;z-index:99999999 !important;border:2px;border-color:grey;background:#fff;color:#dc3545 !important;box-shadow:0 -10px 20px 0 rgba(0,0,0,.05);padding:5px 2px;"></span>');
     $("#upbtnbar").html(btnstr);
     $("#upbtnbar").append('<span id="localinfo" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;"></span>');
     $("#localinfo").html("当前页面为本地文件！");
     $("#upbtnbar").append('<span id="checkinfouserpanel" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;"></span>');
     $("#upbtnbar").append('<span id="checkinfo" style="line-height: 25px;font-size:20px;font-weight: bold;float:right;margin-right:12px;"></span>');
-    $("#checkinfo").append('<button type="button" class="" id="checkitsright" style="">正确</button>');
+    $("#checkinfo").append('<button type="button" class="" id="checkitsright" style="line-height: 25px;">正确</button>');
     let rsvgstr='<svg t="1627891706178" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8178" width="16" height="16"><path d="M954.857143 323.428571q0 22.857143-16 38.857143l-413.714286 413.714286-77.714286 77.714286q-16 16-38.857142 16t-38.857143-16l-77.714286-77.714286-206.857143-206.857143q-16-16-16-38.857143t16-38.857143l77.714286-77.714285q16-16 38.857143-16t38.857143 16l168 168.571428 374.857142-375.428571q16-16 38.857143-16t38.857143 16l77.714286 77.714286q16 16 16 38.857142z" p-id="8179" fill="#31b77a"></path></svg>';
     $("#checkitsright").append(rsvgstr);
     $("#checkinfo").append('<button type="button" class="" id="checkitswrong" style="margin-left:12px;">错误</button>');
