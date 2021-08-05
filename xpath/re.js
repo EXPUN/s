@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210805_4
+// @version      20210805_5
 // @updateURL         http://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
@@ -53,7 +53,7 @@ function afterreloadjq(){
         if ("null"!=obj.tuwenstr)  xpathcheck(obj.tuwenstr,"tuwenstr");
         if ("null"!=obj.linksstr)  xpathcheck(obj.linksstr,"linksstr");
         if ("null"!=obj.otherstr)  xpathcheck(obj.otherstr,"otherstr");
-        if ("del"!=obj.delstr)  $("#checkinfouserpanel").html("此页面被标记为删除");
+        if ("del"==obj.delstr)  $("#checkinfouserpanel").html("此页面被标记为删除");
         if ("right"==obj.checkinfo) $("#checkinfouserpanel").html("质检标记为正确");
         if ("wrong"==obj.checkinfo) $("#checkinfouserpanel").html("质检标记为错误");
     });
