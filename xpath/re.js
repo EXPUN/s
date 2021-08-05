@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210805_5
+// @version      20210805_6
 // @updateURL         http://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
-// @description  try to take over the world!
+// @description  20210805_6修复了其他js脚本控制$符号导致无响应的问题
 // @author       You
 // @match        file:///*
 //@run-at        document-end
@@ -15,7 +15,7 @@
 (function () {
     //window.stop();
     const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
-    try {$("script").remove();}catch (e){}
+    try {jQuery("script").remove();}catch (e){}
     var scripts = document.getElementsByTagName("script");
     for (var i = 0; i < scripts.length; i++) {
         if (scripts[i]) {
@@ -30,7 +30,7 @@
         console.log($jquery_old().jquery);} catch (e){}
     }
     loadJs("https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js",function(){
-        console.log($().jquery);
+        console.log(jQuery().jquery);
         afterreloadjq();
     });
 
@@ -48,27 +48,29 @@
 function afterreloadjq(){
     const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
     readdb(pageid,function(obj){
-        if ("undefined"==typeof(obj)) $("#checkinfouserpanel").html("未查询到标记记录");
-        console.log(obj);
-        if ("null"!=obj.tuwenstr)  xpathcheck(obj.tuwenstr,"tuwenstr");
-        if ("null"!=obj.linksstr)  xpathcheck(obj.linksstr,"linksstr");
-        if ("null"!=obj.otherstr)  xpathcheck(obj.otherstr,"otherstr");
-        if ("del"==obj.delstr)  $("#checkinfouserpanel").html("此页面被标记为删除");
-        if ("right"==obj.checkinfo) $("#checkinfouserpanel").html("质检标记为正确");
-        if ("wrong"==obj.checkinfo) $("#checkinfouserpanel").html("质检标记为错误");
+        if ("undefined"==typeof(obj)) {jQuery("#checkinfouserpanel").html("未查询到标记记录");}
+        else{
+            console.log(obj);
+            if ("null"!=obj.tuwenstr)  xpathcheck(obj.tuwenstr,"tuwenstr");
+            if ("null"!=obj.linksstr)  xpathcheck(obj.linksstr,"linksstr");
+            if ("null"!=obj.otherstr)  xpathcheck(obj.otherstr,"otherstr");
+            if ("del"==obj.delstr)  jQuery("#checkinfouserpanel").html("此页面被标记为删除");
+            if ("right"==obj.checkinfo) jQuery("#checkinfouserpanel").html("质检标记为正确");
+            if ("wrong"==obj.checkinfo) jQuery("#checkinfouserpanel").html("质检标记为错误");
+        }
     });
 
-    $("body").on("click","#checkitsright",function(){
+    jQuery("body").on("click","#checkitsright",function(){
         //console.log("checkitsright btn clicked!");
         updatedb(pageid,"right");
     });
 
-    $("body").on("click","#checkitswrong",function(){
+    jQuery("body").on("click","#checkitswrong",function(){
         //console.log("checkitsright btn clicked!");
         updatedb(pageid,"wrong");
     });
 
-    $("body").on("click","#savebtn",function(){
+    jQuery("body").on("click","#savebtn",function(){
         downloadfunction(function(txt){
             //console.log(txt);
             download("质检-"+currentTime().replace(/月|日.*$/g,"")+"_导出数据_"+currentTime()+".csv",txt);
@@ -76,7 +78,7 @@ function afterreloadjq(){
     });
 
     addbtn();
-    $("#upfile").change(function(){
+    jQuery("#upfile").change(function(){
         //console.log(1);
         openFile(event);
     });
@@ -210,21 +212,22 @@ function str2json(str){
 
 function addbtn(){
     var btnstr ='<button type="button" class=" " id="upload" onclick="upfile.click();" style="float:left !important;"><svg t="1627183528476" class="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button><input type="file" id="upfile" accept="text/plain" style="display:none;">';
-    $("body").append('<span id="upbtnbar" style="position:fixed;left:0;bottom:0;width:100%;height:35px;box-sizing: border-box;z-index:99999999999999999 !important;border:2px;border-color:grey;background:#fff;color:#dc3545 !important;box-shadow:0 -10px 20px 0 rgba(0,0,0,.05);padding:5px 2px;"></span>');
-    $("#upbtnbar").html(btnstr);
-    $("#upbtnbar").append('<span id="localinfo" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;position:relative;"></span>');
-    $("#localinfo").html("当前页面为本地文件！");
-    $("#upbtnbar").append('<span id="checkinfouserpanel" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;"></span>');
-    $("#upbtnbar").append('<span id="checkinfo" style="line-height: 25px;font-size:20px;font-weight: bold;float:right;margin-right:12px;"></span>');
-    $("#checkinfo").append('<button type="button" class="" id="checkitsright" style="line-height: 25px;">正确</button>');
+    jQuery("body").append('<span id="upbtnbar" style="position:fixed;left:0;bottom:0;width:100%;height:35px;box-sizing: border-box;z-index:99999999999999999 !important;border:2px;border-color:grey;background:#fff;color:#dc3545 !important;box-shadow:0 -10px 20px 0 rgba(0,0,0,.05);padding:5px 2px;"></span>');
+    jQuery("#upbtnbar").html(btnstr);
+    jQuery("#upbtnbar").append('<span id="localinfo" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;position:relative;"></span>');
+    jQuery("#localinfo").html("当前页面为本地文件！");
+    jQuery("#upbtnbar").append('<span id="checkinfouserpanel" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;"></span>');
+    jQuery("#upbtnbar").append('<span id="checkinfo" style="line-height: 25px;font-size:20px;font-weight: bold;float:right;margin-right:12px;"></span>');
+    jQuery("#checkinfo").append('<button type="button" class="" id="checkitsright" style="line-height: 25px;">正确</button>');
     let rsvgstr='<svg t="1627891706178" class="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8178" width="16" height="16"><path d="M954.857143 323.428571q0 22.857143-16 38.857143l-413.714286 413.714286-77.714286 77.714286q-16 16-38.857142 16t-38.857143-16l-77.714286-77.714286-206.857143-206.857143q-16-16-16-38.857143t16-38.857143l77.714286-77.714285q16-16 38.857143-16t38.857143 16l168 168.571428 374.857142-375.428571q16-16 38.857143-16t38.857143 16l77.714286 77.714286q16 16 16 38.857142z" p-id="8179" fill="#31b77a"></path></svg>';
-    $("#checkitsright").append(rsvgstr);
-    $("#checkinfo").append('<button type="button" class="" id="checkitswrong" style="margin-left:12px;">错误</button>');
+    jQuery("#checkitsright").append(rsvgstr);
+    jQuery("#checkinfo").append('<button type="button" class="" id="checkitswrong" style="margin-left:12px;">错误</button>');
     let wsvgstr='<svg t="1627891766395" class="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8385" width="16" height="16"><path d="M851.428571 755.428571q0 22.857143-16 38.857143l-77.714285 77.714286q-16 16-38.857143 16t-38.857143-16l-168-168-168 168q-16 16-38.857143 16t-38.857143-16l-77.714285-77.714286q-16-16-16-38.857143t16-38.857142l168-168-168-168q-16-16-16-38.857143t16-38.857143l77.714285-77.714286q16-16 38.857143-16t38.857143 16l168 168 168-168q16-16 38.857143-16t38.857143 16l77.714285 77.714286q16 16 16 38.857143t-16 38.857143l-168 168 168 168q16 16 16 38.857142z" p-id="8386" fill="#d81e06"></path></svg>';
-    $("#checkitswrong").append(wsvgstr);
-    $("#checkinfo").append('<button type="button" class="" id="savebtn" style="margin-left:48px;">导出</button>');
+    jQuery("#checkitswrong").append(wsvgstr);
+   jQuery("#checkinfo").append('<button type="button" class="" id="savebtn" style="margin-left:48px;">导出</button>');
     var savebtnstr='<svg t="1627183789230" class="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8182" width="16" height="16"><path d="M768 768q0-14.857143-10.857143-25.714286t-25.714286-10.857143-25.714285 10.857143-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857143-25.714286 10.857143-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h265.714286l77.142857 77.714286q33.142857 32 77.714286 32t77.714286-32l77.714285-77.714286h265.142858q22.857143 0 38.857142 16t16 38.857143z m-185.714285-325.142857q9.714286 23.428571-8 40l-256 256q-10.285714 10.857143-25.714286 10.857143t-25.714286-10.857143L230.285714 354.857143q-17.714286-16.571429-8-40 9.714286-22.285714 33.714286-22.285714h146.285714V36.571429q0-14.857143 10.857143-25.714286t25.714286-10.857143h146.285714q14.857143 0 25.714286 10.857143t10.857143 25.714286v256h146.285714q24 0 33.714286 22.285714z" p-id="8183"></path></svg>';
-    $("#savebtn").append(savebtnstr);
+    jQuery("#savebtn").append(savebtnstr);
+    //console.log("insert upbtnbar suc!");
 }
 
 
@@ -324,8 +327,8 @@ function updatedb(pageid,checkinfo,callback){
             if (typeof callback ==="function") {
                 callback(reobj);
             }
-            if ("right"==checkinfo) $("#checkinfouserpanel").html("质检标记为正确");
-            if ("wrong"==checkinfo) $("#checkinfouserpanel").html("质检标记为错误");
+            if ("right"==checkinfo) jQuery("#checkinfouserpanel").html("质检标记为正确");
+            if ("wrong"==checkinfo) jQuery("#checkinfouserpanel").html("质检标记为错误");
         };
     };
 }
