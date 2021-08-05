@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>u2l_local_page</title>
+ 
+<style type="text/css">
+/* 页面字体样式 */
+body, td, input, textarea {
+    font-family:宋体;
+    font-size:12px;
+	/*font: 12px/1.5 tahoma,arial,sans-serif;*/
+	/* background: rgb(215, 233, 245); !important;*/
+}
+.t2 {
+	font-family:Helvetica;
+    overflow: hidden;
+    /* margin: 25px 0 15px 0; */
+    /* height: 40px; */
+	margin-left:-15px;
+    color: #0af;
+    text-shadow: 1px 1px 2px #eee;
+    font-weight: 700;
+    font-size: 24px;
+	width:200px;
+}
+.tablew{
+    table-layout: fixed;
+}
+
+</style>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<!--script src="https://helper.log.cx/gbk.js"></script-->
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<!-- 最新的 Bootstrap4 核心 JavaScript 文件 style="width:100%;background-color:C2C2C2;text-align:left;"-vertical-->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="header" style="z-index:100;min-width:666px;box-shadow:0 0 5px #888;width:100%;height:30px;position:fixed;top:0;BACKGROUND:#fbfbfb;">
+<span style="display:inline; margin-left:8px;" class="t2 col-1">u2l</span>
+<span class="col-2">自动打开：<input name="ao" id="ao" type="checkbox" value="" checked /></span>
+<span id="tempco" style="display:inline"></span>
+</div>  
+<div class="row" style="margin:38 0 0 2px;">
+   <div class="btn-group btn-group-lg" style="margin:0 0px;padding:0 2px;" >
+    <button type="button" class="btn btn-outline-Secondary" onclick="javascript:$('#myTable_tbody').empty();$('#dnTextBox').val('');">清屏</button>
+    <button type="button" class="btn btn-outline-Secondary" id="submit" onClick="dowork();">开始</button>
+  </div>
+<textarea rows="6" style="width:80%;padding:1 0px;font-family:宋体;font-size:12px;" id="dnTextBox" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13)
+{document.getElementById('submit').click();return false};" class="col"></textarea>
+</div> 
+<hr width="100%" size="1" align="left" color="#5151A2" style="margin:12 0px;border:1px dashed #gray; FILTER: alpha(opacity=100,finishopacity= 0,style= 3)">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="myTable" class="table table-sm table-striped table-hover tablew">
+  <thead class="thead-success">
+	  <tr >
+		<th style="width:80px;">序号</th>
+		<th >link</th>
+	  </tr>
+  </thead>
+  <tbody id="myTable_tbody"></tbody>
+</table>
+
+<script language="javascript" type="text/javascript">
+	document.getElementById("dnTextBox").value="";
+var arr;
+function dowork()
+{
+    //var rows = TB.children;while(rows.length) TB.deleteRow(0);
+    var text = dnTextBox.value;
+        //alert(text);
+        arr = text.split(/\r?\n/);
+        //document.getElementById("adds2").value="共"+arr.length+"条";
+    doShow(0);
+}
+ 
+function doShow(i)
+{
+    if (i>=arr.length) 
+    {
+        adds1.style.color ="#FF0000";
+        document.getElementById("adds1").value="Finished! //共"+arr.length+"条";
+        return;
+    }
+
+	for(i=0;i<arr.length;i++){
+        var s =arr[i].replace(/^\s+|\s+$/g, "");
+		if(s.length){
+			//if (s.indexOf("http")!=0) s = "http://"+s;
+			var tr = myTable_tbody.insertRow(-1)
+			//if (i%2) tr.style.backgroundColor="#C2C2C2";//"#fafafa";//"#C2C2C2";
+			var otd1 = document.createElement("td");
+				otd1.innerHTML = i+1; 
+				//otd1.style.width = "80px"; 
+				tr.appendChild(otd1);
+			var otd2 = document.createElement("td");
+				otd2.innerHTML = "<a href="+s+" target='_blank' rel='noreferrer noopener' id="+i+">"+s+"</a>";
+				//otd2.id = i;
+				tr.appendChild(otd2);
+			if (document.getElementById('ao').checked){document.getElementById(i).click();}
+		}
+	}
+    //if (s.length)
+    //{
+		//var s1=s;
+		//var s2;
+		//if (document.getElementById('ao').checked) window.open(s,'_blank');
+		//if (document.getElementById('mso').checked) s1="http://m.so.com/s?q="+s+"&src=msearch_next_input&srcg=home_next";
+		//if (document.getElementById('so').checked) s1="http://www.so.com/s?q="+encodeURIComponent(s);
+		//if (document.getElementById('bbs').checked) s1="http://10.173.29.156/bbsou/360_bridge.php?f1=360&f2=baidu&query=site%3A"+s;
+		//s1="http://searchtools.log.cx/ditusug.html?Q="+encodeURIComponent(s.replace(/\t.*$/,""))+"&cityname="+encodeURIComponent(s.replace(/.*?\t/,"").replace(/\t.*/,""))+"&xy="+s.replace(/.*\t/,"");
+			//s2="http://map.baidu.com/mobile/webapp/search/search/qt=s&wd="+encodeURIComponent(s.replace(/\t.*$/,""))+"&c="+s.replace(/.*?\t.*?\t/,"").replace(/\t.+$/,"")+"&nb_x="+s.replace(/.*\t/,"").replace(",","&nb_y=")+"&center_rank=1/vt=";
+		//if (document.getElementById('ao').checked) {s1=s1.indexOf("http://")==-1?"http://"+s1:s1;window.open(s1);}//window.open(s);
+		//var tr = myTable.insertRow(-1)
+		//if (i%2) tr.style.backgroundColor="#C2C2C2";//"#fafafa";//"#C2C2C2";
+		//var otd1 = document.createElement("td");
+			//otd1.innerHTML = i+1; 
+			//tr.appendChild(otd1);
+		//var otd2 = document.createElement("td");
+			//otd2.innerHTML = "<a href="+s+" target=_blank>"+s+"</a>";
+			//tr.appendChild(otd2);
+
+		//if (document.getElementById('mso_map').checked) {
+		//	var otd3 = document.createElement("td");
+		//		otd3.innerHTML = "<a href="+s2+" target=_blank>"+s.replace(/\t.*$/,"")+"</a>";
+		//		tr.appendChild(otd3);
+		//}
+		  /* var otd2 = document.createElement("td");
+			otd2.innerHTML = "<a href=http://video.so.com/v?q="+encodeURI(s)+" target=_blank>http://video.so.com/v?q="+s+"</a>";
+			tr.appendChild(otd2);
+		var otd2 = document.createElement("td");
+			otd2.innerHTML = "<a href=https://www.baidu.com/s?ie=utf-8&wd="+encodeURI(s)+" target=_blank>https://www.baidu.com/s?ie=utf-8&wd="+s+"</a>";
+			tr.appendChild(otd2);
+	 
+		tr.insertCell().innerText = i+1;
+		tr.insertCell().innerHTML = "<a href="+url+s+" target=_blank>"+s+"</a>";//http://www.so.com/s?ie=utf-8&q=site%3A
+		tr.insertCell().innerText = resultnum;
+		//tr.insertCell().innerText = strbeian.exec(locstr)[0].substr(23);
+		tr.insertCell().innerText = resulttitlenum;
+		tr.insertCell().innerHTML = strlink;
+		*/
+        
+    //}
+    //window.setTimeout("doShow(" + (++i) + ")", 500);
+}
+</script>
+
+</body>
+</html>
