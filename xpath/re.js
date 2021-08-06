@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210805_7
+// @version      20210806_1
 // @updateURL         http://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
-// @description  20210805_7增加了展示导入数据进度、总数据量功能
+// @description  20210806_1 修改了一些样式；20210805_7增加了展示导入数据进度、总数据量功能
 // @author       You
 // @match        file:///*
 //@run-at        document-end
@@ -214,7 +214,7 @@ function str2json(str){
 
 function addbtn(){
     var btnstr ='<button type="button" class=" " id="upload" onclick="upfile.click();" style="float:left !important;"><svg t="1627183528476" class="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button><input type="file" id="upfile" accept="text/plain" style="display:none;">';
-    jQuery("body:eq(0)").append('<span id="upbtnbar" style="position:fixed;left:0;bottom:0;width:100%;height:35px;box-sizing: border-box;z-index:99999999999999999 !important;border:2px;border-color:grey;background:#fff;color:#dc3545 !important;box-shadow:0 -10px 20px 0 rgba(0,0,0,.05);padding:5px 2px;"></span>');
+    jQuery("body:eq(0)").append('<span id="upbtnbar" style="position:fixed;left:0;bottom:0;width:100%;height:35px;text-align:left;box-sizing:border-box;z-index:99999999999999999 !important;border:2px;border-color:grey;background:#fff;color:#dc3545 !important;box-shadow:0 -10px 20px 0 rgba(0,0,0,.05);padding:5px 2px;"></span>');
     jQuery("#upbtnbar").html(btnstr);
     jQuery("#upbtnbar").append('<span id="localinfo" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;position:relative;"></span>');
     jQuery("#localinfo").html("当前页面为本地文件！");
