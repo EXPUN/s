@@ -129,8 +129,8 @@ window.onload = function() {
         }
     }); */
     readdb("myid",function(obj){
-        if ("undefined"==typeof(obj) || "null" == obj.idval) {
-            if(localStorage.getItem("myid") && "null"!=localStorage.getItem("myid")){
+        if ("undefined"==typeof(obj) || null == obj.idval) {
+            if(localStorage.getItem("myid") && null!=localStorage.getItem("myid")){
                 writedb({"id":"myid","idval":localStorage.getItem("myid")});
                 console.log(localStorage.getItem("myid"));
                 jQuery("#myid").val(localStorage.getItem("myid")).attr("disabled",true);
