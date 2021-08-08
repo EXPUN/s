@@ -73,6 +73,7 @@ td {
                     <div class="input-group-append">
                         <button class="btn btn-success rounded-0" id="savebtn">save</button>
                         <button class="btn btn-outline-secondary rounded-0" id="addbtn">+</button>
+                        <button class="btn btn-outline-danger rounded-0" id="reset">重填</button>
                     </div>
                 </div>
             </td>
@@ -119,10 +120,11 @@ window.onload = function() {
             pageid=e.data.pageid;
             console.log(pageid);
             readdb(pageid,function(obj){
-                if ("undefined"==typeof(obj)) return;
+                if ("undefined"==typeof(obj) || pageid!=obj.id) return;
                 window.parent.postMessage(obj,'*');
                 document.getElementById("savebtn").disabled=true;
                 document.getElementById("addbtn").disabled=true;
+                document.getElementById("xpathstr").innerText="已完成";
                 document.getElementById("xpathstr").disabled=true;
                 jQuery(".finfo").attr("data",JSON.stringify(obj));
                 jQuery(".finfo").html(normalreader(obj));
