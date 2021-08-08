@@ -73,11 +73,11 @@ td {
                     <div class="input-group-append">
                         <button class="btn btn-success rounded-0" id="savebtn">save</button>
                         <button class="btn btn-outline-secondary rounded-0" id="addbtn">+</button>
-                        <button class="btn btn-outline-danger rounded-0" id="reset">重填</button>
+                        <button class="btn btn-outline-danger rounded-0" id="resetbtn">重填</button>
                     </div>
                 </div>
             </td>
-            <td class="finfo" title="" data=""></td>
+            <td class="finfo" title="" data="" id ="finfo"></td>
             <td style="width:100px;">
                 
             </td>
@@ -124,7 +124,7 @@ window.onload = function() {
                 window.parent.postMessage(obj,'*');
                 document.getElementById("savebtn").disabled=true;
                 document.getElementById("addbtn").disabled=true;
-                document.getElementById("xpathstr").innerText="已完成";
+                document.getElementById("xpathstr").value="已完成";
                 document.getElementById("xpathstr").disabled=true;
                 jQuery(".finfo").attr("data",JSON.stringify(obj));
                 jQuery(".finfo").html(normalreader(obj));
@@ -161,6 +161,17 @@ window.onload = function() {
         writedb(crejson());
     });
 
+    jQuery("#resetbtn").click(function(){
+        document.getElementById("savebtn").disabled=false;
+        document.getElementById("addbtn").disabled=false;
+        document.getElementById("xpathstr").value="";
+        document.getElementById("xpathstr").disabled=false;
+        document.getElementById("finfo").innerHTML="";
+        document.getElementById("finfo").getAttributeNode("data").value="";
+        document.getElementById("finfo").getAttributeNode("title").value="";
+        deletedb(crejson());
+    });
+
     jQuery("body").on("click","#downloadbtn",function(){
         downloadfunction(function(txt){
             //console.log(txt);
@@ -178,15 +189,16 @@ function crejson(){
     jsonobj.author = myid;
     jsonobj.day = day;
     jsonobj.id = pageid;
-    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
     if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
     if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
     if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
     //jsonobj = JSON.parse(JSON.stringify(jsonobj).replace(/,|，/g,"|"));
-    jQuery(".finfo").attr("data",JSON.stringify(jsonobj));
-    jQuery(".finfo").html(normalreader(jsonobj));
+    jQuery("#finfo").attr("data",JSON.stringify(jsonobj));
+    jQuery("#finfo").attr("title",JSON.stringify(jsonobj));
+    jQuery("#finfo").html(normalreader(jsonobj));
     return(jsonobj);
     //if jQuery()
 }
@@ -273,23 +285,24 @@ function writedb(obj,callback){ //indexdb
                         'idval': jsonobj.idval
                     });
                 }
-            else{
-                var reqAdd = store.add({
-                    'id': jsonobj.id,
-                    'tuwenstr': jsonobj.tuwenstr,
-                    'linksstr': jsonobj.linksstr,
-                    'otherstr':jsonobj.otherstr,
-                    'delstr':jsonobj.delstr,
-                    'author':jsonobj.author,
-                    'day':jsonobj.day,
-                    'checkinfo':jsonobj.checkinfo
-                });
-            }
-                reqAdd.addEventListener('success', e => {
-                    //jQuery("#localinfo").html("正在导入数据，请勿关闭页面"+(parseInt(i)+1)+"/"+arr.length);
-                })
-                reqAdd.addEventListener('error', err => {
-                })
+                else{
+                    var reqAdd = store.add({
+                        'id': jsonobj.id,
+                        'tuwenstr': jsonobj.tuwenstr,
+                        'linksstr': jsonobj.linksstr,
+                        'otherstr':jsonobj.otherstr,
+                        'delstr':jsonobj.delstr,
+                        'author':jsonobj.author,
+                        'day':jsonobj.day,
+                        'checkinfo':jsonobj.checkinfo
+                    });
+                    reqAdd.addEventListener('success', e => {
+                        console.log("write db suc")
+                    })
+                    reqAdd.addEventListener('error', err => {
+                        console.log("write db err")
+                    })
+                }
             }
         if(typeof callback ==="function"){callback()}
     });
