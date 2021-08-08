@@ -8,8 +8,12 @@
 <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
 <style>
 #downloadbtn{
-	/*background-color:#FFF;*/
 	float:right;
+}
+td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .toolbox {
 	position:fixed;
@@ -20,12 +24,12 @@
 }
 .toolbox_title {
 	width:30px;
-	height:50px;
+	height:33px;
 	text-align:center;
 	display:block;
 	float:left;
 	cursor:pointer;
-	background-color:#6c757d;
+	/*background-color:#6c757d;*/
 	color:#FFF;
 }
 .toolbox_title span {
@@ -37,24 +41,22 @@
 }
 .toolbox_main {
 	width:0px;
-	height:50px;
+	height:33px;
 	overflow:hidden;
 	float:left;
-	background-color:#CCC;
+    padding:1px 0;
+	/*background-color:#CCC;*/
 }
 .toolbox_this {
-	background-color:#343a40;
+	/*background-color:#343a40;*/
 }
-.toolbox_main textarea {
-	width:200px;
-	height:525px;
 }
 </style>
 </head>
 <body>
     <table style="width:100%">
-        <tr style="width:100%;background-color: #EAF2D3;">
-            <td style="width:100px;">统计信息</td>
+        <tr style="width:100%;">
+            <td style="width:100px;" id="tdinfo">统计信息</td>
             <td style="width:600px;">
                 <div class="input-group input-group-sm mb-0" style="width:600px;">
                     <div class="input-group-prepend">
@@ -74,30 +76,37 @@
                     </div>
                 </div>
             </td>
-            <td class="finfo">123</td>
+            <td class="finfo" title="" data=""></td>
             <td style="width:100px;">
-                <button type="button" class="btn btn-sm btn-secondary rounded-0" id="downloadbtn" onclick="downloadfunction();"><svg t="1627183789230" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8182" width="16" height="16"><path d="M768 768q0-14.857143-10.857143-25.714286t-25.714286-10.857143-25.714285 10.857143-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857143-25.714286 10.857143-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h265.714286l77.142857 77.714286q33.142857 32 77.714286 32t77.714286-32l77.714285-77.714286h265.142858q22.857143 0 38.857142 16t16 38.857143z m-185.714285-325.142857q9.714286 23.428571-8 40l-256 256q-10.285714 10.857143-25.714286 10.857143t-25.714286-10.857143L230.285714 354.857143q-17.714286-16.571429-8-40 9.714286-22.285714 33.714286-22.285714h146.285714V36.571429q0-14.857143 10.857143-25.714286t25.714286-10.857143h146.285714q14.857143 0 25.714286 10.857143t10.857143 25.714286v256h146.285714q24 0 33.714286 22.285714z" p-id="8183"></path></svg>导出</button>
+                
             </td>
         </tr>
     </table>
-    <!--div class="toolbox">
-        <strong class="toolbox_title"><span><<</span></strong>
-        <div class="toolbox_main" style="width: 0px;">
+    <div class="toolbox">
+        <strong class="toolbox_title"><span>
+            <svg t="1628411507237" class="icon" viewBox="0 0 1097 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11474" width="32" height="32"><path d="M512 512q0-60.571429-42.857143-103.428571t-103.428571-42.857143-103.428572 42.857143-42.857143 103.428571 42.857143 103.428571 103.428572 42.857143 103.428571-42.857143 42.857143-103.428571z m438.857143 292.571429q0-29.714286-21.714286-51.428572t-51.428571-21.714286-51.428572 21.714286-21.714285 51.428572q0 30.285714 21.428571 51.714285t51.714286 21.428572 51.714285-21.428572 21.428572-51.714285z m0-585.142858q0-29.714286-21.714286-51.428571t-51.428571-21.714286-51.428572 21.714286-21.714285 51.428571q0 30.285714 21.428571 51.714286T877.714286 292.571429t51.714285-21.428572T950.857143 219.428571z m-219.428572 240.571429v105.714286q0 5.714286-4 11.142857t-9.142857 6l-88.571428 13.714286q-6.285714 20-18.285715 43.428571 19.428571 27.428571 51.428572 65.714286 4 5.714286 4 11.428571 0 6.857143-4 10.857143-13.142857 17.142857-47.142857 51.142857T570.857143 813.142857q-6.285714 0-12-4l-65.714286-51.428571q-21.142857 10.857143-44 17.714285-6.285714 61.714286-13.142857 88.571429-4 13.714286-17.142857 13.714286H312.571429q-6.285714 0-11.428572-4.285715t-5.714286-10l-13.142857-87.428571q-19.428571-5.714286-42.857143-17.714286l-67.428571 50.857143q-4 4-11.428571 4-6.285714 0-12-4.571428-82.285714-76-82.285715-91.428572 0-5.142857 4-10.857143 5.714286-8 23.428572-30.285714t26.857143-34.857143q-13.142857-25.142857-20-46.857143l-86.857143-13.714285q-5.714286-0.571429-9.714286-5.428572t-4-11.142857V458.285714q0-5.714286 4-11.142857t9.142857-6l88.571429-13.714286q6.285714-20 18.285714-43.428571-19.428571-27.428571-51.428571-65.714286-4-6.285714-4-11.428571 0-6.857143 4-11.428572 12.571429-17.142857 46.857142-50.857142t45.142858-33.714286q6.285714 0 12 4l65.714285 51.428571q19.428571-10.285714 44-18.285714 6.285714-61.714286 13.142857-88 4-13.714286 17.142858-13.714286h106.285714q6.285714 0 11.428571 4.285715t5.714286 10l13.142857 87.428571q19.428571 5.714286 42.857143 17.714286l67.428571-50.857143q4.571429-4 11.428572-4 6.285714 0 12 4.571428 82.285714 76 82.285714 91.428572 0 5.142857-4 10.857143-6.857143 9.142857-24 30.857143t-25.714286 34.285714q13.142857 27.428571 19.428572 46.857143l86.857143 13.142857q5.714286 1.142857 9.714285 6t4 11.142857z m365.714286 304.571429v80q0 9.142857-85.142857 17.714285-6.857143 15.428571-17.142857 29.714286 29.142857 64.571429 29.142857 78.857143 0 2.285714-2.285714 4-69.714286 40.571429-70.857143 40.571428-4.571429 0-26.285714-26.857142t-29.714286-38.857143q-11.428571 1.142857-17.142857 1.142857t-17.142857-1.142857q-8 12-29.714286 38.857143t-26.285714 26.857142q-1.142857 0-70.857143-40.571428-2.285714-1.714286-2.285715-4 0-14.285714 29.142858-78.857143-10.285714-14.285714-17.142858-29.714286-85.142857-8.571429-85.142857-17.714285v-80q0-9.142857 85.142857-17.714286 7.428571-16.571429 17.142858-29.714286-29.142857-64.571429-29.142858-78.857143 0-2.285714 2.285715-4 2.285714-1.142857 20-11.428571t33.714285-19.428572 17.142858-9.142857q4.571429 0 26.285714 26.571429t29.714286 38.571428q11.428571-1.142857 17.142857-1.142857t17.142857 1.142857q29.142857-40.571429 52.571428-64l3.428572-1.142857q2.285714 0 70.857143 40 2.285714 1.714286 2.285714 4 0 14.285714-29.142857 78.857143 9.714286 13.142857 17.142857 29.714286 85.142857 8.571429 85.142857 17.714286z m0-585.142858v80q0 9.142857-85.142857 17.714286-6.857143 15.428571-17.142857 29.714286 29.142857 64.571429 29.142857 78.857143 0 2.285714-2.285714 4-69.714286 40.571429-70.857143 40.571428-4.571429 0-26.285714-26.857143t-29.714286-38.857142q-11.428571 1.142857-17.142857 1.142857t-17.142857-1.142857q-8 12-29.714286 38.857142t-26.285714 26.857143q-1.142857 0-70.857143-40.571428-2.285714-1.714286-2.285715-4 0-14.285714 29.142858-78.857143-10.285714-14.285714-17.142858-29.714286-85.142857-8.571429-85.142857-17.714286V179.428571q0-9.142857 85.142857-17.714285 7.428571-16.571429 17.142858-29.714286-29.142857-64.571429-29.142858-78.857143 0-2.285714 2.285715-4 2.285714-1.142857 20-11.428571t33.714285-19.428572 17.142858-9.142857q4.571429 0 26.285714 26.571429t29.714286 38.571428q11.428571-1.142857 17.142857-1.142857t17.142857 1.142857q29.142857-40.571429 52.571428-64l3.428572-1.142857q2.285714 0 70.857143 40 2.285714 1.714286 2.285714 4 0 14.285714-29.142857 78.857143 9.714286 13.142857 17.142857 29.714286 85.142857 8.571429 85.142857 17.714285z" p-id="11475" fill="#8a8a8a"></path></svg>
+        </span></strong>
+        <div class="toolbox_main" >
+            <span class="input-group input-group-sm mb-1">
+                <span class="input-group-prepend">
+                    
+                    <span class="input-group-text rounded-0">任务ID</span>
+                </span>
+                <input type="text" class="form-control" placeholder="使用两位数字任务ID-姓名的格式，如 00-姓名" id="myid">
+                <span class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary rounded-0" id="myidsubmit"><svg t="1627184068520" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8361" width="16" height="16"><path d="M954.857143 323.428571q0 22.857143-16 38.857143l-413.714286 413.714286-77.714286 77.714286q-16 16-38.857142 16t-38.857143-16l-77.714286-77.714286-206.857143-206.857143q-16-16-16-38.857143t16-38.857143l77.714286-77.714285q16-16 38.857143-16t38.857143 16l168 168.571428 374.857142-375.428571q16-16 38.857143-16t38.857143 16l77.714286 77.714286q16 16 16 38.857142z" p-id="8362"></path></svg>提交</button>
+                    <button class="btn btn-outline-danger rounded-0" type="button" onclick="document.getElementById(&quot;myidsubmit&quot;).disabled=false;document.getElementById(&quot;myid&quot;).disabled=false;"><svg t="1627184204403" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8719" width="16" height="16"><path d="M950.857143 512q0 89.142857-34.857143 170.285714t-93.714286 140-140 93.714286-170.285714 34.857143q-98.285714 0-186.857143-41.428572T174.285714 792.571429q-4-5.714286-3.714285-12.857143t4.857142-11.714286l78.285715-78.857143q5.714286-5.142857 14.285714-5.142857 9.142857 1.142857 13.142857 6.857143 41.714286 54.285714 102.285714 84t128.571429 29.714286q59.428571 0 113.428571-23.142858T718.857143 718.857143t62.571428-93.428572T804.571429 512t-23.142858-113.428571T718.857143 305.142857t-93.428572-62.571428T512 219.428571q-56 0-107.428571 20.285715T313.142857 297.714286l78.285714 78.857143q17.714286 17.142857 8 39.428571-9.714286 22.857143-33.714285 22.857143H109.714286q-14.857143 0-25.714286-10.857143t-10.857143-25.714286V146.285714q0-24 22.857143-33.714285 22.285714-9.714286 39.428571 8l74.285715 73.714285q61.142857-57.714286 139.714285-89.428571T512 73.142857q89.142857 0 170.285714 34.857143t140 93.714286 93.714286 140 34.857143 170.285714z" p-id="8720"></path></svg>重填</button>
+                    <button type="button" class="btn btn-sm btn-secondary rounded-0" id="downloadbtn" onclick="downloadfunction();"><svg t="1627183789230" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8182" width="16" height="16"><path d="M768 768q0-14.857143-10.857143-25.714286t-25.714286-10.857143-25.714285 10.857143-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857143-25.714286 10.857143-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h265.714286l77.142857 77.714286q33.142857 32 77.714286 32t77.714286-32l77.714285-77.714286h265.142858q22.857143 0 38.857142 16t16 38.857143z m-185.714285-325.142857q9.714286 23.428571-8 40l-256 256q-10.285714 10.857143-25.714286 10.857143t-25.714286-10.857143L230.285714 354.857143q-17.714286-16.571429-8-40 9.714286-22.285714 33.714286-22.285714h146.285714V36.571429q0-14.857143 10.857143-25.714286t25.714286-10.857143h146.285714q14.857143 0 25.714286 10.857143t10.857143 25.714286v256h146.285714q24 0 33.714286 22.285714z" p-id="8183"></path></svg>导出</button>
+                </span>
+            </span>
             <a href="javascript:;" class="file rounded-0" style="display:none;">选择文件夹<input id="upfileistbtn" type="file" webkitdirectory="" directory="" onchange="fileChange(this);"></a>
         </div>
-    </div-->
-
-        <!--button type="button" class=" " id="upload" onclick="upfile.click();" style="float:left !important;display:block !important;"><svg t="1627183528476" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12286" width="16" height="16"><path d="M763.424 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM909.728 841.152q0-14.848-10.848-25.728t-25.728-10.848-25.728 10.848-10.848 25.728 10.848 25.728 25.728 10.848 25.728-10.848 10.848-25.728zM982.848 713.152l0 182.848q0 22.848-16 38.848t-38.848 16l-841.152 0q-22.848 0-38.848-16t-16-38.848l0-182.848q0-22.848 16-38.848t38.848-16l244 0q12 32 40.288 52.576t63.136 20.576l146.272 0q34.848 0 63.136-20.576t40.288-52.576l244 0q22.848 0 38.848 16t16 38.848zM797.152 342.848q-9.728 22.848-33.728 22.848l-146.272 0 0 256q0 14.848-10.848 25.728t-25.728 10.848l-146.272 0q-14.848 0-25.728-10.848t-10.848-25.728l0-256-146.272 0q-24 0-33.728-22.848-9.728-22.272 8-39.424l256-256q10.272-10.848 25.728-10.848t25.728 10.848l256 256q17.728 17.152 8 39.424z" p-id="12287"></path></svg>导入</button>
-        <input type="file" id="upfile" accept="text/plain" style="display:none;">
-        <span id="localinfo" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;">当前页面为本地文件！</span>
-        <span id="checkinfouserpanel" style="line-height: 25px;font-size: 20px;font-weight: bold;padding-left:12px;">质检标记为正确</span>
-        <span id="checkinfo" style="line-height: 25px;float:right;margin-right:12px;">
-            <button type="button" class="" id="checkitsright" style="">正确<svg t="1627891706178" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8178" width="16" height="16"><path d="M954.857143 323.428571q0 22.857143-16 38.857143l-413.714286 413.714286-77.714286 77.714286q-16 16-38.857142 16t-38.857143-16l-77.714286-77.714286-206.857143-206.857143q-16-16-16-38.857143t16-38.857143l77.714286-77.714285q16-16 38.857143-16t38.857143 16l168 168.571428 374.857142-375.428571q16-16 38.857143-16t38.857143 16l77.714286 77.714286q16 16 16 38.857142z" p-id="8179" fill="#31b77a"></path></svg></button>
-            <button type="button" class="" id="checkitswrong" style="margin-left:12px;">错误<svg t="1627891766395" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8385" width="16" height="16"><path d="M851.428571 755.428571q0 22.857143-16 38.857143l-77.714285 77.714286q-16 16-38.857143 16t-38.857143-16l-168-168-168 168q-16 16-38.857143 16t-38.857143-16l-77.714285-77.714286q-16-16-16-38.857143t16-38.857142l168-168-168-168q-16-16-16-38.857143t16-38.857143l77.714285-77.714286q16-16 38.857143-16t38.857143 16l168 168 168-168q16-16 38.857143-16t38.857143 16l77.714285 77.714286q16 16 16 38.857143t-16 38.857143l-168 168 168 168q16 16 16 38.857142z" p-id="8386" fill="#d81e06"></path></svg></button>
-            <button type="button" class="" id="savebtn" style="margin-left:48px;">导出<svg t="1627183789230" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8182" width="16" height="16"><path d="M768 768q0-14.857143-10.857143-25.714286t-25.714286-10.857143-25.714285 10.857143-10.857143 25.714286 10.857143 25.714286 25.714285 10.857143 25.714286-10.857143 10.857143-25.714286z m146.285714 0q0-14.857143-10.857143-25.714286t-25.714285-10.857143-25.714286 10.857143-10.857143 25.714286 10.857143 25.714286 25.714286 10.857143 25.714285-10.857143 10.857143-25.714286z m73.142857-128v182.857143q0 22.857143-16 38.857143t-38.857142 16H91.428571q-22.857143 0-38.857142-16t-16-38.857143v-182.857143q0-22.857143 16-38.857143t38.857142-16h265.714286l77.142857 77.714286q33.142857 32 77.714286 32t77.714286-32l77.714285-77.714286h265.142858q22.857143 0 38.857142 16t16 38.857143z m-185.714285-325.142857q9.714286 23.428571-8 40l-256 256q-10.285714 10.857143-25.714286 10.857143t-25.714286-10.857143L230.285714 354.857143q-17.714286-16.571429-8-40 9.714286-22.285714 33.714286-22.285714h146.285714V36.571429q0-14.857143 10.857143-25.714286t25.714286-10.857143h146.285714q14.857143 0 25.714286 10.857143t10.857143 25.714286v256h146.285714q24 0 33.714286 22.285714z" p-id="8183"></path></svg></button>
-        </span-->
+    </div>
 </body>
 <script>
+var pageid;
+var myid;
+var day=currentTime().replace(/月|日.*$/g,"");
 window.onload = function() {
     window.parent.postMessage({"onload":"iframe_loaded"},'*');
     console.log("iframe_loaded");
@@ -105,7 +114,7 @@ window.onload = function() {
         //alert(e.origin);
         if(e.source!=window.parent) return;
         console.log( "从"+ e.origin +"收到消息： " + e.data);
-        if (e.data.pageid) console.log(e.data.pageid);
+        if (e.data.pageid) pageid=e.data.pageid;
     });
     /*readdb(pageid,function(obj){
         if ("undefined"==typeof(obj)) {jQuery("#checkinfouserpanel").html("未查询到标记记录");}
@@ -119,15 +128,29 @@ window.onload = function() {
             if ("wrong"==obj.checkinfo) jQuery("#checkinfouserpanel").html("质检标记为错误");
         }
     }); */
+    readdb("myid",function(obj){
+        if ("undefined"==typeof(obj)) {
+            if(localStorage.getItem("myid")){
+                writedb({"id":"myid","idval":localStorage.getItem("myid")});
+                console.log(localStorage.getItem("myid"));
+                jQuery("#myid").val(localStorage.getItem("myid")).attr("disabled",true);
+            }else{
+                jQuery(".toolbox_title").click();
+                console.log("请输入任务ID");
+            }
+        }
+        else{
+            console.log(obj);
+            myid = obj.idval;
+            jQuery("#myid").val(myid).attr("disabled",true);
+        }
+    }); 
 
-    jQuery("body").on("click","#checkitsright",function(){
+    jQuery("#xpathstr").change(function(){
         //console.log("checkitsright btn clicked!");
-        updatedb(pageid,"right");
-    });
-
-    jQuery("body").on("click","#checkitswrong",function(){
-        //console.log("checkitsright btn clicked!");
-        updatedb(pageid,"wrong");
+        if ($("#xpathstr").val().trim()){
+            window.parent.postMessage(crejson(),'*');
+        }
     });
 
     jQuery("body").on("click","#savebtn",function(){
@@ -136,13 +159,42 @@ window.onload = function() {
             download("质检-"+currentTime().replace(/月|日.*$/g,"")+"_导出数据_"+currentTime()+".csv",txt);
         });
     }); 
-    
-    jQuery("#upfile").change(function(){
-        //console.log(1);
-        openFile(event);
-    });
+}
+function crejson(){
+    var jsonobj;
+    if (jQuery(".finfo").attr("data").trim()) {
+        jsonobj=JSON.parse(jQuery(".finfo").attr("data").trim());
+    }else{
+        jsonobj={"id":"","tuwenstr":"null","linksstr":"null","otherstr":"null","delstr":"null","author":"","day":"","checkinfo":""};
+    }
+    jsonobj.author = myid;
+    jsonobj.day = day;
+    jsonobj.id = pageid;
+    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr)? $("#xpathstr").val():jsonobj.tuwenstr+","+$("#xpathstr").val();
+    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr)? $("#xpathstr").val():jsonobj.linksstr+","+$("#xpathstr").val();
+    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr)? $("#xpathstr").val():jsonobj.otherstr+","+$("#xpathstr").val();
+    if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
+    if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
+    if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
+    jQuery(".finfo").attr("data",JSON.stringify(jsonobj));
+    jQuery(".finfo").html(normalreader(jsonobj));
+    return(jsonobj);
+    //if jQuery()
 }
 
+/*可视化读取*/
+function normalreader(obj){
+		obj = ("object" != typeof obj)?JSON.parse(obj):obj;
+		let resultstr="";
+		if ("null"!= obj.tuwenstr) resultstr+="图文："+obj.tuwenstr+";";
+		if ("null"!= obj.linksstr) resultstr+="链接："+obj.linksstr+";";
+		if ("null"!= obj.otherstr) resultstr+="其他："+obj.otherstr+";";
+		if ("null"!= obj.delstr) resultstr+="删除："+obj.delstr+";";
+		return(resultstr);
+	}
+
+/*inputfile*/
+/*
     var openFile = function(event) {
     var input = event.target;
     var reader = new FileReader();
@@ -163,7 +215,19 @@ window.onload = function() {
     };
     reader.readAsText(input.files[0]);
     };
-    function writedb(arr,callback){ //indexdb
+*/
+  /*myidsubmit*/
+$("#myidsubmit").click(function(){
+        if (!$("#myid").val().match(/^\d\d\-.{2,4}$/)){
+            $("#myid").val("请使用2位数字id-姓名的方式填写任务ID，例如：99-张三丰");
+        }else{
+            $(this).attr("disabled",true);
+            $("#myid").attr("disabled",true);
+            writedb({"id":"myid","idval":localStorage.getItem("myid")});
+        }
+    });
+
+function writedb(obj,callback){ //indexdb
     /*创建indexdb*/
     var request = indexedDB.open("mydb", 1);
     request.onerror = function(e) {
@@ -189,13 +253,18 @@ window.onload = function() {
     });
     request.addEventListener('success', e => {
         var db = e.target.result;
-        let countsuc = 0;
-        for (i in arr){
             var tx = db.transaction('xpath', 'readwrite');
             var store = tx.objectStore('xpath');
             //console.log(typeof arr[i]);
-            let jsonobj = str2json(arr[i]);
+            let jsonobj = obj;
             if (jsonobj.id) {
+                if ("myid"==jsonobj.id){
+                    var reqAdd = store.add({
+                        'id': jsonobj.id,
+                        'idval': jsonobj.idval
+                    });
+                }
+            else{
                 var reqAdd = store.add({
                     'id': jsonobj.id,
                     'tuwenstr': jsonobj.tuwenstr,
@@ -206,17 +275,14 @@ window.onload = function() {
                     'day':jsonobj.day,
                     'checkinfo':jsonobj.checkinfo
                 });
+            }
                 reqAdd.addEventListener('success', e => {
-                    countsuc +=1;
                     //jQuery("#localinfo").html("正在导入数据，请勿关闭页面"+(parseInt(i)+1)+"/"+arr.length);
-                    jQuery("#localinfo").html("成功导入"+countsuc+"/"+arr.length+"条数据");
                 })
                 reqAdd.addEventListener('error', err => {
-                    //counterr += 1;
                 })
             }
-        }
-        if(typeof callback ==="function"){callback(countsuc)}
+        if(typeof callback ==="function"){callback()}
     });
 }
 
@@ -235,8 +301,6 @@ function readdb(id,callback){
             console.log('创建对象仓库成功');
         }
     });
-
-
     request.addEventListener('success', e => {
         var db = e.target.result;
         var tx = db.transaction('xpath', 'readwrite');
@@ -253,7 +317,7 @@ function readdb(id,callback){
         var allRecords = store.getAll();
         allRecords.onsuccess = function() {
             //console.log(allRecords.result.length);
-            jQuery("#localinfo").html("共"+allRecords.result.length+"条数据");
+            jQuery("#tdinfo").html("共"+allRecords.result.length+"条数据");
         };
     });
 
@@ -351,10 +415,10 @@ var toolbox_status = 0;
 $('.toolbox_title').click(function(){
     if (!toolbox_status) {
         toolbox_status = 1;
-        $(this).addClass("toolbox_this").html("<span>>></span>").next("div").animate({width: '+400px'}, "100");
+        $(this).addClass("toolbox_this").next("div").animate({width: '+600px'}, "100");
     }else{
         toolbox_status = 0;
-        $(this).removeClass("toolbox_this").html("<span><<</span>").next("div").animate({width: '-400px'}, "100");
+        $(this).removeClass("toolbox_this").next("div").animate({width: '-600px'}, "100");
     }
 });
 
