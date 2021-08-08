@@ -54,10 +54,10 @@ td {
 </style>
 </head>
 <body>
-    <table style="width:100%">
+    <table style="width:100%; table-layout: fixed;">
         <tr style="width:100%;">
             <td style="width:100px;" id="tdinfo">统计信息</td>
-            <td style="width:600px;">
+            <td style="width:602px;">
                 <div class="input-group input-group-sm mb-0" style="width:600px;">
                     <div class="input-group-prepend">
                         <select class="rounded-0 form-control form-control-sm" id="sel1">
@@ -129,8 +129,8 @@ window.onload = function() {
         }
     }); */
     readdb("myid",function(obj){
-        if ("undefined"==typeof(obj)) {
-            if(localStorage.getItem("myid")){
+        if ("undefined"==typeof(obj) || "null" == obj.idval) {
+            if(localStorage.getItem("myid") && "null"!==localStorage.getItem("myid")){
                 writedb({"id":"myid","idval":localStorage.getItem("myid")});
                 console.log(localStorage.getItem("myid"));
                 jQuery("#myid").val(localStorage.getItem("myid")).attr("disabled",true);
