@@ -148,7 +148,7 @@ window.onload = function() {
 
     jQuery("#xpathstr").change(function(){
         //console.log("checkitsright btn clicked!");
-        if ($("#xpathstr").val().trim()){
+        if ($("#xpathstr").val().trim() && !$("#xpathstr").val().trim().match(/[,，]$/)){
             window.parent.postMessage(crejson(),'*');
         }
     });
@@ -170,12 +170,13 @@ function crejson(){
     jsonobj.author = myid;
     jsonobj.day = day;
     jsonobj.id = pageid;
-    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr)? $("#xpathstr").val():jsonobj.tuwenstr+","+$("#xpathstr").val();
-    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr)? $("#xpathstr").val():jsonobj.linksstr+","+$("#xpathstr").val();
-    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr)? $("#xpathstr").val():jsonobj.otherstr+","+$("#xpathstr").val();
+    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr)? $("#xpathstr").val():jsonobj.tuwenstr+"|"+$("#xpathstr").val();
+    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr)? $("#xpathstr").val():jsonobj.linksstr+"|"+$("#xpathstr").val();
+    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr)? $("#xpathstr").val():jsonobj.otherstr+"|"+$("#xpathstr").val();
     if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
     if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
     if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
+    jsonobj = JSON.stringify(jsonobj).replace(/,|，/g,"|")
     jQuery(".finfo").attr("data",JSON.stringify(jsonobj));
     jQuery(".finfo").html(normalreader(jsonobj));
     return(jsonobj);
