@@ -224,7 +224,7 @@ $("#myidsubmit").click(function(){
         }else{
             $(this).attr("disabled",true);
             $("#myid").attr("disabled",true);
-            writedb({"id":"myid","idval":localStorage.getItem("myid")});
+            writedb({"id":"myid","idval":$("#myid").val()});
         }
     });
 
