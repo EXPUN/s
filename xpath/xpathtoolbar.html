@@ -158,7 +158,10 @@ window.onload = function() {
     });
 
     jQuery("#savebtn").click(function(){
-        writedb(crejson());
+        let obj = JSON.parse(jQuery("#finfo").attr("data"));
+        if (pageid==obj.id){
+            writedb();   //crejson() 触发一次change和一次click,会重复
+        }
         document.getElementById("savebtn").disabled=true;
         document.getElementById("addbtn").disabled=true;
         document.getElementById("xpathstr").disabled=true;
@@ -192,9 +195,9 @@ function crejson(){
     jsonobj.author = myid;
     jsonobj.day = day;
     jsonobj.id = pageid;
-    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|").match(jsonobj.tuwenstr))? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|").match(jsonobj.linksstr))? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|").match(jsonobj.otherstr))? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
     if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
     if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
     if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
