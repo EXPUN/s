@@ -170,13 +170,13 @@ function crejson(){
     jsonobj.author = myid;
     jsonobj.day = day;
     jsonobj.id = pageid;
-    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr)? $("#xpathstr").val():jsonobj.tuwenstr+"|"+$("#xpathstr").val();
-    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr)? $("#xpathstr").val():jsonobj.linksstr+"|"+$("#xpathstr").val();
-    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr)? $("#xpathstr").val():jsonobj.otherstr+"|"+$("#xpathstr").val();
+    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
     if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
     if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
     if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
-    jsonobj = JSON.parse(JSON.stringify(jsonobj).replace(/,|，/g,"|"));
+    //jsonobj = JSON.parse(JSON.stringify(jsonobj).replace(/,|，/g,"|"));
     jQuery(".finfo").attr("data",JSON.stringify(jsonobj));
     jQuery(".finfo").html(normalreader(jsonobj));
     return(jsonobj);
