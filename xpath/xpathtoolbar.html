@@ -122,7 +122,7 @@ window.onload = function() {
                 if ("undefined"==typeof(obj)) return;
                 window.parent.postMessage(obj,'*');
                 document.getElementById("savebtn").disabled=true;
-                document.getElementById("addsavebtn").disabled=true;
+                document.getElementById("addbtn").disabled=true;
                 document.getElementById("xpathstr").disabled=true;
                 jQuery(".finfo").attr("data",JSON.stringify(obj));
                 jQuery(".finfo").html(normalreader(obj));
