@@ -176,7 +176,7 @@ function crejson(){
     if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
     if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
     if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
-    jsonobj = JSON.stringify(jsonobj).replace(/,|，/g,"|")
+    jsonobj = JSON.parse(JSON.stringify(jsonobj).replace(/,|，/g,"|"));
     jQuery(".finfo").attr("data",JSON.stringify(jsonobj));
     jQuery(".finfo").html(normalreader(jsonobj));
     return(jsonobj);
