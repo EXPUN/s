@@ -27,8 +27,7 @@
 <script>
 window.onload = function() {
     window.parent.postMessage("iframe_loaded");
-    
-    console.log("iframe_loaded"+window.parent);
+    console.log("iframe_loaded");
     window.addEventListener('message', function (e) {  // 监听 message 事件
         alert(e.origin);
         if(e.source!=window.parent) return;
