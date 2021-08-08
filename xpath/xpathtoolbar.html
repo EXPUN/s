@@ -124,8 +124,8 @@ window.onload = function() {
                 window.parent.postMessage(obj,'*');
                 document.getElementById("savebtn").disabled=true;
                 document.getElementById("addbtn").disabled=true;
-                document.getElementById("xpathstr").value="已完成";
                 document.getElementById("xpathstr").disabled=true;
+                document.getElementById("xpathstr").value="已完成";
                 jQuery(".finfo").attr("data",JSON.stringify(obj));
                 jQuery(".finfo").html(normalreader(obj));
 
@@ -159,6 +159,9 @@ window.onload = function() {
 
     jQuery("#savebtn").click(function(){
         writedb(crejson());
+        document.getElementById("savebtn").disabled=true;
+        document.getElementById("addbtn").disabled=true;
+        document.getElementById("xpathstr").disabled=true;
     });
 
     jQuery("#resetbtn").click(function(){
@@ -169,7 +172,7 @@ window.onload = function() {
         document.getElementById("finfo").innerHTML="";
         document.getElementById("finfo").getAttributeNode("data").value="";
         document.getElementById("finfo").getAttributeNode("title").value="";
-        deletedb(crejson());
+        deletedb(pageid);
     });
 
     jQuery("body").on("click","#downloadbtn",function(){
@@ -189,9 +192,9 @@ function crejson(){
     jsonobj.author = myid;
     jsonobj.day = day;
     jsonobj.id = pageid;
-    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|").match(jsonobj.tuwenstr))? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|").match(jsonobj.linksstr))? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|").match(jsonobj.otherstr))? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
     if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
     if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
     if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
@@ -376,6 +379,54 @@ function updatedb(obj,callback){
             //if ("right"==checkinfo) jQuery("#checkinfouserpanel").html("质检标记为正确");
             //if ("wrong"==checkinfo) jQuery("#checkinfouserpanel").html("质检标记为错误");
         };
+    };
+}
+function updatedb(obj,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        //console.log('成功打开DB');
+        var transaction = db.transaction('xpath', 'readwrite');
+        var store = transaction.objectStore('xpath');
+        console.log(obj);
+        var reqUp = store.get(obj.id);
+        reqUp.onsuccess = function(e) {
+            var data = e.target.result;
+            //for (a in newData) {
+            //除了keypath之外
+            //    data.a = newData.a;
+            //}
+            console.log(data);
+            data.tuwenstr = obj.tuwenstr;
+            data.linksstr = obj.linksstr;
+            data.otherstr = obj.otherstr;
+            data.delstr = obj.delstr;
+            data.author = obj.author;
+            data.day = obj.day;
+            //data.checkinfo = checkinfo;
+            store.put(data);
+            if (typeof callback ==="function") {
+                callback();
+            }
+        reqUp.onerror = function(){console.log("写错误");}
+            //if ("right"==checkinfo) jQuery("#checkinfouserpanel").html("质检标记为正确");
+            //if ("wrong"==checkinfo) jQuery("#checkinfouserpanel").html("质检标记为错误");
+        };
+    };
+}
+function deletedb(pageid,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        //console.log('成功打开DB');
+        var transaction = db.transaction('xpath', 'readwrite');
+        var store = transaction.objectStore('xpath');
+        console.log(pageid);
+        var reqDel = store.delete(pageid);
+        reqDel.onsuccess = function(e) {
+            console.log("Del suc");
+        };
+        reqDel.onerror = function(){console.log("Del err");}
     };
 }
 
