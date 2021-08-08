@@ -160,7 +160,7 @@ window.onload = function() {
     jQuery("#savebtn").click(function(){
         let obj = JSON.parse(jQuery("#finfo").attr("data"));
         if (pageid==obj.id){
-            writedb();   //crejson() 触发一次change和一次click,会重复
+            writedb(obj);   //crejson() 触发一次change和一次click,会重复
         }
         document.getElementById("savebtn").disabled=true;
         document.getElementById("addbtn").disabled=true;
