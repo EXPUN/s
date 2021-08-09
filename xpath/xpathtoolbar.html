@@ -6,14 +6,13 @@
 <title>xpathtoolbar</title>
 <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.bundle.min.js"></script>
+<script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.min.js"></script>
 <style>
 #downloadbtn{
 	float:right;
 }
 td {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 .toolbox {
 	position:fixed;
@@ -60,14 +59,27 @@ td {
             <td style="width:602px;">
                 <div class="input-group input-group-sm mb-0" style="width:600px;">
                     <div class="input-group-prepend">
-                        <select class="rounded-0 form-control form-control-sm" id="sel1">
-                            <option value="tuwen" class="dropdown-toggle" data-toggle="dropdown">图文主体</option>
-                            <option value="links" class="dropdown-item">链接主体</option>
-                            <option value="other" class="dropdown-item">其他主体</option>
-                            <option value="nocontent" class="dropdown-item text-warning">无主体</option>
-                            <option value="toomore" class="dropdown-item text-warning">楼层过多</option>
-                            <option value="odel" class="dropdown-item text-warning">其他剔除</option>
-                        </select>
+                        <button type="button" id="xpathtype" data="tuwen" class="rounded-0 btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">图文主体</button>
+                          <div class="dropdown-menu" id="dropdown-menu">
+                            <a class="dropdown-item"  id ="tuwen">图文主体</a>
+                            <a class="dropdown-item"  id ="links">链接主体</a>
+                            <a class="dropdown-item"  id ="other">其他主体</a>
+                            <a class="dropdown-item"  id ="nocontent">无主体</a>
+                            <a class="dropdown-item"  id ="toomore">楼层过多</a>
+                            <a class="dropdown-item"  id ="odel">其他删除</a>
+                          </div>
+                        <!--select class="rounded-0 form-control form-control-sm selectpicker" id="sel1">
+                            <optgroup label="maincontent">
+                                <option value="tuwen" class="dropdown-toggle" data-toggle="dropdown">图文主体</option>
+                                <option value="links" class="dropdown-item">链接主体</option>
+                                <option value="other" class="dropdown-item">其他主体</option>
+                            </optgroup>
+                            <optgroup label="del">
+                                <option value="nocontent" class="dropdown-item text-warning">无主体</option>
+                                <option value="toomore" class="dropdown-item text-warning">楼层过多</option>
+                                <option value="odel" class="dropdown-item text-warning">其他剔除</option>
+                            </optgroup>
+                        </select-->
                     </div>
                     <input type="text" id ="xpathstr" class="form-control" placeholder="请复制full xpath" >
                     <div class="input-group-append">
@@ -77,7 +89,7 @@ td {
                     </div>
                 </div>
             </td>
-            <td class="finfo" title="" data="" id ="finfo"></td>
+            <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
             <td style="width:140px;" id="ver">0809-5</td>
         </tr>
     </table>
@@ -148,6 +160,12 @@ window.onload = function() {
         }
     }); 
 
+    $(".dropdown-item").click(function(){
+        let tstr=$(this).text();
+        $("#xpathtype").text($(this).text());
+        $("#xpathtype").attr("data",$(this).attr("id"));
+    });
+
     jQuery("#xpathstr").change(function(){
         //console.log("checkitsright btn clicked!");
         if ($("#xpathstr").val().trim() && !$("#xpathstr").val().trim().match(/[,，]$/)){
@@ -193,12 +211,12 @@ function crejson(){
     jsonobj.author = myid;
     jsonobj.day = day;
     jsonobj.id = pageid;
-    if("tuwen"==$("#sel1").val()) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("links"==$("#sel1").val()) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("other"==$("#sel1").val()) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
-    if("nocontent"==$("#sel1").val()) jsonobj.delstr = "nocontent";
-    if("toomore"==$("#sel1").val()) jsonobj.delstr = "toomore";
-    if("odel"==$("#sel1").val()) jsonobj.delstr = "odel";
+    if("tuwen"==$("#xpathtype").attr("data")) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("links"==$("#xpathtype").attr("data")) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("other"==$("#xpathtype").attr("data")) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
+    if("nocontent"==$("#xpathtype").attr("data")) jsonobj.delstr = "nocontent";
+    if("toomore"==$("#xpathtype").attr("data")) jsonobj.delstr = "toomore";
+    if("odel"==$("#xpathtype").attr("data")) jsonobj.delstr = "odel";
     //jsonobj = JSON.parse(JSON.stringify(jsonobj).replace(/,|，/g,"|"));
     jQuery("#finfo").attr("data",JSON.stringify(jsonobj));
     jQuery("#finfo").attr("title",JSON.stringify(jsonobj));
