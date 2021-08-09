@@ -156,7 +156,7 @@ window.onload = function() {
     });
 
     jQuery("#savebtn").click(function(){
-        let obj = JSON.parse(jQuery("#finfo").attr("data"));
+        let obj = jQuery("#finfo").attr("data").val()?JSON.parse(jQuery("#finfo").attr("data")):crejson();
         if (pageid==obj.id){
             writedb(obj,function(){readdb(pageid)});   //crejson() 触发一次change和一次click,会重复
         }
