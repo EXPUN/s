@@ -102,7 +102,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0810-5</td>
+            <td style="width:140px;" id="ver">0810-6</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -531,11 +531,11 @@ function downloadfunction(callback){
         reqCur.onsuccess = function(e) {
             var cursor = e.target.result;
             if (cursor) {
-                //console.log(cursor.key);
                 dataList[i] = cursor.value;
-                //console.log(dataList[i].checkinfo);
-                txt+=dataList[i].id+","+dataList[i].tuwenstr+","+dataList[i].linksstr+","+dataList[i].otherstr+","+dataList[i].delstr+","+dataList[i].author+","+dataList[i].day+","+dataList[i].checkinfo+"\n";
-                i++;
+                if("myid"!=dataList[i].id){
+                    txt+=dataList[i].id+","+dataList[i].tuwenstr+","+dataList[i].linksstr+","+dataList[i].otherstr+","+dataList[i].delstr+","+dataList[i].author+","+dataList[i].day+","+dataList[i].checkinfo+"\n";
+                    i++;
+                }
                 cursor.continue();
             }else{
                 //data = dataList;
