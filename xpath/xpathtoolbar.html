@@ -102,7 +102,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0810-6</td>
+            <td style="width:140px;" id="ver">0810-7</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -132,15 +132,15 @@ var myid;
 var day=currentTime().replace(/月|日.*$/g,"");
 window.onload = function() {
     window.parent.postMessage({"onload":"iframe_loaded"},'*');
-    console.log("iframe_loaded");
+    //console.log("iframe_loaded");
     window.addEventListener('message', function (e) {  // 监听 message 事件
         //alert(e.origin);
         if(e.source!=window.parent) return;
-        console.log( "从"+ e.origin +"收到消息： " );
+        //console.log( "从"+ e.origin +"收到消息： " );
         console.log( e.data );
         if (e.data.pageid) {
             pageid=e.data.pageid;
-            console.log(pageid);
+            //console.log(pageid);
             readdb(pageid,function(obj){
                 if ("undefined"==typeof(obj) || pageid!=obj.id) return;
                 window.parent.postMessage(obj,'*');
@@ -166,7 +166,7 @@ window.onload = function() {
             }
         }
         else{
-            console.log(obj);
+            //console.log(obj);
             myid = obj.idval;
             jQuery("#myid").val(myid).attr("disabled",true);
         }
@@ -443,10 +443,10 @@ function readdb(id,callback){
         var dayindex = store.index("day");
         /*dayindex.count(day).onsuccess = function(event) {
             console.log(event.target.result);
-        };*/
+        };
         dayindex.getAllKeys(day).onsuccess = function(event) {
             console.log(event.target.result);
-        };
+        };*/
         let daycount =0;
         dayindex.openCursor().onsuccess = function(event) {
             var cursor = event.target.result;
@@ -533,7 +533,7 @@ function downloadfunction(callback){
             if (cursor) {
                 dataList[i] = cursor.value;
                 if("myid"!=dataList[i].id){
-                    txt+=dataList[i].id+","+dataList[i].tuwenstr+","+dataList[i].linksstr+","+dataList[i].otherstr+","+dataList[i].delstr+","+dataList[i].author+","+dataList[i].day+","+dataList[i].checkinfo+"\n";
+                    txt+=dataList[i].id+","+dataList[i].tuwenstr+","+dataList[i].linksstr+","+dataList[i].otherstr+","+dataList[i].delstr+","+dataList[i].author+",'"+dataList[i].day+","+dataList[i].checkinfo+"\n";
                     i++;
                 }
                 cursor.continue();
@@ -557,9 +557,11 @@ function download(filename,content,contentType) {
     //a.download = filename;
     //a.click();
 
-    var uri = 'data:application/csv;charset=utf-8,' + escape(content);
+    //var uri = 'data:application/csv;charset=utf-8,' + escape(content); //如果数据太多，就会导致无法导出的结果，原因是浏览器对URL的长度有限制，因此要使用Blob对象和window.URL.createObjectURL()方法做一下改造。
+    var uri = new Blob(['\ufeff' + content], {type:"text/csv"});
     var link = document.createElement("a");
-    link.href = uri;
+    //link.href = uri;
+    link.href = URL.createObjectURL(uri);
     link.style = "visibility:hidden";
     link.download = filename ;
     document.body.appendChild(link);
