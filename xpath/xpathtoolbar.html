@@ -12,7 +12,8 @@
 #downloadbtn{
 	float:right;
 }
-td {
+.hid{
+    display:none;
 }
 .toolbox {
 	position:fixed;
@@ -59,7 +60,17 @@ td {
             <td style="width:602px;">
                 <div class="input-group input-group-sm mb-0" style="width:600px;">
                     <div class="input-group-prepend">
-                        <button type="button" id="xpathtype" data="tuwen" class="rounded-0 btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">图文主体</button>
+                        <div class="btn-group btn-group-sm rounded-0" id="xpathtypebtngrp">
+                            <button type="button" id="xpathtype" data="tuwen" class="btn btn-info rounded-0">图文主体</button>
+                                <button type="button" class="btn btn-outline-info hid rounded-0" data ="tuwen">图文主体</button>
+                                <button type="button" class="btn btn-outline-info hid rounded-0" data ="links">链接主体</button>
+                                <button type="button" class="btn btn-outline-info hid rounded-0" data ="other">其他主体</button>
+                                <button type="button" class="btn btn-outline-warning hid rounded-0" data ="nocontent">无主体跳过</button>
+                                <button type="button" class="btn btn-outline-warning hid rounded-0" data ="toomore">楼层过多跳过</button>
+                                <button type="button" class="btn btn-outline-warning hid rounded-0" data ="odel">其他跳过</button>
+                          </div>
+
+                        <!--button type="button" id="xpathtype" data="tuwen" class="rounded-0 btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">图文主体</button>
                           <div class="dropdown-menu" id="dropdown-menu">
                             <a class="dropdown-item"  id ="tuwen">图文主体</a>
                             <a class="dropdown-item"  id ="links">链接主体</a>
@@ -67,7 +78,7 @@ td {
                             <a class="dropdown-item"  id ="nocontent">无主体</a>
                             <a class="dropdown-item"  id ="toomore">楼层过多</a>
                             <a class="dropdown-item"  id ="odel">其他删除</a>
-                          </div>
+                          </div-->
 
                         <!--select class="rounded-0 form-control form-control-sm selectpicker" id="sel1">
                             <optgroup label="maincontent">
@@ -91,7 +102,7 @@ td {
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0809-5</td>
+            <td style="width:140px;" id="ver">0810-5</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -161,23 +172,36 @@ window.onload = function() {
         }
     }); 
 
-    $(".dropdown-item").click(function(){
-        let tstr=$(this).text();
-        $("#xpathtype").text($(this).text());
-        $("#xpathtype").attr("data",$(this).attr("id"));
+
+    $("#xpathtype").click(function(){
+        $("#xpathtype ~ button[class*='btn-outline'],#xpathstr,.input-group-append>button").toggleClass("hid");
     });
 
-    jQuery("#xpathstr").change(function(){
+    $("#xpathtype ~ button[class*='btn-outline']").click(function(){
+        $("#xpathtype").text($(this).text()).attr("data",$(this).attr("data"));
+        $("#xpathtype ~ button[class*='btn-outline'],#xpathstr,.input-group-append>button").toggleClass("hid");
+    });
+
+    /*jQuery("#xpathstr").change(function(){
         //console.log("checkitsright btn clicked!");
         if ($("#xpathstr").val().trim() && !$("#xpathstr").val().trim().match(/[,，]$/)){
             window.parent.postMessage(crejson(),'*');
         }
+    });*/
+    
+    jQuery("#addbtn").click(function(){
+        let obj = crejson();
+        if (pageid==obj.id){
+            window.parent.postMessage(obj,'*');
+        }
     });
 
     jQuery("#savebtn").click(function(){
-        let obj = jQuery("#finfo").attr("data")? JSON.parse(jQuery("#finfo").attr("data")) :crejson();
+        //let obj = jQuery("#finfo").attr("data")? JSON.parse(jQuery("#finfo").attr("data")) :crejson();
+        let obj =crejson();
         if (pageid==obj.id){
-            writedb(obj,function(){readdb(pageid)});   //crejson() 触发一次change和一次click,会重复
+            writedb(obj,function(){readdb(pageid)});   //触发一次change和一次click,会重复
+            window.parent.postMessage(obj,'*');
         }
         document.getElementById("savebtn").disabled=true;
         document.getElementById("addbtn").disabled=true;
@@ -193,12 +217,13 @@ window.onload = function() {
         document.getElementById("finfo").getAttributeNode("data").value="";
         document.getElementById("finfo").getAttributeNode("title").value="";
         deletedb(pageid);
+        window.parent.postMessage({"cmd":"removecss"},'*');
     });
 
     jQuery("body").on("click","#downloadbtn",function(){
         downloadfunction(function(txt){
             //console.log(txt);
-            download(myid+"-"+currentTime().replace(/月|日.*$/g,"")+"_导出数据_"+currentTime()+".csv",txt);
+            download(myid+"-"+currentTime().replace(/月|日.*$/g,"")+"-导出数据_"+currentTime()+".csv",txt);
         });
     }); 
 }
@@ -212,12 +237,44 @@ function crejson(){
     jsonobj.author = myid;
     jsonobj.day = day;
     jsonobj.id = pageid;
+
+    let xpathtype = $("#xpathtype").attr("data");
+    let nowinputstr=$("#xpathstr").val().replace(/,|，/g,"|");
+    switch(xpathtype)
+    {
+        case "tuwen":
+            jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || nowinputstr==jsonobj.tuwenstr)? nowinputstr:jsonobj.tuwenstr+"|"+nowinputstr;
+            break;
+
+        case "links":
+            jsonobj.linksstr = ("null"== jsonobj.linksstr || nowinputstr==jsonobj.linksstr)? nowinputstr:jsonobj.linksstr+"|"+nowinputstr;
+            break;
+
+        case "other":
+            jsonobj.otherstr = ("null"== jsonobj.otherstr || nowinputstr==jsonobj.otherstr)? nowinputstr:jsonobj.otherstr+"|"+nowinputstr;
+            break;
+
+        case "nocontent":
+            jsonobj.delstr = "nocontent";
+            break;
+        case "toomore":
+            jsonobj.delstr = "toomore";
+            break;
+        case "odel":
+            jsonobj.delstr = "odel";
+            break;
+        default:
+            break;
+    }
+
+    /*
     if("tuwen"==$("#xpathtype").attr("data")) jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.tuwenstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.tuwenstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
     if("links"==$("#xpathtype").attr("data")) jsonobj.linksstr = ("null"== jsonobj.linksstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.linksstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.linksstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
     if("other"==$("#xpathtype").attr("data")) jsonobj.otherstr = ("null"== jsonobj.otherstr || $("#xpathstr").val().replace(/,|，/g,"|")==jsonobj.otherstr)? $("#xpathstr").val().replace(/,|，/g,"|"):jsonobj.otherstr+"|"+$("#xpathstr").val().replace(/,|，/g,"|");
     if("nocontent"==$("#xpathtype").attr("data")) jsonobj.delstr = "nocontent";
     if("toomore"==$("#xpathtype").attr("data")) jsonobj.delstr = "toomore";
     if("odel"==$("#xpathtype").attr("data")) jsonobj.delstr = "odel";
+    */
     //jsonobj = JSON.parse(JSON.stringify(jsonobj).replace(/,|，/g,"|"));
     jQuery("#finfo").attr("data",JSON.stringify(jsonobj));
     jQuery("#finfo").attr("title",JSON.stringify(jsonobj));
@@ -394,7 +451,7 @@ function readdb(id,callback){
         dayindex.openCursor().onsuccess = function(event) {
             var cursor = event.target.result;
             if(cursor) {
-                if ("null" == cursor.value.delstr) daycount +=1;
+                if ("null" == cursor.value.delstr && cursor.value.day==day && "myid"!=cursor.value.id) daycount +=1;
                 //console.log(cursor);
                 cursor.continue();
             } else {
