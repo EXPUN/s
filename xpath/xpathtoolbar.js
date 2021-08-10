@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         标记可视化工具
+// @name         xpath标记可视化工具
 //== @namespace    http://tampermonkey.net/
 // @version      20210810_2
 // @updateURL         http://helper.log.cx/xpath/xpathtoolbar.js
