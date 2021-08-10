@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         xpath标记可视化工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210810_2
-// @updateURL         http://helper.log.cx/xpath/xpathtoolbar.js
+// @version      20210810_4
+// @updateURL    http://helper.log.cx/xpath/xpathtoolbar.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
 // @description  
@@ -29,9 +29,9 @@
 
     window.addEventListener('message', function (e) {  // 监听 message 事件
 
-        console.log( "从"+ e.origin +"收到消息： "+pageid);
+        //console.log( "从"+ e.origin +"收到消息： "+pageid);
         var msgobj = e.data;
-        console.log(msgobj);
+        //console.log(msgobj);
         if (msgobj.id==pageid){
             if ("null"!=msgobj.tuwenstr)  xpathcheck(msgobj.tuwenstr,"tuwenstr");
             if ("null"!=msgobj.linksstr)  xpathcheck(msgobj.linksstr,"linksstr");
@@ -46,7 +46,7 @@
             var receiver = document.getElementById('xpathFrame').contentWindow;
             //let pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
             receiver.postMessage({"pageid":pageid},'*');
-            console.log("postmessage:"+pageid);
+            //console.log("postmessage:"+pageid);
         }
     });
 
