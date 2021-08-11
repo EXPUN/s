@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         xpath标记可视化工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210811_1
+// @version      20210811_2
 // @updateURL    http://helper.log.cx/xpath/xpathtoolbar.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
-// @description  修复了个别页面在body标签上用oncontextmenu="return false"的方式屏蔽右键
-// @description  在工具条底部新增了缩放按钮，点击后直接缩放到50%
-// @description  在工具条底部新增了关闭按钮，不用再把鼠标从页面底部拖到浏览器顶部的标签栏关闭
+// @description  20210811_2修复了点击缩放按钮工具栏会闪一下等小问题
+// @description  20210811_1修复了个别页面在body标签上用oncontextmenu="return false"的方式屏蔽右键
+// @description  20210811_1在工具条底部新增了缩放按钮，点击后直接缩放到50%
+// @description  20210811_1在工具条底部新增了关闭按钮，不用再把鼠标从页面底部拖到浏览器顶部的标签栏关闭
 // @author       You
 // @match        file:///*
 //@run-at        document-end
@@ -149,7 +150,7 @@ function addframe(){
     iframe.id="xpathFrame";
     iframe.width="100%";
     iframe.height="35px";
-    iframe.scrolling="auto";
+    iframe.scrolling="no";
     xpathtoolbarlocal.appendChild(iframe);
     document.getElementById("xpathFrame").setAttribute("frameborder","0");
     iframe.onload=function(){
