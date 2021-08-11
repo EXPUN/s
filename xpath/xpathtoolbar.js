@@ -46,14 +46,12 @@
             $(".otherstr").removeClass("otherstr");
         }
         else if ("zoom.5"==msgobj.cmd){
+            document.getElementById("xpathtoolbarlocal").style.zoom=2;
             document.getElementsByTagName('body')[0].style.zoom=0.5;
-            document.getElementById("xpathtoolbarlocal").style.height="100px";
-            document.getElementById("xpathFrame").style.height="70px";
         }
         else if ("zoom1"==msgobj.cmd){
+            document.getElementById("xpathtoolbarlocal").style.zoom=1;
             document.getElementsByTagName('body')[0].style.zoom=1;
-            document.getElementById("xpathtoolbarlocal").style.height="50px";
-            document.getElementById("xpathFrame").style.height="35px";
         }
         else if ("page.close"==msgobj.cmd){
             window.close();
