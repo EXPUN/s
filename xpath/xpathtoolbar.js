@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         xpath标记可视化工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210810_4
+// @version      20210811_1
 // @updateURL    http://helper.log.cx/xpath/xpathtoolbar.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
-// @description  
+// @description  修复了个别页面在body标签上用oncontextmenu="return false"的方式屏蔽右键
+// @description  在工具条底部新增了缩放按钮，点击后直接缩放到50%
+// @description  在工具条底部新增了关闭按钮，不用再把鼠标从页面底部拖到浏览器顶部的标签栏关闭
 // @author       You
 // @match        file:///*
 //@run-at        document-end
@@ -13,6 +15,7 @@
 // ==/UserScript==
 
 (function () {
+    unlockcontextmenu(); //部分页面在body标签上用on事件屏蔽右键
     const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
 
     if(typeof(jQuery)!='undefined') {
@@ -37,12 +40,25 @@
             if ("null"!=msgobj.linksstr)  xpathcheck(msgobj.linksstr,"linksstr");
             if ("null"!=msgobj.otherstr)  xpathcheck(msgobj.otherstr,"otherstr");
         }
-        if ("removecss"==msgobj.cmd){
+        else if ("removecss"==msgobj.cmd){
             $(".tuwenstr").removeClass("tuwenstr");
             $(".linksstr").removeClass("linksstr");
             $(".otherstr").removeClass("otherstr");
         }
-        if ("iframe_loaded"==msgobj.onload){
+        else if ("zoom.5"==msgobj.cmd){
+            document.getElementsByTagName('body')[0].style.zoom=0.5;
+            document.getElementById("xpathtoolbarlocal").style.height="100px";
+            document.getElementById("xpathFrame").style.height="70px";
+        }
+        else if ("zoom1"==msgobj.cmd){
+            document.getElementsByTagName('body')[0].style.zoom=1;
+            document.getElementById("xpathtoolbarlocal").style.height="50px";
+            document.getElementById("xpathFrame").style.height="35px";
+        }
+        else if ("page.close"==msgobj.cmd){
+            window.close();
+        }
+        else if ("iframe_loaded"==msgobj.onload){
             var receiver = document.getElementById('xpathFrame').contentWindow;
             //let pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
             receiver.postMessage({"pageid":pageid},'*');
