@@ -170,11 +170,6 @@
 var pageid;
 var myid;
 var day=currentTime().replace(/月|日.*$/g,"");
-
-window.onfocus = function () {
-    if(pageid && day) readdb(pageid);
-}
-
 window.onload = function() {
     window.parent.postMessage({"onload":"iframe_loaded"},'*');
     //console.log("iframe_loaded");
@@ -197,6 +192,8 @@ window.onload = function() {
                 jQuery(".finfo").html(normalreader(obj));
 
             })
+        }else if("onfocus"==e.data.cmd){
+            if(pageid && day) readdb(pageid);
         }
     });
     readdb("myid",function(obj){
