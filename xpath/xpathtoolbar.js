@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         xpath标记可视化工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210811_2
+// @version      20210813_1
 // @updateURL    http://helper.log.cx/xpath/xpathtoolbar.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
+// @description  20210813_1修复了有同学反馈打开一批页面,做了几个,剩下页面今日完成数据更新慢(修复前要手动刷新或者完成后才更新)的问题
 // @description  20210811_2修复了点击缩放按钮工具栏会闪一下等小问题
 // @description  20210811_1修复了个别页面在body标签上用oncontextmenu="return false"的方式屏蔽右键
 // @description  20210811_1在工具条底部新增了缩放按钮，点击后直接缩放到50%
@@ -67,6 +68,16 @@
 
 })() ;
 
+document.addEventListener("visibilitychange", function() {
+    //console.log(document.visibilityState);
+    if(document.visibilityState == "hidden") {
+        //console.log('隐藏');
+    } else if (document.visibilityState == "visible") {
+        //console.log('显示')
+        var receiver = document.getElementById('xpathFrame').contentWindow;
+        receiver.postMessage({"cmd":"onfocus"},'*');
+    }
+});
 
 function afterreloadjq(){
     //const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
