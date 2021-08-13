@@ -125,7 +125,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0813-1</td>
+            <td style="width:140px;" id="ver">0813-2</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -199,6 +199,7 @@ window.onload = function() {
     readdb("myid",function(obj){
         if ("undefined"==typeof(obj) || null == obj.idval) {
             if(localStorage.getItem("myid") && null!=localStorage.getItem("myid")){
+                myid = localStorage.getItem("myid");
                 writedb({"id":"myid","idval":localStorage.getItem("myid")});
                 console.log(localStorage.getItem("myid"));
                 jQuery("#myid").val(localStorage.getItem("myid")).attr("disabled",true);
@@ -400,6 +401,7 @@ $("#myidsubmit").click(function(){
         }else{
             $(this).attr("disabled",true);
             $("#myid").attr("disabled",true);
+            myid = $("#myid").val();
             writedb({"id":"myid","idval":$("#myid").val()});
         }
     });
