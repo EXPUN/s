@@ -125,7 +125,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0816-1</td>
+            <td style="width:140px;" id="ver">0816-2</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -294,7 +294,7 @@ window.onload = function() {
     }); 
 }
 function crejson(callback){
-    if ("undefined"==myid ||!myid.match(/^\d\d\-.{2,4}$/)){
+    if ("undefined"==myid){
         $("body").html("请正确填写任务ID后刷新页面");
         jQuery(".toolbox_title").click();
         return;
