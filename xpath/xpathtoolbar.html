@@ -619,7 +619,7 @@ function downloadfunction(daystr,callback){
         var store = transaction.objectStore('xpath');
         var reqCur = store.openCursor();//打开游标
         var dataList = new Array();
-        let txt ="id,tuwen,link,other,delete,author,day,checkinfo\n";
+        let txt ="";    //"id,tuwen,link,other,delete,author,day,checkinfo\n";
         var i = 0;
         reqCur.onsuccess = function(e) {
             var cursor = e.target.result;
