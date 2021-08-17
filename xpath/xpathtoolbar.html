@@ -125,7 +125,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0817-1</td>
+            <td style="width:140px;" id="ver">0817-2</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -658,7 +658,7 @@ function download(filename,content,contentType) {
     //a.click();
 
     //var uri = 'data:application/csv;charset=utf-8,' + escape(content); //如果数据太多，就会导致无法导出的结果，原因是浏览器对URL的长度有限制，因此要使用Blob对象和window.URL.createObjectURL()方法做一下改造。
-    var uri = new Blob(['\ufeff' + content], {type:"text/csv"});
+    var uri = new Blob(['\ufeff' + content], {type:"text/csv,charset=UTF-8"});
     var link = document.createElement("a");
     //link.href = uri;
     link.href = URL.createObjectURL(uri);
