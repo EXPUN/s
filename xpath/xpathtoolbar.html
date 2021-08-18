@@ -86,7 +86,7 @@
 <body>
     <table style="width:100%; table-layout: fixed;">
         <tr style="width:100%;">
-            <td style="width:100px;" id="tdinfo">统计信息</td>
+            <td style="width:160px;" id="tdinfo">统计信息</td>
             <td style="width:602px;">
                 <div class="input-group input-group-sm mb-0" style="width:600px;">
                     <div class="input-group-prepend">
@@ -125,7 +125,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0817-2</td>
+            <td style="width:140px;" id="ver">0818-1</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -295,7 +295,8 @@ window.onload = function() {
 }
 function crejson(callback){
     if ("undefined"==typeof(myid)){
-        $("table").html("请正确填写任务ID后刷新页面");
+        readdb("myid",function(obj){myid = obj.idval;});
+        //$("table").html("请正确填写任务ID后刷新页面");
         jQuery(".toolbox_title").click();
         return;
     }
@@ -548,7 +549,7 @@ function readdb(id,callback){
                 //console.log(cursor);
                 cursor.continue();
             } else {
-                jQuery("#tdinfo").html("今日"+daycount);//console.log(daycount);
+                jQuery("#tdinfo").html(myid+":今日"+daycount);//console.log(daycount);
             }
         };
 
