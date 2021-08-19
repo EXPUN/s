@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name         xpath标记可视化工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210813_1
-// @updateURL    http://helper.log.cx/xpath/xpathtoolbar.js
+// @version      20210819_1
+// @updateURL    https://helper.log.cx/xpath/xpathtoolbar.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
+// @description  20210819_1填错后如果工具栏变形看不到重填按钮；可以在页面空白处__双击，将工具栏拉高
+// @description  20210819_1工具条改为https
 // @description  20210813_1修复了有同学反馈打开一批页面,做了几个,剩下页面今日完成数据更新慢(修复前要手动刷新或者完成后才更新)的问题
 // @description  20210811_2修复了点击缩放按钮工具栏会闪一下等小问题
 // @description  20210811_1修复了个别页面在body标签上用oncontextmenu="return false"的方式屏蔽右键
@@ -16,6 +18,7 @@
 // @grant        none
 // ==/UserScript==
 
+var xpathtoolbarlocal_status;
 (function () {
     unlockcontextmenu(); //部分页面在body标签上用on事件屏蔽右键
     const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
@@ -82,6 +85,15 @@ document.addEventListener("visibilitychange", function() {
 function afterreloadjq(){
     //const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
     addbtn();
+    $("body").on('dblclick', function(){//"#xpathtoolbarlocal",
+        if (!xpathtoolbarlocal_status) {
+            xpathtoolbarlocal_status = 1;
+            $("#xpathtoolbarlocal").animate({height: '+400px'}, "100");
+        }else{
+            xpathtoolbarlocal_status = 0;
+            $("#xpathtoolbarlocal").animate({height: '50px'}, "100");
+        }
+    })
 }
 
 function xpathcheck(xpath,type){
@@ -156,7 +168,7 @@ function loadcss(path){
 function addframe(){
     var xpathtoolbarlocal = document.getElementById("xpathtoolbarlocal");
     var iframe = document.createElement('iframe');
-    iframe.src="http://helper.log.cx/xpath/xpathtoolbar.html";//+?vMath.random();
+    iframe.src="https://helper.log.cx/xpath/xpathtoolbar.html";//+?vMath.random();
     iframe.frameborder="0";
     iframe.id="xpathFrame";
     iframe.width="100%";
