@@ -125,7 +125,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0818-1</td>
+            <td style="width:140px;" id="ver">0819-1</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -168,7 +168,8 @@
 </body>
 <script>
 var pageid;
-var myid;
+var myid=localStorage.getItem("myid");
+var dbg=localStorage.getItem("dbg");
 var day=currentTime().replace(/月|日.*$/g,"");
 window.onload = function() {
     window.parent.postMessage({"onload":"iframe_loaded"},'*');
@@ -196,25 +197,27 @@ window.onload = function() {
             if(pageid && day) readdb(pageid);
         }
     });
-    readdb("myid",function(obj){
-        if ("undefined"==typeof(obj) || null == obj.idval) {
-            if(localStorage.getItem("myid") && null!=localStorage.getItem("myid")){
-                myid = localStorage.getItem("myid");
-                writedb({"id":"myid","idval":localStorage.getItem("myid")});
-                console.log(localStorage.getItem("myid"));
-                jQuery("#myid").val(localStorage.getItem("myid")).attr("disabled",true);
-            }else{
-                jQuery(".toolbox_title").click();
-                console.log("请输入任务ID");
+    if (!myid.match(/^\d\d\-.{2,4}$/)){
+        readdb("myid",function(obj){
+            if ("undefined"==typeof(obj) || null == obj.idval) {
+                if(localStorage.getItem("myid") && null!=localStorage.getItem("myid")){
+                    myid = localStorage.getItem("myid");
+                    writedb({"id":"myid","idval":localStorage.getItem("myid")});
+                    console.log(localStorage.getItem("myid"));
+                    jQuery("#myid").val(localStorage.getItem("myid")).attr("disabled",true);
+                }else{
+                    jQuery(".toolbox_title").click();
+                    console.log("请输入任务ID");
+                }
             }
-        }
-        else{
-            //console.log(obj);
-            myid = obj.idval;
-            jQuery("#myid").val(myid).attr("disabled",true);
-        }
-    }); 
-
+            else{
+                //console.log(obj);
+                myid = obj.idval;
+                localStorage.setItem("myid", obj.idval);
+                jQuery("#myid").val(myid).attr("disabled",true);
+            }
+        }); 
+    }
 
     $("#xpathtype").click(function(){
         $("#xpathtype ~ button[class*='btn-outline'],#xpathstr,table .input-group-append>button").toggleClass("hid");
@@ -248,8 +251,10 @@ window.onload = function() {
         let obj =crejson();
         loadimg(obj,function(){
             if (pageid==obj.id){
-                writedb(obj,function(){readdb(pageid)});   //触发一次change和一次click,会重复
-                window.parent.postMessage(obj,'*');
+                writedb(obj,function(){
+                    window.parent.postMessage(obj,'*');
+                    readdb(pageid);
+                }); 
             }
             document.getElementById("savebtn").disabled=true;
             document.getElementById("addbtn").disabled=true;
@@ -353,28 +358,31 @@ function crejson(callback){
     jQuery("#finfo").html(normalreader(jsonobj));
     return(jsonobj);
     if(typeof callback ==="function"){callback()}
-    //if jQuery()
 }
 
 function loadimg(obj,callback){
-    let imgload = 0 ;
-    let imgs = new Image;
-    imgs.src = "https://xpath-1258127033.cos.ap-chengdu.myqcloud.com/s.gif?pid="+obj.id+"&tuwenstr="+obj.tuwenstr+"&linksstr="+obj.linksstr+"&otherstr="+obj.otherstr+"&delstr="+obj.delstr+"&author="+obj.author+"&day="+obj.day+"&checkinfo="+obj.checkinfo+"&timestap="+Date.parse(new Date());
-    imgs.onload = function() {
-        if(typeof callback ==="function" && 0==imgload){
-            imgload = 1;
-            callback();
+    if (1==dbg && typeof callback ==="function") {
+        callback();
+    }else{
+        let imgload = 0 ;
+        let imgs = new Image;
+        imgs.src = "https://xpath-1258127033.cos.ap-chengdu.myqcloud.com/s.gif?pid="+obj.id+"&tuwenstr="+obj.tuwenstr+"&linksstr="+obj.linksstr+"&otherstr="+obj.otherstr+"&delstr="+obj.delstr+"&author="+obj.author+"&day="+obj.day+"&checkinfo="+obj.checkinfo+"&timestap="+Date.parse(new Date());
+        imgs.onload = function() {
+            if(typeof callback ==="function" && 0==imgload){
+                imgload = 1;
+                callback();
+            }
+        };
+        imgs.onerror = function(){
+            console.error('提交失败,请重试!');
         }
-    };
-    imgs.onerror = function(){
-        console.error('提交失败,请重试!');
+        setTimeout(function(){
+            if(typeof callback ==="function" && 0==imgload){
+                imgload = 1;
+                callback();
+            }
+        }, 1000);
     }
-    setTimeout(function(){
-        if(typeof callback ==="function" && 0==imgload){
-            imgload = 1;
-            callback();
-        }
-    }, 1000);
 }
 
 /*可视化读取*/
@@ -418,6 +426,7 @@ $("#myidsubmit").click(function(){
             $(this).attr("disabled",true);
             $("#myid").attr("disabled",true);
             myid = $("#myid").val();
+            localStorage.setItem("myid", myid);
             writedb({"id":"myid","idval":$("#myid").val()});
         }
     });
