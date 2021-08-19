@@ -168,7 +168,7 @@
 </body>
 <script>
 var pageid;
-var myid=localStorage.getItem("myid");
+var myid=null!=localStorage.getItem("myid")?localStorage.getItem("myid"):"";
 var dbg=localStorage.getItem("dbg");
 var day=currentTime().replace(/月|日.*$/g,"");
 window.onload = function() {
