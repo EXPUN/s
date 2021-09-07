@@ -97,6 +97,7 @@
                                 <button type="button" class="btn btn-outline-info hid rounded-0" data ="other">其他主体</button>
                                 <button type="button" class="btn btn-outline-warning hid rounded-0" data ="nocontent">无主体跳过</button>
                                 <button type="button" class="btn btn-outline-warning hid rounded-0" data ="toomore">楼层过多跳过</button>
+                                <button type="button" class="btn btn-outline-warning hid rounded-0" data ="deadlink">死链</button>
                                 <button type="button" class="btn btn-outline-warning hid rounded-0" data ="odel">其他跳过</button>
                           </div>
 
@@ -125,7 +126,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0903-1</td>
+            <td style="width:140px;" id="ver">0907-1</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -172,7 +173,7 @@
 </body>
 <script>
 var pageid;
-var myid=localStorage.getItem("myid").match(/^\d\d\-.{2,4}$/)?localStorage.getItem("myid"):"";
+var myid=(localStorage.getItem("myid")!=null && localStorage.getItem("myid").match(/^\d\d\-.{2,4}$/))?localStorage.getItem("myid"):"";
 var dbg=localStorage.getItem("dbg");
 var day=currentTime().replace(/月|日.*$/g,"");
 window.onload = function() {
@@ -326,15 +327,15 @@ function crejson(callback){
     switch(xpathtype)
     {
         case "tuwen":
-            jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || nowinputstr==jsonobj.tuwenstr)? nowinputstr:jsonobj.tuwenstr+"|"+nowinputstr;
+            jsonobj.tuwenstr = ("null"== jsonobj.tuwenstr || nowinputstr==jsonobj.tuwenstr)? nowinputstr:(jsonobj.tuwenstr+"|"+nowinputstr).replace(/\|$/,"");
             break;
 
         case "links":
-            jsonobj.linksstr = ("null"== jsonobj.linksstr || nowinputstr==jsonobj.linksstr)? nowinputstr:jsonobj.linksstr+"|"+nowinputstr;
+            jsonobj.linksstr = ("null"== jsonobj.linksstr || nowinputstr==jsonobj.linksstr)? nowinputstr:(jsonobj.linksstr+"|"+nowinputstr).replace(/\|$/,"");
             break;
 
         case "other":
-            jsonobj.otherstr = ("null"== jsonobj.otherstr || nowinputstr==jsonobj.otherstr)? nowinputstr:jsonobj.otherstr+"|"+nowinputstr;
+            jsonobj.otherstr = ("null"== jsonobj.otherstr || nowinputstr==jsonobj.otherstr)? nowinputstr:(jsonobj.otherstr+"|"+nowinputstr).replace(/\|$/,"");
             break;
 
         case "nocontent":
@@ -342,6 +343,9 @@ function crejson(callback){
             break;
         case "toomore":
             jsonobj.delstr = "toomore";
+            break;
+        case "deadlink":
+            jsonobj.delstr = "deadlink";
             break;
         case "odel":
             jsonobj.delstr = "odel";
