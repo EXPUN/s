@@ -77,7 +77,7 @@ function so() {
             sowhat = encodeURIComponent(sowhat_str);
       		
         var urls = [
-            'https://m.so.com/s?srcg=home_next&q=',
+            'https://m.so.com/s?src=home_next&srcg=home_next&q=',
             'https://www.baidu.com/from=844b/s?pu=sz%401320_480&ms=1&word=',
             'https://m.toutiao.com/search/?pd=synthesis&source=input&traffic_source=&original_source=&in_tfs=&in_ogs=&keyword=',
             'https://quark.sm.cn/s?tomode=advanced&q=',
