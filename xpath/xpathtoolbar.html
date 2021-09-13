@@ -126,7 +126,7 @@
                 </div>
             </td>
             <td class="finfo" title="" data="" id ="finfo" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></td>
-            <td style="width:140px;" id="ver">0907-1</td>
+            <td style="width:140px;" id="ver">0913-1</td>
         </tr>
     </table>
     <div class="toolbox">
@@ -233,7 +233,7 @@ window.onload = function() {
     $("#xpathtype ~ button[class*='btn-outline']").click(function(){
         $("#xpathtype").text($(this).text()).attr("data",$(this).attr("data"));
         $("#xpathtype ~ button[class*='btn-outline'],#xpathstr,table .input-group-append>button").toggleClass("hid");
-        if( "无主体跳过"==$(this).text() || "楼层过多跳过"==$(this).text() || "其他跳过"==$(this).text() ){
+        if( "无主体跳过"==$(this).text() || "楼层过多跳过"==$(this).text() || "其他跳过"==$(this).text() || "死链"==$(this).text()){
             jQuery("#savebtn").click();
         }
     });
