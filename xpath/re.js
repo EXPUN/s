@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210806_1
-// @updateURL         http://helper.log.cx/xpath/re.js
+// @version      20210917_1
+// @updateURL         https://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
-// @description  20210806_1 修改了一些样式；20210805_7增加了展示导入数据进度、总数据量功能
+// @description  20210917_1只导出当天质检数据；20210806_1 修改了一些样式；20210805_7增加了展示导入数据进度、总数据量功能
 // @author       You
 // @match        file:///*
 //@run-at        document-end
 // @grant        none
 // ==/UserScript==
-
+var day=currentTime().replace(/月|日.*$/g,"");
 (function () {
     //window.stop();
     const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
@@ -345,6 +345,7 @@ function updatedb(pageid,checkinfo,callback){
             //}
             console.log(data);
             data.checkinfo = checkinfo;
+            data.checkday = day;
             store.put(data);
             if (typeof callback ==="function") {
                 callback(reobj);
@@ -363,7 +364,7 @@ function downloadfunction(callback){
         var store = transaction.objectStore('xpath');
         var reqCur = store.openCursor();//打开游标
         var dataList = new Array();
-        let txt ="id,tuwen,link,other,delete,author,day,checkinfo\n";
+        let txt ="id,tuwen,link,other,delete,author,day,checkinfo,checkday\n";
         var i = 0;
         reqCur.onsuccess = function(e) {
             var cursor = e.target.result;
@@ -371,7 +372,9 @@ function downloadfunction(callback){
                 //console.log(cursor.key);
                 dataList[i] = cursor.value;
                 //console.log(dataList[i].checkinfo);
-                txt+=dataList[i].id+","+dataList[i].tuwenstr+","+dataList[i].linksstr+","+dataList[i].otherstr+","+dataList[i].delstr+","+dataList[i].author+","+dataList[i].day+","+dataList[i].checkinfo+"\n";
+                if(dataList[i].checkday==day){
+                    txt+=dataList[i].id+","+dataList[i].tuwenstr+","+dataList[i].linksstr+","+dataList[i].otherstr+","+dataList[i].delstr+","+dataList[i].author+","+dataList[i].day+","+dataList[i].checkinfo+","+dataList[i].checkday+"\n";
+                }
                 i++;
                 cursor.continue();
             }else{
@@ -393,10 +396,10 @@ function download(filename,content,contentType) {
     //a.href = window.URL.createObjectURL(blob);
     //a.download = filename;
     //a.click();
-
-    var uri = 'data:application/csv;charset=utf-8,' + escape(content);
+    var uri = new Blob(['\ufeff' + content], {type:"text/csv,charset=UTF-8"});
     var link = document.createElement("a");
-    link.href = uri;
+    //link.href = uri;
+    link.href = URL.createObjectURL(uri);
     link.style = "visibility:hidden";
     link.download = filename ;
     document.body.appendChild(link);
