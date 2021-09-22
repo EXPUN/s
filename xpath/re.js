@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210917_1
+// @version      20210922_1
 // @updateURL         https://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
-// @description  20210917_1只导出当天质检数据；20210806_1 修改了一些样式；20210805_7增加了展示导入数据进度、总数据量功能
+// @description  20210922_1修改了表名称；20210917_1只导出当天质检数据；20210806_1 修改了一些样式；20210805_7增加了展示导入数据进度、总数据量功能
 // @author       You
 // @match        file:///*
 //@run-at        document-end
@@ -235,7 +235,7 @@ function addbtn(){
 
 function writedb(arr,callback){ //indexdb
     /*创建indexdb*/
-    var request = indexedDB.open("mydb", 1);
+    var request = indexedDB.open("zhijiandb", 1);
     request.onerror = function(e) {
         console.log(e.currentTarget.error.message);
     };
@@ -247,10 +247,10 @@ function writedb(arr,callback){ //indexdb
 
     request.addEventListener('upgradeneeded', e => {
         var db = e.target.result;
-        if (!db.objectStoreNames.contains('xpath')) {
+        if (!db.objectStoreNames.contains('xpathzj')) {
             console.log("我需要创建一个新的存储对象");
             //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
-            var objectStore = db.createObjectStore('xpath', {
+            var objectStore = db.createObjectStore('xpathzj', {
                 keyPath: "id",
                 autoIncrement: false
             });
@@ -261,8 +261,8 @@ function writedb(arr,callback){ //indexdb
         var db = e.target.result;
         let countsuc = 0;
         for (i in arr){
-            var tx = db.transaction('xpath', 'readwrite');
-            var store = tx.objectStore('xpath');
+            var tx = db.transaction('xpathzj', 'readwrite');
+            var store = tx.objectStore('xpathzj');
             //console.log(typeof arr[i]);
             let jsonobj = str2json(arr[i]);
             if (jsonobj.id) {
@@ -291,14 +291,14 @@ function writedb(arr,callback){ //indexdb
 }
 
 function readdb(id,callback){
-    var request = indexedDB.open("mydb", 1);
+    var request = indexedDB.open("zhijiandb", 1);
 
     request.addEventListener('upgradeneeded', e => {
         var db = e.target.result;
-        if (!db.objectStoreNames.contains('xpath')) {
+        if (!db.objectStoreNames.contains('xpathzj')) {
             console.log("我需要创建一个新的存储对象");
             //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
-            var objectStore = db.createObjectStore('xpath', {
+            var objectStore = db.createObjectStore('xpathzj', {
                 keyPath: "id",
                 autoIncrement: false
             });
@@ -309,8 +309,8 @@ function readdb(id,callback){
 
     request.addEventListener('success', e => {
         var db = e.target.result;
-        var tx = db.transaction('xpath', 'readwrite');
-        var store = tx.objectStore('xpath');
+        var tx = db.transaction('xpathzj', 'readwrite');
+        var store = tx.objectStore('xpathzj');
         var reqGet = store.get(id);
         reqGet.addEventListener('success', e => {
             //console.log(reqGet.result);
@@ -330,12 +330,12 @@ function readdb(id,callback){
 }
 
 function updatedb(pageid,checkinfo,callback){
-    var request = indexedDB.open("mydb", 1);
+    var request = indexedDB.open("zhijiandb", 1);
     request.onsuccess = function(e) {
         var db = e.target.result;
         //console.log('成功打开DB');
-        var transaction = db.transaction('xpath', 'readwrite');
-        var store = transaction.objectStore('xpath');
+        var transaction = db.transaction('xpathzj', 'readwrite');
+        var store = transaction.objectStore('xpathzj');
         var reqUp = store.get(pageid);
         reqUp.onsuccess = function(e) {
             var data = e.target.result;
@@ -357,11 +357,11 @@ function updatedb(pageid,checkinfo,callback){
 }
 
 function downloadfunction(callback){
-    var request = indexedDB.open("mydb", 1);
+    var request = indexedDB.open("zhijiandb", 1);
     request.onsuccess = function(e) {
         var db = e.target.result;
-        var transaction = db.transaction('xpath');
-        var store = transaction.objectStore('xpath');
+        var transaction = db.transaction('xpathzj');
+        var store = transaction.objectStore('xpathzj');
         var reqCur = store.openCursor();//打开游标
         var dataList = new Array();
         let txt ="id,tuwen,link,other,delete,author,day,checkinfo,checkday\n";
