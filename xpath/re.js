@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         质检工具
 //== @namespace    http://tampermonkey.net/
-// @version      20210922_1
+// @version      20211013_1
 // @updateURL         https://helper.log.cx/xpath/re.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
-// @description  20210922_1修改了表名称；20210917_1只导出当天质检数据；20210806_1 修改了一些样式；20210805_7增加了展示导入数据进度、总数据量功能
+// @description  20211013_1修复了最后以|结尾不显示的问题；20210922_1修改了表名称；20210917_1只导出当天质检数据；20210806_1 修改了一些样式；20210805_7增加了展示导入数据进度、总数据量功能
 // @author       You
 // @match        file:///*
 //@run-at        document-end
@@ -51,9 +51,9 @@ function afterreloadjq(){
         if ("undefined"==typeof(obj)) {jQuery("#checkinfouserpanel").html("未查询到标记记录");}
         else{
             console.log(obj);
-            if ("null"!=obj.tuwenstr)  xpathcheck(obj.tuwenstr,"tuwenstr");
-            if ("null"!=obj.linksstr)  xpathcheck(obj.linksstr,"linksstr");
-            if ("null"!=obj.otherstr)  xpathcheck(obj.otherstr,"otherstr");
+            if ("null"!=obj.tuwenstr)  xpathcheck(obj.tuwenstr.replace(/\|$/,""),"tuwenstr");
+            if ("null"!=obj.linksstr)  xpathcheck(obj.linksstr.replace(/\|$/,""),"linksstr");
+            if ("null"!=obj.otherstr)  xpathcheck(obj.otherstr.replace(/\|$/,""),"otherstr");
             if ("del"==obj.delstr)  jQuery("#checkinfouserpanel").html("此页面被标记为删除");
             if ("right"==obj.checkinfo) jQuery("#checkinfouserpanel").html("质检标记为正确");
             if ("wrong"==obj.checkinfo) jQuery("#checkinfouserpanel").html("质检标记为错误");
