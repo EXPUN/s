@@ -104,6 +104,17 @@
 		transform: scale(1.0);
 		}
 		}
+	.navbar-brand span{
+		cursor: pointer;
+		font-size: 40px;
+		font-weight: bold;
+		letter-spacing: 5px;
+		color: #fff;
+	    	text-shadow: 0px 0px 2px #686868, 0px 1px 1px #ddd, 0px 2px 1px #d6d6d6, 0px 3px 1px #ccc, 0px 4px 1px #c5c5c5, 0px 5px 1px #c1c1c1, 0px 6px 1px #bbb, 0px 7px 1px #777, 0px 8px 3px rgba(100, 100, 100, 0.4), 0px 9px 5px rgba(100, 100, 100, 0.1), 0px 10px 7px rgba(100, 100, 100, 0.15), 0px 11px 9px rgba(100, 100, 100, 0.2), 0px 12px 11px rgba(100, 100, 100, 0.25), 0px 13px 15px rgba(100, 100, 100, 0.3);
+	}
+	.navbar-brand span:hover {
+    		text-shadow: 0px 0px 2px #686868, 0px 1px 1px #fff, 0px 2px 1px #fff, 0px 3px 1px #fff, 0px 4px 1px #fff, 0px 5px 1px #fff, 0px 6px 1px #fff, 0px 7px 1px #777, 0px 8px 3px #fff, 0px 9px 5px #fff, 0px 10px 7px #fff, 0px 11px 9px #fff, 0px 12px 11px #fff, 0px 13px 15px #fff;
+	}
 </style>
 <link rel="icon" sizes="any" mask="" href="//helper.log.cx/allso/favicon.svg">
 </head>
@@ -122,7 +133,7 @@
 </div>
  <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid row">
-		<div class="navbar-header"><a href="#" class="navbar-brand"><strong>&nbsp;&nbsp;&nbsp;&nbsp;对比搜索</strong></a></div>
+		<div class="navbar-header"><span class="navbar-brand"><span>对</span><span>比</span><span>搜</span><span>索</span></span></div>
 		<div class="collapse navbar-collapse">
 			<form class="navbar-form navbar-left" onsubmit="return false;"><div class="form-group"><input id="soinput" type="text" class="form-control" name="s" placeholder="聚合搜索" style="border-radius: 0px;"></div><button class="btn btn-primary" type="submit" onclick="so();" id="sobut"  style="border-radius: 0px;">  Go !  </button></form>
 			<ul class="nav navbar-nav navbar-right">
