@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         内容死链标注工具
 //== @namespace    http://tampermonkey.net/
-// @version      20220308-1
-// @updateURL    http://kaide.tech/dlink/toolbar.js
+// @version      20220322-1
+// @updateURL    https://helper.log.cx/dlink/toolbar.js
 //== @require    https://code.jquery.com/jquery-latest.js
 //== @require    https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css
 // @description  20220308-1初始化
+// @description  20220322-1增加自动填写title
 // @author       You
 // @match        file:///*
 // @match        http://pages.kaide.tech/*
@@ -16,6 +17,9 @@
 var xpathtoolbarlocal_status;
 (function () {
     unlockcontextmenu(); //部分页面在body标签上用on事件屏蔽右键
+    //$("meta[http-equiv='Content-Security-Policy']").remove();
+    //document.querySelector("meta[http-equiv='Content-Security-Policy']").remove();
+    //document.querySelector("meta[name='web-experience-app/config/environment']").remove();
     const pageid = window.location.href.replace(/.*\/|\.html?$/ig,"");
 
     if(typeof(jQuery)!='undefined') {
@@ -57,6 +61,11 @@ var xpathtoolbarlocal_status;
             receiver.postMessage({"pageid":pageid},'*');
             //console.log("postmessage:"+pageid);
         }
+        else if("gettitle"==msgobj.cmd){
+            var pagetitle = document.getElementsByTagName('title')[0].innerText;
+            receiver = document.getElementById('xpathFrame').contentWindow;
+            receiver.postMessage({"pagetitle":pagetitle},'*');
+        }
     });
 
 })() ;
@@ -75,7 +84,7 @@ document.addEventListener("visibilitychange", function() {
 function afterreloadjq(){
     //const pageid = window.location.href.replace(/.*\/|\_.*$/g,"");
     addbtn();
-    var pagehref = "<span class='oddr'><span id='basehref'>"+jQuery("base").attr("href")+"</span><span onclick=$('#basehref').toggle()><svg style='padding: 0px;vertical-align: middle;' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='871' width='32' height='32'><path d='M746.986667 307.2l100.096-100.117333a21.333333 21.333333 0 0 0-30.165334-30.165334l-112.853333 112.853334A562.858667 562.858667 0 0 0 512 256C220.416 256 42.666667 477.653333 42.666667 512c0 23.765333 85.248 137.173333 234.346666 204.8l-100.096 100.117333a21.333333 21.333333 0 1 0 30.165334 30.165334l112.853333-112.853334A562.858667 562.858667 0 0 0 512 768c291.584 0 469.333333-221.653333 469.333333-256 0-23.765333-85.248-137.173333-234.346666-204.8zM86.869333 512A541.354667 541.354667 0 0 1 512 298.666667a513.664 513.664 0 0 1 158.122667 25.045333l-69.12 69.12A147.904 147.904 0 0 0 512 362.666667a149.504 149.504 0 0 0-149.333333 149.333333 147.904 147.904 0 0 0 30.144 89.024l-83.093334 83.093333A532.992 532.992 0 0 1 86.869333 512zM618.666667 512a106.496 106.496 0 0 1-165.397334 88.896l147.626667-147.626667A105.941333 105.941333 0 0 1 618.666667 512z m-213.333334 0a106.496 106.496 0 0 1 165.397334-88.896l-147.626667 147.626667A105.941333 105.941333 0 0 1 405.333333 512z m106.666667 213.333333a513.685333 513.685333 0 0 1-158.122667-25.045333l69.12-69.12A147.904 147.904 0 0 0 512 661.333333a149.504 149.504 0 0 0 149.333333-149.333333 147.904 147.904 0 0 0-30.144-89.024l83.093334-83.093333A532.992 532.992 0 0 1 937.130667 512 541.354667 541.354667 0 0 1 512 725.333333z' fill='#646464' p-id='872'></path></svg>源地址</span></span>"
+    var pagehref = "<span class='oddr'><span id='basehref'><a target='_blank' href="+jQuery("base").attr("href")+">"+jQuery("base").attr("href")+"</a></span><span onclick=$('#basehref').toggle()><svg style='padding: 0px;vertical-align: middle;' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='871' width='32' height='32'><path d='M746.986667 307.2l100.096-100.117333a21.333333 21.333333 0 0 0-30.165334-30.165334l-112.853333 112.853334A562.858667 562.858667 0 0 0 512 256C220.416 256 42.666667 477.653333 42.666667 512c0 23.765333 85.248 137.173333 234.346666 204.8l-100.096 100.117333a21.333333 21.333333 0 1 0 30.165334 30.165334l112.853333-112.853334A562.858667 562.858667 0 0 0 512 768c291.584 0 469.333333-221.653333 469.333333-256 0-23.765333-85.248-137.173333-234.346666-204.8zM86.869333 512A541.354667 541.354667 0 0 1 512 298.666667a513.664 513.664 0 0 1 158.122667 25.045333l-69.12 69.12A147.904 147.904 0 0 0 512 362.666667a149.504 149.504 0 0 0-149.333333 149.333333 147.904 147.904 0 0 0 30.144 89.024l-83.093334 83.093333A532.992 532.992 0 0 1 86.869333 512zM618.666667 512a106.496 106.496 0 0 1-165.397334 88.896l147.626667-147.626667A105.941333 105.941333 0 0 1 618.666667 512z m-213.333334 0a106.496 106.496 0 0 1 165.397334-88.896l-147.626667 147.626667A105.941333 105.941333 0 0 1 405.333333 512z m106.666667 213.333333a513.685333 513.685333 0 0 1-158.122667-25.045333l69.12-69.12A147.904 147.904 0 0 0 512 661.333333a149.504 149.504 0 0 0 149.333333-149.333333 147.904 147.904 0 0 0-30.144-89.024l83.093334-83.093333A532.992 532.992 0 0 1 937.130667 512 541.354667 541.354667 0 0 1 512 725.333333z' fill='#646464' p-id='872'></path></svg>源地址</span></span>"
     //console.log(pagehref);
     jQuery("body").append(pagehref);
     $("body").on('dblclick', function(){//"#xpathtoolbarlocal",
@@ -179,7 +188,7 @@ function addstyle(){
     style.type = "text/css";
     let cssstr = '.xpathcss{display: inline-block;border: 10px dashed #e9686b !important;background-color:#b0c4de !important;opacity:0.6 !important;} .xpathcss::before{content: "主体";background-color:yellow;color:red;font-weight:bold;font-size:24;z-index:10000;}';
     cssstr += '#xpathtoolbarlocal{position:fixed;left:0;bottom:0;width:100%;height:50px;padding:12px 2px;text-align:left;box-sizing:border-box;z-index:99999999999999999 !important;border:2px;border-color:grey;background:#fff;color:#dc3545 !important;box-shadow:0 -10px 20px 0 rgba(0,0,0,.05);}';
-    cssstr += '.oddr { font-size: 1.8em;margin: 2px 0;line-height: 1.8em;position:fixed; top:0;right:0;text-align: right;z-index: 10000;';
+    cssstr += '.oddr { font-size: 24px;margin: 2px 0;line-height: 1.8em;position:fixed; top:0;right:0;text-align: right;z-index: 77777777777777777;color: #0c5460;background-color: #d1ecf1;border-color: #bee5eb;border: 1px solid transparent;opacity:0.6 !important;';
 
     style.appendChild(document.createTextNode(cssstr));
     var head = document.getElementsByTagName("head")[0];
