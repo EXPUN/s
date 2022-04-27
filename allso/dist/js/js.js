@@ -101,6 +101,14 @@ function set(a0b1, set_so) {
         set_url[a0b1] = "https://www.sogou.com/web?query=";
         set_top[a0b1] = -55; set_left[a0b1] = -100; set_foot[a0b1] = 80;
     }
+    else if (set_so == 4) {
+        set_url[a0b1] = "https://www.google.com.hk/search?newwindow=1&q=";
+        set_top[a0b1] = -85; set_left[a0b1] = 0; set_foot[a0b1] = 80;
+    }
+    else if (set_so == 5) {
+        set_url[a0b1] = "https://so.toutiao.com/search?dvpf=pc&source=input&keyword=";
+        set_top[a0b1] = -65; set_left[a0b1] = -135; set_foot[a0b1] = 80;
+    }
     need_respond = true;
 }
 
