@@ -181,7 +181,7 @@ function respond() {
         objProgress[2].style.width = '33%';
     }
     else if (localStorage["allso_state"] == 1) {
-        obja.fadeIn('fast').animate({ "margin-left": set_left[0], "width": winw - set_left[0] }, 'fast');
+        obja.fadeIn('fast').animate({ "margin-left": set_left[0]-set_left[0], "width": winw - set_left[0] }, 'fast');
         objb.fadeOut('fast');
         objc.fadeOut('fast');
         objProgress[0].style.width = '50%';
