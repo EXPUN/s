@@ -9,7 +9,7 @@
 // @description  20220322-1增加自动填写title
 // @author       You
 // @match        file:///*
-// @match        http://pages.kaide.tech/*
+// @match        http*://pages.kaide.tech/*
 //@run-at        document-end
 // @grant        none
 // ==/UserScript==
