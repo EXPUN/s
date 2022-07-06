@@ -221,6 +221,9 @@ function respond() {
     need_respond = false;
 }
 
+$('.quickdelete').click(function () {
+	$("#soinput").val("");
+});
 
 /* 搜索按钮事件 */
 soinput_obj.on('input', function(){
