@@ -116,6 +116,16 @@
 	.navbar-brand span:hover {
     		text-shadow: 0px 0px 2px #686868, 0px 1px 1px #fff, 0px 2px 1px #fff, 0px 3px 1px #fff, 0px 4px 1px #fff, 0px 5px 1px #fff, 0px 6px 1px #fff, 0px 7px 1px #777, 0px 8px 3px #fff, 0px 9px 5px #fff, 0px 10px 7px #fff, 0px 11px 9px #fff, 0px 12px 11px #fff, 0px 13px 15px #fff;
 	}
+	.quickdelete{
+		display: none;
+		background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAuCAIAAACTc2+NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzY3Q0I0Nzg1MzQ5MTFFNEI2ODZDNTc0NzJDNEVDOUUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzY3Q0I0Nzk1MzQ5MTFFNEI2ODZDNTc0NzJDNEVDOUUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDNjdDQjQ3NjUzNDkxMUU0QjY4NkM1NzQ3MkM0RUM5RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDNjdDQjQ3NzUzNDkxMUU0QjY4NkM1NzQ3MkM0RUM5RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PklgcvMAAADASURBVHja7JTBDcMgDEXd9o5yQ0Iskn3YgzUSiQGYgA0iBiF32KB1D6VJTBKrxyo+gI0fYH2EYZqmnPNzxzCFAOAUQmhyNQXLoEmgD3SJhkC30oNvb/BjpZQYIzp933ddV9fvwDHOdezCzyVgicl5lpUEe8aS4IIu6N+hh1JKSimEaKbnefbeQ0rJWosj/XQ1BcugSXwbxobbhEC30oNX3xzLdM6hY4zRWv/a6Q6uYxd+LgFLzHEcm0TlhmF4CTAAkdOHSDcFmRsAAAAASUVORK5CYII=") 6px 6px #fff no-repeat;
+		width: 24px;
+		height: 24px;
+		position: absolute;
+		right: 16px;
+		top: 5px;
+	}
+	#soinput:valid + .quickdelete {display: inline;}
 </style>
 <link rel="icon" sizes="any" mask="" href="./favicon.svg">
 </head>
@@ -136,7 +146,10 @@
 	<div class="container-fluid row">
 		<div class="navbar-header"><span class="navbar-brand" style="margin-left:0px;"><span>对</span><span>比</span><span>搜</span><span>索</span></span></div>
 		<div class="collapse navbar-collapse">
-			<form class="navbar-form navbar-left" onsubmit="return false;"><div class="form-group"><input id="soinput" type="text" class="form-control" name="s" placeholder="聚合搜索" style="border-radius: 0px;"></div><button class="btn btn-primary" type="submit" onclick="so();" id="sobut"  style="border-radius: 0px;">  Go !  </button></form>
+			<form class="navbar-form navbar-left" onsubmit="return false;"><div class="form-group" style="position: relative;">
+				<input id="soinput" type="text" class="form-control" name="s" placeholder="聚合搜索" required="required" style="border-radius: 0px;">
+				<a href="javascript:" title="清空" id="SearDel" class="quickdelete"></a>
+				</div><button class="btn btn-primary" type="submit" onclick="so();" id="sobut"  style="border-radius: 0px;">  Go !  </button></form>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#" data-toggle="modal" data-target="#set">搜索设置</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle" aria-expanded="false" data-toggle="dropdown" role="button">关于 <span class="caret"></span></a>
