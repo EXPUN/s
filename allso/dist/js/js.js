@@ -90,7 +90,7 @@ function set(a0b1, set_so) {
         set_top[a0b1] = -55; set_left[a0b1] = -100; set_foot[a0b1] = 70;
     }
     else if (set_so == 1) {
-        set_url[a0b1] = "https://www.so.com/s?src=360chrome_newtab_search&q=";
+        set_url[a0b1] = "https://www.so.com/s?src=360sou_newhome&q=";
         set_top[a0b1] = -60; set_left[a0b1] = -90; set_foot[a0b1] = 80;
     }
     else if (set_so == 2) {
