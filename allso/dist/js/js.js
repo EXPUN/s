@@ -95,7 +95,7 @@ function set(a0b1, set_so) {
     }
     else if (set_so == 2) {
         set_url[a0b1] = "https://cn.bing.com/search?setmkt=zh-cn&setlang=zh-cn&q=";
-        set_top[a0b1] = -95; set_left[a0b1] = -80; set_foot[a0b1] = 60;
+        set_top[a0b1] = -95; set_left[a0b1] = -0; set_foot[a0b1] = 60;
     }
     else if (set_so == 3) {
         set_url[a0b1] = "https://so.toutiao.com/search?dvpf=pc&source=input&keyword=";
