@@ -245,11 +245,11 @@ function so() {
        	*/
         location.hash = sowhat; //sowhat_str;
 		//location.search = "?q="+sowhat;
-        window.document.title = sowhat_str + ' - 聚合搜索';
+        window.document.title = sowhat_str + ' - 对比搜索';
     }
     else {
         location.hash = '';
-        window.document.title = '聚合搜索';
+        window.document.title = '对比搜索';
     }
 
     if (need_respond)
