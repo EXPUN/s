@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>站点死链辅助工具</title>
+ 
+<style type="text/css">
+/* 页面字体样式 */
+body, td, input, textarea,.tb,.td1,.td2,.td3,.td4,.td5{
+    font-family:宋体;
+    font-size:12px;
+	/*font: 12px/1.5 tahoma,arial,sans-serif;*/
+	/* background: rgb(215, 233, 245); !important;*/
+}
+a:visited{
+	color:#dc3545
+}
+.t2 {
+	font-family:Helvetica;
+    overflow: hidden;
+    /* margin: 25px 0 15px 0; */
+    /* height: 40px; */
+	margin-left:-15px;
+    color: #0af;
+    text-shadow: 1px 1px 2px #eee;
+    font-weight: 700;
+    font-size: 24px;
+	width:200px;
+}
+.tablew{
+    table-layout: fixed;
+}
+.tb{
+	border-collapse: collapse;
+	display: table;
+	width: 100%;
+	font-size: 14px;
+}
+.tr, .thr{
+	border-bottom: 1px solid #EBEEF5;
+	display: table-row;
+}
+.td1,.th1{
+	padding: 10px;
+	vertical-align: middle;
+	display: table-cell;
+	word-break: break-all;
+	color: #606266;
+	width: 60px;
+	max-width: 60px;
+}
+.td2,.th2{
+	padding: 1px;
+	vertical-align: middle;
+	display: table-cell;
+	word-break: break-all;
+	color: #606266;
+	width: 120px;
+}
+.td3,.th3{
+	padding: 10px;
+	vertical-align: middle;
+	display: table-cell;
+	word-break: break-all;
+	color: #606266;
+	width: 120px;
+}
+.td4,.th4{
+	padding: 10px;
+	vertical-align: middle;
+	display: table-cell;
+	word-break: break-all;
+	color: #606266;
+	width: 120px;
+}
+.td5,.th5{
+	padding: 10px;
+	vertical-align: middle;
+	display: table-cell;
+	word-break: break-all;
+	color: #606266;
+	width: 120px;
+}
+.now{
+	background-color: #e9ecef;
+}
+.hidden{
+	display:none
+}
+
+</style>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<!--script src="https://helper.log.cx/gbk.js"></script-->
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<!-- 最新的 Bootstrap4 核心 JavaScript 文件 style="width:100%;background-color:C2C2C2;text-align:left;"-vertical-->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="js/common2.js" type="application/javascript"></script>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/Base64/1.1.0/base64.min.js" type="application/javascript"></script>
+</head>
+<body>
+<div id="header" style="z-index:100;min-width:666px;box-shadow:0 0 5px #888;width:100%;height:30px;position:fixed;top:0;BACKGROUND:#fbfbfb;">
+<span style="display:inline; margin-left:8px;" class="t2 col-1">站点死链辅助工具</span>
+<span ><button id="downloadbtn" type="button" class="btn btn-outline-secondary btn-sm" style="position: fixed;right:0px">导出</button></span>
+<span id="tempco" style="display:inline"></span>
+</div>
+<div class="row" style="margin:38 0 0 2px;">
+   <div class="btn-group btn-group-lg" style="margin:0 0px;padding:0 2px;">
+    <button type="button" class="btn btn-outline-Secondary" onclick="javascript:$('#myTable_tbody').empty();$('#dnTextBox').val('');">清屏</button>
+    <button type="button" class="btn btn-outline-Secondary" id="submit" onClick="dowork();">开始</button>
+  </div>
+<textarea rows="6" style="width:80%;padding:1 0px;font-family:宋体;font-size:12px;" id="dnTextBox" onkeydown="if(event.ctrlKey&&event.keyCode==13)
+{document.getElementById('submit').click();return false};" class="col"></textarea>
+</div> 
+<!--hr width="100%" size="1" align="left" color="#5151A2" style="margin:12 0px;border:1px dashed gray; FILTER: alpha(opacity=100,finishopacity= 0,style= 3)"-->
+<!--table width="100%" border="0" cellspacing="0" cellpadding="0" id="myTable" class="table table-sm table-striped table-hover tablew">
+  <thead class="thead-success">
+	  <tr>
+		<th style="width:80px;">序号</th>
+		<th >host首页</th>
+		<th >疑似活链</th>
+		<th >疑似死链</th>
+		<th >疑似死链2</th>
+	  </tr>
+  </thead>
+  <tbody id="myTable_tbody"></tbody>
+</table-->
+
+<div class='tb'>
+	<div class='thr'>
+		<div class='th1'>序号</div>
+		<div class='th2'>host首页</div>
+		<div class='th3'>疑似活链</div>
+		<div class='th4'>疑似死链</div>
+		<div class='th5'>下载失败</div>
+	</div>
+</div>
+
+<script language="javascript" type="text/javascript">
+var day=currentTime().replace(/月|日.*$/g,"");
+document.getElementById("dnTextBox").value="";
+checkCookie();
+var arr;
+var myid;
+function dowork()
+{
+    //var rows = TB.children;while(rows.length) TB.deleteRow(0);
+    var text = dnTextBox.value;
+        //alert(text);
+        arr = text.split(/\r?\n/);
+        //document.getElementById("adds2").value="共"+arr.length+"条";
+    doShow(0);
+}
+ 
+function doShow(i)
+{
+    if (i>=arr.length) 
+    {
+        adds1.style.color ="#FF0000";
+        document.getElementById("adds1").value="Finished! //共"+arr.length+"条";
+        return;
+    }
+
+	for(i=0;i<arr.length;i++){
+        //var s =arr[i].replace(/^\s+|\s+$/g, "");
+        var uarr = arr[i].split(/\t/);
+        s = uarr[0];
+		if(s.length){
+			if (s.indexOf("http")!=0) s = `http://${s}/`;
+			$('.tb').append(`<div class='tr' id='tr${i}'></div>`)
+			
+			$(`#tr${i}`).append(`<div class='td1'>${i+1}</div>`)
+
+			$(`#tr${i}>.td1`).after(`<div class='td2'><a href='${s}' target='_blank' rel='noreferrer noopener'>${s}</a></div>`)
+				let tstr3=''
+				for (j=1;j<=5;j++){
+					if(uarr[j].length) tstr3 += `<a href="${uarr[j]}" target='_blank' rel='noreferrer noopener'>${uarr[j]}</a></br>`
+				}
+			$(`#tr${i}>.td2`).after(`<div class='td3'>${tstr3}</div>`)
+				let tstr4=''
+				for (j=6;j<=10;j++){
+					if(uarr[j].length) tstr4 += `<a href="${uarr[j]}" target='_blank' rel='noreferrer noopener'>${uarr[j]}</a></br>`
+				}
+			$(`#tr${i}>.td3`).after(`<div class='td4'>${tstr4}</div>`)
+				let tstr5=''
+				for (j=11;j<=15;j++){
+					if(uarr[j].length) tstr5 += `<a href="${uarr[j]}" target='_blank' rel='noreferrer noopener'>${uarr[j]}</a></br>`
+				}
+			$(`#tr${i}>.td4`).after(`<div class='td5'>${tstr5}</div>`)
+		}
+	}
+}
+(function(){
+	//console.log('page load')
+	$(document).on('click', '.tr', function (){
+		//console.log('tr clicked')
+		$('.now').removeClass('now')
+		$(this).addClass('now')
+		$('#this').remove()
+		//$(this).after('haha')
+		$('.tb').before(`<div class="input-group mt-3 mb-3" id="this">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="host">${$('.td2',this).text().replace(/^https?:\/\/|\/$/ig,'')}</span>
+							</div>
+							<div class="input-group-prepend">
+									<button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" style="width:220px;">选择类别</button>
+									<div class="dropdown-menu">
+										<button type="button" class="dropdown-item" data="">活链</button>
+										<button type="button" class="dropdown-item" data="">整站死链（首页也死链）</button>
+										<button type="button" class="dropdown-item" data="">内页全死链（首页活链）</button>
+										<button type="button" class="dropdown-item" data="">大量内页死链</button>
+										<button type="button" class="dropdown-item" data="">对应跳转（跳转活链）</button>
+									</div>
+							</div>
+							<div class="input-group-append">
+								<button class="btn btn-success rounded-0" id="savebtn" >保存</button>
+								<button class="btn btn-outline-danger rounded-0" id="resetbtn">重填</button>
+							</div>
+							<div class="input-group-append">
+								<span class="input-group-text" id="tips"></span>
+							</div>
+					</div>
+		`)
+	})
+	
+	$(document).on('click', '.dropdown-item', function (){
+		$('.dropdown-toggle').text($(this).text())
+	})
+
+	
+	$(document).on('click', '#savebtn', function (){
+		if ('选择类别'== $('#this .dropdown-toggle').text()){
+			$('#tips').html('请先选择类别')
+		}else{
+			$('#tips').html('')
+			var jsonobj={"host":"","type":"null","t":"null","author":"","day":"","checkinfo":""}
+			jsonobj.host = $('#this #host').text()
+			jsonobj.type = $('#this .dropdown-toggle').text()
+			jsonobj.t = btoa(Date.parse(new Date()))
+			jsonobj.author = myid
+			jsonobj.day = day
+			console.log(jsonobj)
+			writedb(jsonobj,()=>{$('.now').addClass('hidden');console.log('write suc');$('#this').remove()})
+		}
+	})
+
+	$(document).on('click', '#resetbtn', function (){
+		deletedb($('#this #host').text(),()=>{console.log('del suc')})
+	})
+
+	jQuery(document).on("click","#downloadbtn",function(){
+        downloadfunction(day,function(txt){
+            //console.log(txt);
+            download(myid+"-"+currentTime().replace(/月|日.*$/g,"")+"-导出数据_"+currentTime()+".txt",txt);
+        });
+    }); 
+
+})();
+
+
+
+/*获取当前时间*/
+function currentTime(){
+    var d = new Date(),str = '';
+    //str += d.getFullYear()+'年';
+    str  += (d.getMonth() + 1 <10)?'0'+(d.getMonth() + 1)+'月':d.getMonth() + 1+'月';
+    str  += (d.getDate()<10)?'0'+d.getDate()+'日':d.getDate()+'日';
+    str += d.getHours()+'时';
+    str  += d.getMinutes()+'分';
+    str+= d.getSeconds()+'秒';
+    return str;
+}
+
+
+function writedb(obj,callback){ //indexdb
+    /*创建indexdb*/
+    var request = indexedDB.open("mydb", 1);
+    request.onerror = function(e) {
+        console.log(e.currentTarget.error.message);
+    };
+
+    request.onsuccess = function(e) {
+       var db = e.target.result;
+        console.log('成功打开DB');
+    };
+
+    request.addEventListener('upgradeneeded', e => {
+        var db = e.target.result;
+        if (!db.objectStoreNames.contains('xpath')) {
+            console.log("我需要创建一个新的存储对象");
+            //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
+            var objectStore = db.createObjectStore('xpath', {
+                keyPath: "host",
+                autoIncrement: false
+            });
+            objectStore.createIndex("day", "day", { unique: false });
+            console.log('创建对象仓库成功');
+        }
+    });
+    request.addEventListener('success', e => {
+        var db = e.target.result;
+            var tx = db.transaction('xpath', 'readwrite');
+            var store = tx.objectStore('xpath');
+            //console.log(typeof arr[i]);
+            let jsonobj = obj;
+            if (jsonobj.host) {
+                if ("myid"==jsonobj.id){
+                    var reqAdd = store.add({
+                        'id': jsonobj.id,
+                        'idval': jsonobj.idval
+                    });
+                    reqAdd.addEventListener('error', err => {
+                        jQuery("#ver").html("写入id失败！");
+                    })
+                }
+                else{
+                    var reqAdd = store.add({
+                        'host': jsonobj.host,
+                        'type': jsonobj.type,
+                        't':jsonobj.t,
+                        'author':jsonobj.author,
+                        'day':jsonobj.day,
+                        'checkinfo':jsonobj.checkinfo
+                    });
+                    reqAdd.addEventListener('success', e => {
+                        console.log("write db suc")
+                    })
+                    reqAdd.addEventListener('error', err => {
+                        console.log("write db err")
+                        jQuery("#ver").html("写入失败！");
+                    })
+                }
+            }
+        if(typeof callback ==="function"){callback()}
+    });
+}
+
+function readdb(host,callback){
+    var request = indexedDB.open("mydb", 1);
+
+    request.addEventListener('upgradeneeded', e => {
+        var db = e.target.result;
+        if (!db.objectStoreNames.contains('xpath')) {
+            console.log("我需要创建一个新的存储对象");
+            //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
+            var objectStore = db.createObjectStore('xpath', {
+                keyPath: "host",
+                autoIncrement: false
+            });
+            objectStore.createIndex("day", "day", { unique: false });
+            console.log('创建对象仓库成功');
+        }
+    });
+    request.addEventListener('success', e => {
+        var db = e.target.result;
+        var tx = db.transaction('xpath', 'readwrite');
+        var store = tx.objectStore('xpath');
+        var reqGet = store.get(host);
+        reqGet.addEventListener('success', e => {
+            //console.log(reqGet.result);
+            let reobj = reqGet.result;
+            //return(reobj);
+            if (typeof callback ==="function") {
+                callback(reobj);
+            }
+        })
+        /*var allRecords = store.getAll();
+        allRecords.onsuccess = function() {
+            //console.log(allRecords.result.length);
+            jQuery("#tdinfo").html("共"+allRecords.result.length+"条数据");
+        };*/
+
+        var dayindex = store.index("day");
+        /*dayindex.count(day).onsuccess = function(event) {
+            console.log(event.target.result);
+        };
+        dayindex.getAllKeys(day).onsuccess = function(event) {
+            console.log(event.target.result);
+        };*/
+        let daycount =0;
+        dayindex.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            if(cursor) {
+                if ("null" != cursor.value.delstr && cursor.value.day==day && "myid"!=cursor.value.id) daycount +=1;
+                //console.log(cursor);
+                cursor.continue();
+            } else {
+                jQuery("#tdinfo").html(myid+":今日"+daycount);//console.log(daycount);
+            }
+        };
+
+
+    });
+
+}
+
+function updatedb(obj,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        //console.log('成功打开DB');
+        var transaction = db.transaction('xpath', 'readwrite');
+        var store = transaction.objectStore('xpath');
+        console.log(obj);
+        var reqUp = store.get(obj.host);
+        reqUp.onsuccess = function(e) {
+            var data = e.target.result;
+            //for (a in newData) {
+            //除了keypath之外
+            //    data.a = newData.a;
+            //}
+            //console.log(data);
+            data.type = obj.type;
+            data.t = obj.t;
+            data.author = obj.author;
+            data.day = obj.day;
+            data.checkinfo = checkinfo;
+            store.put(data);
+            if (typeof callback ==="function") {
+                callback();
+            }
+        reqUp.onerror = function(){
+            console.log("写错误");
+            jQuery("#ver").html("更新失败！");
+            }
+        };
+    };
+}
+
+function deletedb(host,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        //console.log('成功打开DB');
+        var transaction = db.transaction('xpath', 'readwrite');
+        var store = transaction.objectStore('xpath');
+        console.log(host);
+        var reqDel = store.delete(host);
+        reqDel.onsuccess = function(e) {
+            console.log("Del suc");
+        };
+        reqDel.onerror = function(){
+            console.log("Del err");
+            jQuery("#ver").html("删除失败！");
+        }
+    };
+}
+
+function downloadfunction(daystr,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        var transaction = db.transaction('xpath');
+        var store = transaction.objectStore('xpath');
+        var reqCur = store.openCursor();//打开游标
+        var dataList = new Array();
+        let txt ="";    //"id,tuwen,link,other,delete,author,day,checkinfo\n";
+        var i = 0;
+        reqCur.onsuccess = function(e) {
+            var cursor = e.target.result;
+            if (cursor) {
+                dataList[i] = cursor.value;
+                if (daystr){
+                    if(daystr==dataList[i].day){
+                        txt+=dataList[i].host+"\t"+dataList[i].type+"\t"+dataList[i].t+"\t"+dataList[i].author+"\t'"+dataList[i].day+"\t"+dataList[i].checkinfo+"\n";
+                        i++;
+                    }
+                }else{
+					txt+=dataList[i].host+"\t"+dataList[i].type+"\t"+dataList[i].t+"\t"+dataList[i].author+"\t'"+dataList[i].day+"\t"+dataList[i].checkinfo+"\n";
+					i++;
+                }
+                cursor.continue();
+            }else{
+                //data = dataList;
+                if (typeof callback ==="function") {
+                    callback(txt);
+                }
+            }
+        };
+        //console.log(txt);
+    }
+}
+
+/*下载*/
+function download(filename,content,contentType) {
+    //if (!contentType) contentType = 'application/octet-stream';
+    //var a = document.createElement('a');
+    //var blob = new Blob([content], { 'type': contentType });
+    //a.href = window.URL.createObjectURL(blob);
+    //a.download = filename;
+    //a.click();
+
+    //var uri = 'data:application/csv;charset=utf-8,' + escape(content); //如果数据太多，就会导致无法导出的结果，原因是浏览器对URL的长度有限制，因此要使用Blob对象和window.URL.createObjectURL()方法做一下改造。
+    var uri = new Blob([content]);//new Blob(['\ufeff' + content], {type:"text/csv,charset=UTF-8"})
+    var link = document.createElement("a");
+    //link.href = uri;
+    link.href = URL.createObjectURL(uri);
+    link.style = "visibility:hidden";
+    link.download = filename ;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>
