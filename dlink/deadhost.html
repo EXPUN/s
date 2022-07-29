@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -127,13 +126,17 @@ a:visited{
   <tbody id="myTable_tbody"></tbody>
 </table-->
 
-<div class='tb'>
+<div class='tb' id='tb'>
 	<div class='thr'>
-		<div class='th1'>序号</div>
-		<div class='th2'>host首页</div>
-		<div class='th3'>疑似活链</div>
-		<div class='th4'>疑似死链</div>
-		<div class='th5'>下载失败</div>
+        <div class='tb'>
+            <div class='thr'>
+                <div class='th1'>序号</div>
+                <div class='th2'>host首页</div>
+                <div class='th3'>疑似活链</div>
+                <div class='th4'>疑似死链</div>
+                <div class='th5'>下载失败</div>
+            </div>
+        </div>
 	</div>
 </div>
 
@@ -143,6 +146,7 @@ document.getElementById("dnTextBox").value="";
 checkCookie();
 var arr;
 var myid;
+var lastclickhost;
 function dowork()
 {
     //var rows = TB.children;while(rows.length) TB.deleteRow(0);
@@ -168,7 +172,7 @@ function doShow(i)
         s = uarr[0];
 		if(s.length){
 			if (s.indexOf("http")!=0) s = `http://${s}/`;
-			$('.tb').append(`<div class='tr' id='tr${i}'></div>`)
+			$('#tb').append(`<div class='tr'><div class='tb'><div class='tr' id='tr${i}'></div></div></div>`)
 			
 			$(`#tr${i}`).append(`<div class='td1'>${i+1}</div>`)
 
@@ -194,12 +198,13 @@ function doShow(i)
 (function(){
 	//console.log('page load')
 	$(document).on('click', '.tr', function (){
-		//console.log('tr clicked')
+		//console.log($(this))
 		$('.now').removeClass('now')
 		$(this).addClass('now')
 		$('#this').remove()
 		//$(this).after('haha')
-		$('.tb').before(`<div class="input-group mt-3 mb-3" id="this">
+		//$('.tb').before(`<div class="input-group mt-3 mb-3" id="this">
+		$(this).after(`<div class="input-group mt-3 mb-3" id="this" style="margin-top:0px !important;">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="host">${$('.td2',this).text().replace(/^https?:\/\/|\/$/ig,'')}</span>
 							</div>
@@ -232,7 +237,9 @@ function doShow(i)
 	$(document).on('click', '#savebtn', function (){
 		if ('选择类别'== $('#this .dropdown-toggle').text()){
 			$('#tips').html('请先选择类别')
-		}else{
+		}else if(lastclickhost!=$('#this #host').text()){
+            $('#tips').html('最近点击链接不是当前行，请检查！')
+        }else{
 			$('#tips').html('')
 			var jsonobj={"host":"","type":"null","t":"null","author":"","day":"","checkinfo":""}
 			jsonobj.host = $('#this #host').text()
@@ -255,6 +262,11 @@ function doShow(i)
             download(myid+"-"+currentTime().replace(/月|日.*$/g,"")+"-导出数据_"+currentTime()+".txt",txt);
         });
     }); 
+
+	$(document).on('click', 'a', function (){
+		lastclickhost = $(this).attr('href').replace(/^https?:\/\/|\/.*$/ig,'')
+        //console.log(lastclickhost)
+	})
 
 })();
 
@@ -388,10 +400,8 @@ function readdb(host,callback){
             } else {
                 jQuery("#tdinfo").html(myid+":今日"+daycount);//console.log(daycount);
             }
-        };
-
-
-    });
+        }
+    })
 
 }
 
