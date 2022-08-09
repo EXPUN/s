@@ -21,12 +21,12 @@ function checkCookie(){
         if (btoa(t_u[0]+t_u1)+t_u1 == t_u[1]){
             //console.log("欢迎 " + t_u[0] + " 再次访问");
             myid = t_u[0];
-            if(window.location.pathname.match("login.html")) window.location.href="./deadhost.html";
+            if(window.location.pathname.match("login.html")&&window.location.search) window.location.href=window.location.search.replace(/^\?ref=/,'');
         }else{
             //console.log(t_u[0]);
             //console.log(t_u[1]);
             //console.log(btoa(t_u[0]+t_u1)+t_u1);
-            if(!window.location.pathname.match("login.html")) window.location.href="./login.html";
+            if(!window.location.pathname.match("login.html")) window.location.href=`./login.html?ref=${window.location.pathname}`;
         }
     }
     else {
