@@ -136,6 +136,10 @@
         .btn-select::before{
             content:url('data:image/svg+xml;%20charset=utf8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20fill=%22currentColor%22%20class=%22bi%20bi-check2-square%22%20viewBox=%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20d=%22M3%2014.5A1.5%201.5%200%200%201%201.5%2013V3A1.5%201.5%200%200%201%203%201.5h8a.5.5%200%200%201%200%201H3a.5.5%200%200%200-.5.5v10a.5.5%200%200%200%20.5.5h10a.5.5%200%200%200%20.5-.5V8a.5.5%200%200%201%201%200v5a1.5%201.5%200%200%201-1.5%201.5H3z%22/%3E%0A%20%20%3Cpath%20d=%22m8.354%2010.354%207-7a.5.5%200%200%200-.708-.708L8%209.293%205.354%206.646a.5.5%200%201%200-.708.708l3%203a.5.5%200%200%200%20.708%200z%22/%3E%0A%3C/svg%3E');
         }
+        #qlist{
+            width: 280px;
+            font-size: 14px;
+        }
         .table_workspace {
 	width: 100%;
 	border: 1px solid #e5e5e5;
@@ -314,6 +318,7 @@
                 <div class="row_secondary">
                     <div class="col">
                         <div class="cell cell_1">当前第<span id="index"></span>条，共<span id="item_total"></span>条，进度<span id="percent"></span>%。</div>
+                        <div class="cell cell_1">系统预分类(仅参考):<span id="pretags"></span></div>
                     </div>
                 </div>
                 <div class="row_data">
@@ -579,6 +584,11 @@
                                 </li>
                             </ul>
                         </div>
+                        <span id="qlist" class="card">
+                            <div class="card-header">querylist(!仅参考)</div>
+                            <div class="card-body"></div> 
+                            <div class="card-footer"></div>
+                        </span>
                     </div>
                     <!--div class="col">
                         <button id="pre_btn" type="button" class="btn btn-outline-secondary btn-block">上一条</button>
@@ -1044,10 +1054,20 @@
     /*loadtext*/
     function loadtext(index){
         if(index <Number(localStorage.item_total)){
-            var text_display =JSON.parse(JSON.parse(localStorage.getItem("ti"+index)).inputstr).host;
+            var text_display = JSON.parse(JSON.parse(localStorage.getItem("ti"+index)).inputstr).host;
             $('#text_display').text(text_display);
             $('#text_display').attr('href',`http://${text_display}/`);
             $('#search_link_pc').attr("href","https://helper.log.cx/allso/#site:"+text_display);
+            
+            let inputinfoarr = JSON.parse(JSON.parse(localStorage.getItem("ti"+index)).inputstr).info.split('\t')
+            $('#pretags').text(`${inputinfoarr[0]} ${inputinfoarr[5]} ${inputinfoarr[6]}`)
+
+            let inputqueryarr = JSON.parse(JSON.parse(localStorage.getItem("ti"+index)).inputstr).q.split('\t');
+            let qlistext =''
+            $.each(inputqueryarr,function(i,v){qlistext += v.replace(/,\d+$/,'')+'</br>'})
+            console.log(qlistext)
+            $('#qlist .card-body').html(qlistext);
+
             //$('#search_link_mob').attr("href","https://helper.log.cx/allso/m/#"+text_display);
             $('#index').text(Number(localStorage.index)+1);
             $('#item_total').text(localStorage.item_total);
@@ -1111,7 +1131,6 @@
             //$('#hidden_radio').attr("checked",true);
             var temp_str = $(this).parent().html();
             $(this).toggle(100).toggle(50,function(){
-
                 $(this).parent().empty().prepend(temp_str);
                 //console.log(temp_str);
                 temp_str = "";
