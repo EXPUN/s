@@ -1,0 +1,1184 @@
+<!DOCTYPE HTML>
+<html id="ne_wrap"><head>
+    <meta charset="utf-8">
+    <title>站点分类</title>
+    <!--link rel="stylesheet" href="http://static.ws.126.net/163/f2e/auto/product_pc/product_series/static/css/series_index.css"-->
+    <!--link rel="stylesheet" href="https://helper.log.cx/fenlei/main.css"-->
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/css/bootstrap.min.css" rel="stylesheet">
+    <!--link href="https://cdn.staticfile.org/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet"-->
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.bundle.min.js"></script>
+     <!--https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-v4-rtl/4.6.0-1/js/bootstrap.min.js-->
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/Base64/1.1.0/base64.min.js" type="application/javascript"></script>
+    <script src="js/common2.js" type="application/javascript"></script>
+    
+    <style>
+        body, div,input, form, h1, h2, h3, h4, h5, h6, html {
+            margin: 0;
+            padding: 0;
+            }
+        html, body{
+            height: 100%;
+            }
+        hr.style-one {
+            width: 98%;
+            margin: 5px auto;
+            border: 0;
+            height: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            }
+        .wrapper {
+            margin: 0 auto;
+            height: calc(100% - 47px);
+            overflow-y: auto;
+            width: 1500px!important;
+            }
+        .cell {
+            float: left;
+            font-size: 24px;
+            margin: 2px 10px;
+            }
+        .row_master .cell {
+            font-size: 18px;
+            line-height: 36px;
+            color: #666;
+            }
+        .table_workspace {
+            width: 100%;
+            border: 1px solid #e5e5e5;
+            }
+        .row_master {
+            border-bottom: 1px solid #dbdbdb;
+            background-color: #f0f0f0;
+        }
+        .fenlei {
+            float: left;
+            font-size: 20px;
+            /*border-left: 5px solid #d51c17;*/
+            position: relative;
+            border-color: #bfbfbf;
+            /*-webkit-box-shadow: 0 2px 2px #e5e5e5;
+            box-shadow: 0 2px 2px #e5e5e5;*/
+            }
+        .list-group-item{
+            padding: .25rem .75rem;
+            max-height: 72px;
+        }
+        .input-group-text{
+            font-size: 1.25rem;
+            /*width: 225px;*/
+        }
+        .list-group-item-lg{
+            width:450px;
+        }
+        .list-group-item-sm{
+            width:220px;
+        }
+        .fenlei_radio {
+            display:inline-block;
+            width:40px;
+            height:28px;
+        }
+        .fenlei_radio input[type=radio]{
+            zoom: 200%;
+            height: 100%;
+            margin:0px;
+            vertical-align: middle;
+            }
+        .fenlei_radio text{
+            padding-top: 2px;
+            }
+        .input_box {
+            position:fixed;
+            top:80px;
+            right:0px;
+            z-index:900000000;
+            }
+        .input_box_title {
+            width:30px;
+            height:620px;
+            text-align:center;
+            display:block;
+            float:left;
+            cursor:pointer;
+            background-color:#6c757d;
+            color:#FFF;
+            }
+        .input_box_title span {
+            position:relative;
+            top:50%;
+            display:block;
+            z-index:910000000;
+            margin-top:-60px;
+            }
+        .input_box_textarea {
+            width:0px;
+            height:620px;
+            overflow:hidden;
+            float:left;
+            background-color:#CCC;
+            }
+        .input_box_this {
+            background-color:#343a40;
+            }
+        .input_box_textarea textarea {
+            width:400px;
+            height:525px;
+            }
+        #type_list{
+            font-size:14px;
+            width:100%;
+        }
+        .pointer{
+            cursor: pointer;
+            }
+        .btn-select::before{
+            content:url('data:image/svg+xml;%20charset=utf8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2224%22%20height=%2224%22%20fill=%22currentColor%22%20class=%22bi%20bi-check2-square%22%20viewBox=%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20d=%22M3%2014.5A1.5%201.5%200%200%201%201.5%2013V3A1.5%201.5%200%200%201%203%201.5h8a.5.5%200%200%201%200%201H3a.5.5%200%200%200-.5.5v10a.5.5%200%200%200%20.5.5h10a.5.5%200%200%200%20.5-.5V8a.5.5%200%200%201%201%200v5a1.5%201.5%200%200%201-1.5%201.5H3z%22/%3E%0A%20%20%3Cpath%20d=%22m8.354%2010.354%207-7a.5.5%200%200%200-.708-.708L8%209.293%205.354%206.646a.5.5%200%201%200-.708.708l3%203a.5.5%200%200%200%20.708%200z%22/%3E%0A%3C/svg%3E');
+        }
+        .table_workspace {
+	width: 100%;
+	border: 1px solid #e5e5e5;
+	font-size: 18px;
+}
+
+.table_workspace .col:after {
+	clear: both;
+	display: block;
+	visibility: hidden;
+	overflow: hidden;
+	height: 0;
+	content: ".";
+}
+
+.table_workspace .row_master .cell_1 {
+	text-indent: 120px;
+}
+
+.table_workspace .row_data .col {
+	border: 1px solid #fff;
+}
+
+.table_workspace .row_master {
+	border-bottom: 1px solid #dbdbdb;
+	background-color: #f0f0f0;
+}
+
+.table_workspace .row_master .cell {
+	color: #666;
+	font-size: 14px;
+	line-height: 36px;
+}
+
+.table_workspace .row_secondary {
+	border-bottom: 1px solid #eaeaea;
+	background-color: #f8f8f8;
+}
+
+.table_workspace .row_secondary .cell {
+	line-height: 26px;
+    color: #666;
+    font-size: 14px;
+}
+
+.table_workspace .row_secondary .cell_1 {
+	position: relative;
+	left: -1px;
+	padding-left: 15px;
+	border-left: 5px solid #d51c17;
+}
+
+.table_workspace .row_data {
+	border-bottom: 1px solid #eaeaea;
+}
+
+.table_workspace .row_data .icon_l {
+	float: left;
+	display: block;
+    width: 60px;
+	margin-left: 30px;
+}
+
+.table_workspace .row_data .icon_tag_1,.table_workspace .row_data .icon_tag_2,.table_workspace .row_data .icon_tag_3,.table_workspace .row_data .icon_tag_4,.table_workspace .row_data .icon_tag_5 {
+	display: inline-block;
+	overflow: hidden;
+	margin: -3px -5px 0 10px;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icon_car_attr.png) no-repeat;
+	vertical-align: middle;
+	text-indent: -9999px;
+}
+
+.table_workspace .row_data .icon_tag_1 {
+	background-position: 0 0;
+}
+
+.table_workspace .row_data .icon_tag_2 {
+	background-position: -18px 0;
+}
+
+.table_workspace .row_data .icon_tag_3 {
+	display: none;
+	background-position: -36px 0;
+}
+
+.table_workspace .row_data .icon_tag_4 {
+	background-position: -54px 0;
+}
+
+.table_workspace .row_data .icon_tag_5 {
+	background-position: -72px 0;
+}
+
+.table_workspace .row_data .icon_add {
+	font-style: normal;
+}
+
+.table_workspace .row_data a {
+	color: #18429c;
+}
+
+.table_workspace .row_data span.icon_tag_stop {
+	display: inline-block;
+	overflow: hidden;
+	margin: -3px -5px 0 10px;
+	padding: 0 3px;
+	height: 16px;
+	background: #c6c6c6;
+	color: #fff;
+	vertical-align: middle;
+	line-height: 16px;
+}
+
+.table_workspace .row_data .link {
+	color: #18429c;
+}
+
+.table_workspace .row_data .tip {
+	padding-left: 46px;
+	color: #999;
+}
+
+.table_workspace .row_data .text-success {
+	color: #31c1a4;
+	font-weight: 700;
+}
+
+.table_workspace .percent_bar {
+	display: inline-block;
+	overflow: hidden;
+	width: 45px;
+	height: 5px;
+	background-color: #e5e5e5;
+	font-size: 0;
+}
+
+.table_workspace .percent_bar i {
+	display: block;
+	height: 5px;
+	background-color: #d51c17;
+}
+
+.table_workspace .link_calculator {
+	display: inline-block;
+	width: 18px;
+	height: 15px;
+	background: url(https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap-icons/1.3.0/icons/arrow-right.svg) center top no-repeat;
+	vertical-align: middle;
+}
+
+.table_workspace .link_calculator:hover {
+	background-position: center bottom;
+}
+
+.table_workspace .row_hover .col {
+	position: relative;
+	border-color: #bfbfbf;
+	-webkit-box-shadow: 0 2px 2px #e5e5e5;
+	box-shadow: 0 2px 2px #e5e5e5;
+}
+
+.table_workspace .row_last {
+	border-bottom: none;
+}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="area_title_bar">
+            <h3>站点分类助手</h3>
+        </div>
+        <div class="tab_content">
+            <div class="table_workspace">
+                <div class="row_secondary">
+                    <div class="col">
+                        <div class="cell cell_1">当前第<span id="index"></span>条，共<span id="item_total"></span>条，进度<span id="percent"></span>%。</div>
+                    </div>
+                </div>
+                <div class="row_data">
+                    <div class="col">
+                        <div class="cell cell_1" style="width: 400px;">
+                            <i class="icon_l"><a id="search_link_pc" target="_blank">Site:</a></i><a  target="_blank" id="text_display"></a>
+                        </div>
+                        <div class="cell cell_2">
+                            <div class="input-group input-group-sm" style="font-size: 24px;height: 36px;">
+                            <button type="button" class="btn btn-sm btn-success rounded-0" id="smt" disabled>保存</button>
+                            <div class="input-group-append">
+                                <span id="fenleidata" class="input-group-text rounded-0" style="width: 600px;"></span>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row_data">
+                    <div class="col">
+                        <!--div class="input-group mb-3">
+                            <input type="text" class="form-control rounded-0" id="beizhu" placeholder="如需备注，在此输入">
+                            <button type="button" class="btn btn-success rounded-0" id="smt" disabled>提交</button>
+                        </div-->
+                        <hr class="style-one">
+                        <div class="fenlei">
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">影视<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">影视</button>
+                                        <button type="button" class="btn btn-info" aria-pressed="true">直播</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">动漫</button>
+                                        <button type="button" class="btn btn-info  rounded-0" aria-pressed="true">影讯</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">音乐<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">音乐</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">乐谱</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">音频节目</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">漫画<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">漫画</button>
+                                        <!--button type="button" class="btn btn-info" aria-pressed="true">中</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">弱</button-->
+                                      </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">金融财经<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">银行</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">保险</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">股票及其他</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">医疗健康<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">寻医问诊</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">医院</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">小说<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">小说</button>
+                                      </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">科技<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">家电数码</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">软硬件</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">软件下载</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">互联网<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">导航站</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">网名语录</button>
+                                        <button type="button" class="btn btn-secondary rounded-0" aria-pressed="true">网站后台</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">体育<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">体育</button>
+                                      </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">旅游<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">住宿</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">交通</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">旅游</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">时尚潮流<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">娱乐明星</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">服装美容</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">游戏<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">游戏</button>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">房产装修<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">房产</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">装修</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">汽车<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">汽车</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">摩托车</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">命理<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">命理星座</button>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">知识<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">百科</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">问答</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">经验</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">文库</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">期刊</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">图片<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">图片</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">头像</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">彩票<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">彩票</button>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">职业<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">招聘就业</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">职业发展</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">商情<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">2B商情</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">2C商情</button>
+                                        <button type="button" class="btn btn-secondary rounded-0" aria-pressed="true">企业网站</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">新闻<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">新闻</button>
+                                      </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">政策法规<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">政策</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">法律</button>
+                                        <button type="button" class="btn btn-secondary rounded-0" aria-pressed="true">政府机构网站</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">教育培训<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">k12</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">高等教育</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">留学</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">学校官网</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">培训考试</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">文化<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">文化艺术</button>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">ugc<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">web2</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">论坛</button>
+                                        <button type="button" class="btn btn-secondary rounded-0" aria-pressed="true">自媒体</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">境外<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">外文</button>
+                                        <button type="button" class="btn btn-info rounded-0" aria-pressed="true">境外</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">跳过<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-dark rounded-0" aria-pressed="true">跳过</button>
+                                      </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">生活<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">生活</button>
+                                        <button type="button" class="btn btn-info  rounded-0" aria-pressed="true">工具</button>
+                                        <button type="button" class="btn btn-secondary  rounded-0" aria-pressed="true">美食</button>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-lg rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">色情私服<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">私服</button>
+                                        <button type="button" class="btn btn-warning rounded-0" aria-pressed="true">色情</button>
+                                      </div>
+                                </li>
+                                <li class="list-group-item list-group-item-sm rounded-0">
+                                    <div class="btn-group mr-0  rounded-0" role="group">
+                                        <div class="input-group-text rounded-0">杂类<input class="fenlei_radio" type="checkbox" disabled></div>
+                                        <button type="button" class="btn btn-primary rounded-0" aria-pressed="true">杂类</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--div class="col">
+                        <button id="pre_btn" type="button" class="btn btn-outline-secondary btn-block">上一条</button>
+                        <!--button type="button" class="btn btn-light btn-block" disabled>---</button>
+                        <button type="button" class="btn btn-outline-secondary btn-block" disabled>下一条</button>
+                    </div-->
+                </div>
+            </div>           
+        </div>
+        <div class="input_box">
+            <strong class="input_box_title"><span>展开输入框</span></strong>
+            <div class="input_box_textarea">
+                <textarea id="input_box_text"></textarea>
+                <button id="input_submit" type="button" class="btn btn-outline-secondary btn-block" data-toggle="tooltip">提交</button>
+                <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-outline-success" onclick="txtoutput();">导出</button>
+                    <button type="button" class="btn btn-secondary btn-sm" disabled >--</button>
+                    <button type="button" class="btn btn-warning btn-sm" onclick='unlock()'>解锁</button>
+                </div>
+                <!--a onclick='document.getElementById("input_submit").disabled="";' class="pointer">解锁</a-->
+            </div>
+            <!--模态框-->
+            <div  id="no_output_modal"  class="modal" tabindex="-1">
+                <div class="modal-dialog modal-sm  modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-info">数据还没有导出呢！</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="alert alert-warning">上次提交数据后，有点击分类按钮行为。需要先导出，再解锁新数据输入</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success"  onclick="txtoutput();">导出</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div  id="unlocked_modal"  class="modal" tabindex="-1">
+                <div class="modal-dialog modal-sm  modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-info">已解锁！</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="alert alert-warning">请确认导出数据正常保存后,再提交新数据</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div >
+        <table id="type_list" class="table table-hover">
+            <thead>
+                <tr>
+                <th scope="col" style="min-width: 210px;">#<a id="type_list_toggle" onclick='$(".wrapper").toggle(100);' class="pointer"> ➤ 点此展开/收起 类别释义</a></th>
+                <th scope="col" style="min-width: 80px;">分类名称</th>
+                <th scope="col">释义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>影视</td>
+                    <td>以电影、电视剧类视频内容为主的站点，包含影视下载类站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>直播</td>
+                    <td>以直播形式为主的视频站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>动漫</td>
+                    <td>以动漫类视频内容为主的站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>影讯</td>
+                    <td>影视评级，剧集介绍等www.tvmao.com</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">5</th>
+                    <td>音乐</td>
+                    <td>以听歌为目的的音乐网站或者音乐曲目下载网站</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">6</th>
+                    <td>乐谱</td>
+                    <td>吉他谱、钢琴谱等乐谱聚合网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>音频节目</td>
+                    <td>以音频广播节目为主的聚合网站，如 喜马拉雅等无视频但有音频类站点。有声小说放小说类别</td>
+                </tr>
+                <tr>
+                    <th scope="row">8</th>
+                    <td>漫画</td>
+                    <td>漫画资源及漫画周边相关网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">9</th>
+                    <td>银行</td>
+                    <td>银行转账、借贷等各种银行业务相关网站，一般指银行官网。</td>
+                </tr>
+                <tr>
+                    <th scope="row">10</th>
+                    <td>保险</td>
+                    <td>各类保险相关网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">11</th>
+                    <td>股票及其他产</td>
+                    <td>股票资讯、交易相关网站，证券、期货、大宗货物、加密货币等其他金融交易品，金融平台、支付平台、金融服务平台/机构， 税务信息可以放在此类。但税务机构网站，如某地税务局网站放政府机构类</td>
+                </tr>
+                <tr>
+                    <th scope="row">12</th>
+                    <td>寻医问诊</td>
+                    <td>提供疾病、症状、药品、健康科普、医院等信息的综合查询网站。</td>
+                </tr>
+                <tr>
+                    <th scope="row">13</th>
+                    <td>医院</td>
+                    <td>各类医院官网</td>
+                </tr>
+                <tr>
+                    <th scope="row">14</th>
+                    <td>小说</td>
+                    <td>小说推荐、阅读、下载，有声小说、小说网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">16</th>
+                    <td>家电数码</td>
+                    <td>手机、电脑、个人护理电器、影音设备、摄影设备、家用电器、办公设备等。</td>
+                </tr>
+                <tr>
+                    <th scope="row">17</th>
+                    <td>软硬件</td>
+                    <td>软件及硬件网站。软件官网、设备商官网，以及软硬件相关的资料知识等</td>
+                </tr>
+                <tr>
+                    <th scope="row">18</th>
+                    <td>软件下载</td>
+                    <td>各类软件下载相关官网或者下载汇聚站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">19</th>
+                    <td>导航站</td>
+                    <td>寻址导航的，例如hao.360.com</td>
+                </tr>
+                <tr>
+                    <th scope="row">20</th>
+                    <td>网名语录</td>
+                    <td>网名、游戏昵称，以及展示网名个性的签名、说说、心情、语录等。</td>
+                </tr>
+                <tr>
+                    <th scope="row">21</th>
+                    <td>网站后台</td>
+                    <td>管理登录后台 mp.yidianzixun.com</td>
+                </tr>
+                <tr>
+                    <th scope="row">22</th>
+                    <td>体育</td>
+                    <td>各类体育相关的站点，体育类还包括潜水、登山、自行车、赛鸽等</td>
+                </tr>
+                <tr>
+                    <th scope="row">23</th>
+                    <td>住宿</td>
+                    <td>酒店、民宿住宿相关网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">24</th>
+                    <td>交通</td>
+                    <td>地图、飞机、汽车、火车、轮船、自驾等相关的旅行网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">25</th>
+                    <td>旅游</td>
+                    <td>旅游信息服务为主的地名、景点、住宿、旅游攻略、民族风俗等相关知识网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">26</th>
+                    <td>娱乐明星</td>
+                    <td>以娱乐明星相关内容为主的站点，新闻八卦行程等</td>
+                </tr>
+                <tr>
+                    <th scope="row">27</th>
+                    <td>服装美容</td>
+                    <td>服装鞋搭配、美妆、发型相关站点，包含医学美容、美体等网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">28</th>
+                    <td>游戏</td>
+                    <td>大型游戏官网、网页游戏导航站点、游戏攻略活动资讯，游戏下载</td>
+                </tr>
+                <tr>
+                    <th scope="row">29</th>
+                    <td>房产</td>
+                    <td>房地产资讯、二手房交易等相关网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">30</th>
+                    <td>装修</td>
+                    <td>装修相关信息和服务网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">31</th>
+                    <td>汽车</td>
+                    <td>汽车、二手车相关网站，车型信息、二手买卖、资讯、使用、维修保养等</td>
+                </tr>
+                <tr>
+                    <th scope="row">32</th>
+                    <td>摩托车</td>
+                    <td>摩托车相关网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">33</th>
+                    <td>命理星座</td>
+                    <td>解梦、玄学、易学、命理、星座、占卜、宗教信仰，以及衍生出的 风水、禁忌、姓名打分、婚配等信息。</td>
+                </tr>
+                <tr>
+                    <th scope="row">34</th>
+                    <td>百科</td>
+                    <td>百科网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">35</th>
+                    <td>问答</td>
+                    <td>问答类站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">36</th>
+                    <td>经验</td>
+                    <td>jingyan.baidu.com</td>
+                </tr>
+                <tr>
+                    <th scope="row">37</th>
+                    <td>文库</td>
+                    <td>文库类站点，www.doc88.com</td>
+                </tr>
+                <tr>
+                    <th scope="row">38</th>
+                    <td>期刊</td>
+                    <td>期刊类站点，cnki及期刊杂志官网</td>
+                </tr>
+                <tr>
+                    <th scope="row">39</th>
+                    <td>图片</td>
+                    <td>网络素材，壁纸、图片素材聚合网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">40</th>
+                    <td>头像</td>
+                    <td>头像图片类站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">41</th>
+                    <td>彩票</td>
+                    <td>提供正规彩票的开奖、走势图、试机号、预测等服务的网站。不含非法博彩站。</td>
+                </tr>
+                <tr>
+                    <th scope="row">42</th>
+                    <td>招聘就业</td>
+                    <td>校招、社招相关招聘网站</td>
+                </tr>
+                <tr>
+                    <th scope="row">43</th>
+                    <td>职业发展</td>
+                    <td>职业规划、职业技能、人际交往等相关</td>
+                </tr>
+                <tr>
+                    <th scope="row">44</th>
+                    <td>2B商情</td>
+                    <td>2B是 Business-to-Business的意思，对企业的商情信息，商品供应批发china.makepolo.com、招投标new.bidchance.com、企业目录信息qy.58.com 、企查查等。 </td>
+                </tr>
+                <tr>
+                    <th scope="row">45</th>
+                    <td>2C商情</td>
+                    <td>2C是business to customer的意思，对个人用户的商业站点，如淘宝、天猫等。</td>
+                </tr>
+                <tr>
+                    <th scope="row">46</th>
+                    <td>企业网站</td>
+                    <td>企业自己的网站，如www.zhonglong318.cn</td>
+                </tr>
+                <tr>
+                    <th scope="row">47</th>
+                    <td>新闻</td>
+                    <td>通用新闻资讯类站点，社会、时政、军事、历史等通用类别的都算。 如果是专业行业的，可以放在对应的类别里面。例如专业的财经新闻站点，优先算金融类别下的股票及其他，也可以同时放在新闻类别下</td>
+                </tr>
+                <tr>
+                    <th scope="row">48</th>
+                    <td>政策</td>
+                    <td>政策类站点，公积、社保、劳动人事、税收、知识产权、公司事务、身份户籍、移民、债权债务、财产房产、婚姻继承、医疗纠纷、刑事案件、交通法规等政策信息</td>
+                </tr>
+                <tr>
+                    <th scope="row">49</th>
+                    <td>法律</td>
+                    <td>法律相关的站点，法律法规、法律问答、律所等</td>
+                </tr>
+                <tr>
+                    <th scope="row">50</th>
+                    <td>政府机构网站</td>
+                    <td>政府及下属机构的网站，例如成都政府网站、财政局网站，以及一些下属机构站点www.ahdk.com。公益机构也算此类</td>
+                </tr>
+                <tr>
+                    <th scope="row">51</th>
+                    <td>k12</td>
+                    <td>k12是学前教育至高中教育，幼儿园、小学、中学、高中教育相关的网站（学习资料、辅导、考试、资讯等）</td>
+                </tr>
+                <tr>
+                    <th scope="row">52</th>
+                    <td>高等教育</td>
+                    <td>大学、研究生及其相关的成人继续教育等相关网站（学习资料、辅导、考试、资讯等）</td>
+                </tr>
+                <tr>
+                    <th scope="row">53</th>
+                    <td>留学</td>
+                    <td>留学相关的网站（咨询、考试、讨论、语言学习等）</td>
+                </tr>
+                <tr>
+                    <th scope="row">54</th>
+                    <td>学校官网</td>
+                    <td>小学、中学、大学等学校官网，不包含民办辅导机构的官网</td>
+                </tr>
+                <tr>
+                    <th scope="row">55</th>
+                    <td>培训考试</td>
+                    <td>公考、各类执业资格证书考试相关的网站 及 技能学习但不领证的辅导培训网站（如ps培训、前端培训）</td>
+                </tr>
+                <tr>
+                    <th scope="row">56</th>
+                    <td>文化艺术</td>
+                    <td>文化艺术类相关站点，收藏、书法、绘画、设计（建筑设计、服装设计、广告设计等）、摄影、乐器 、非小说的文学类站点（如诗歌、散文、剧本等文学作品聚合或者相关资讯网站）</td>
+                </tr>
+                <tr>
+                    <th scope="row">57</th>
+                    <td>web2</td>
+                    <td>知名综合性博客等无法确定领域分类的，主要由用户发表内容的站点。 如果是主体比较集中的例如www.cnblogs.com，应该优先分到软硬件，然后加此类别</td>
+                </tr>
+                <tr>
+                    <th scope="row">58</th>
+                    <td>论坛</td>
+                    <td>bbs类站点，如果有主题类别的，主题类别应该优先加上。例如股票类的论坛，必须要分到股票及其他，再加上论坛类</td>
+                </tr>
+                <tr>
+                    <th scope="row">59</th>
+                    <td>自媒体</td>
+                    <td>自媒体信息，如公众号、百家号、头条号等。 如果是站点头条，类别应该是新闻+自媒体</td>
+                </tr>
+                <tr>
+                    <th scope="row">60</th>
+                    <td>外文</td>
+                    <td>外文，纯外文，非中文的站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">61</th>
+                    <td>境外</td>
+                    <td>境外的站点，已有流程识别，如非必要，可以不分到此类下</td>
+                </tr>
+                <tr>
+                    <th scope="row">62</th>
+                    <td>跳过</td>
+                    <td>现有分类难以覆盖，容易卡住的暂时跳过。 不要遇到困难的都跳过，跳过后面还是要补上的，只是为了不卡住等待影响效率增加此类</td>
+                </tr>
+                <tr>
+                    <th scope="row">63</th>
+                    <td>生活</td>
+                    <td>涉及日常生活事务相关网站，1，主要是指线下服务。线下服务：搬家、健身场所等，需到线下消费的生活场景； 2，同城服务网站，包含同城社区； 3，宠物、绿植、情感交友</td>
+                </tr>
+                <tr>
+                    <th scope="row">64</th>
+                    <td>工具</td>
+                    <td>邮箱、天气、日历、计算器、电话、邮编、ip查询等。快递查询也放到工具类和生活类www.kuaidi100.com。 如果是快递企业官网，先分到企业网站，可以再放到生活和工具www.5idhl.com。</td>
+                </tr>
+                <tr>
+                    <th scope="row">65</th>
+                    <td>美食</td>
+                    <td>美食、菜谱相关的信息站点。如果是餐饮团购，如美团点评，应该放在生活</td>
+                </tr>
+                <tr>
+                    <th scope="row">66</th>
+                    <td>私服</td>
+                    <td>私服类站点</td>
+                </tr>
+                <tr>
+                    <th scope="row">67</th>
+                    <td>色情</td>
+                    <td>色情视频、色情小说、人体艺术、色情漫画、av人物、福利姬等</td>
+                </tr>
+                <tr>
+                    <th scope="row">68</th>
+                    <td>杂类</td>
+                    <td>以上站点分类类别不宜覆盖的站点。<b>尽量不要放在此类</b> 如果有常见类别的站点以上不能覆盖，优先反馈看看是否需要增加类别。</td>
+                </tr>
+                <tr>
+                    <th scope="row">70</th>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+    <script type='text/javascript'>
+    /*右侧inputbox*/ /*读取当前指针*/
+    var myid='myid';
+    var input_box_status;
+    var output_status;
+    var fenleiobj = {"host":"","tags":{}}
+    resetfenleiobj()
+    function resetfenleiobj(){
+        fenleiobj={"host":"","tags":{}}
+    }
+    $(function(){
+        //$('[data-toggle="tooltip"]').tooltip();
+        $('.input_box_title').click(function(){
+            if (!input_box_status) {
+                input_box_status = 1;
+                $(this).addClass("input_box_this").html("<span>收起输入框</span>").next("div").animate({width: '+400px'}, "100");
+            }else{
+                input_box_status = 0;
+                $(this).removeClass("input_box_this").html("<span>展开输入框</span>").next("div").animate({width: '-400px'}, "100");
+            }
+        });
+        /*下面这一句只是为了让标题中的文本垂直居中，如果你使用图片做tit或者你知道span的高度，你可以删除它，在.rightejecttit span写上margin-top:span高度的一半*/
+        //$('.input_box strong span').css("margin-top",-$('.input_box strong span').height()*0.5);
+
+        /*读取当前数据*/
+        if(localStorage.index) {
+            loadtext(Number(localStorage.index));
+            $("#input_submit").attr("disabled" ,true).attr("title","提交新数据前请先导出已完成数据!");
+        }
+    });
+
+    /*inputbox提交按钮*/
+    $("#input_submit").click(function(){
+        if($("#input_box_text").val()){
+            localStorage.clear();
+            var input_box_text_arr = $("#input_box_text").val().split(/\r?\n/);
+            localStorage.item_total = input_box_text_arr.length;
+            for (i in input_box_text_arr) {
+                let inputstr = unescape(input_box_text_arr[i].trim().replace(/\\u/g,'%u'))
+                let inputobj ={'inputstr':inputstr}
+                localStorage.setItem("ti"+i, JSON.stringify(inputobj));
+            }
+            //localStorage.input_text=$("#input_box_text").val();
+            localStorage.index=0;
+            loadtext(0);
+            $("#input_submit").attr("disabled" ,true);
+        }
+    });
+
+    /*loadtext*/
+    function loadtext(index){
+        if(index <Number(localStorage.item_total)){
+            var text_display =JSON.parse(JSON.parse(localStorage.getItem("ti"+index)).inputstr).host;
+            $('#text_display').text(text_display);
+            $('#text_display').attr('href',`http://${text_display}/`);
+            $('#search_link_pc').attr("href","https://helper.log.cx/allso/#site:"+text_display);
+            //$('#search_link_mob').attr("href","https://helper.log.cx/allso/m/#"+text_display);
+            $('#index').text(Number(localStorage.index)+1);
+            $('#item_total').text(localStorage.item_total);
+            $('#percent').text((100*Number(localStorage.index)/Number(localStorage.item_total)).toFixed(2))
+        }else{
+            $('#item_total').text(localStorage.item_total);
+            $('#percent').text('100')
+        }
+    }
+    /*分类click -多选*/
+    $('.fenlei li button').on("click",function(){
+        if(Number(localStorage.index) <Number(localStorage.item_total)){
+            //var fenlei_str = $('#text_display').text().replace(/\t.*$/,"")+"\t"+$(this).attr("value");
+            $(this).parents('.btn-group').find(".fenlei_radio").attr("checked", 'checked');
+            //$(this).parents('.btn-group').find(".btn").removeClass("btn-select");
+            $(this).addClass("btn-select");
+            var thistype = $(this).text();//parents('.btn-group').find(".input-group-text").
+            //var fenleidata = $("#fenleidata").text().replace(new RegExp(thistype+":.;?",'g'),"")?$("#fenleidata").text().replace(new RegExp(thistype+":.;?",'g'),"")+";"+$(this).parents('.btn-group').find(".input-group-text").text()+":"+$(this).text():$(this).parents('.btn-group').find(".input-group-text").text()+":"+$(this).text();
+            //fenleidata = fenleidata.replace(/;+/g,";");
+            fenleiobj['host'] = $('#text_display').text()
+            fenleiobj['u'] = myid;
+            fenleiobj['t'] = btoa(Date.parse(new Date()))
+            fenleiobj.tags[thistype] = 1
+            //console.log(fenleiobj)
+            $("#smt").attr("disabled",false);
+            var fenleidata=''
+            $.each(fenleiobj.tags,function(k,v){
+                if(1==v) fenleidata += k+';'
+            })
+            $("#fenleidata").text(fenleidata);
+        }
+    });
+    /*提交按钮*/
+    $("#smt").on("click",function(){
+        var fenlei_str = $("#fenleidata").text();
+        //var beizhu_str = $("#beizhu").val()?$("#beizhu").val():"";
+        if (fenlei_str){
+            localStorage.setItem("ti"+localStorage.index, JSON.stringify(fenleiobj));
+            //console.log($('#text_display').text().replace(/\t.*$/,"")+"\t"+beizhu_str+"\t"+fenlei_str);
+            localStorage.index = Number(localStorage.index)+1;
+            loadtext(Number(localStorage.index));
+            output_status = 0;
+            $("#smt").attr("disabled",true);
+            $("#fenleidata").text("");
+            //$("#beizhu").val("");
+            $('input:checkbox:checked').each(function() {
+                $(this).attr("checked",false);
+            });
+            $('.btn-select').each(function() {
+                $(this).removeClass("btn-select");
+            });
+        }
+        $("#input_submit").attr("disabled" ,true);
+        resetfenleiobj()
+    });
+
+    /*分类click 单选
+    $('.fenlei_radio').on("click","input[type=radio]",function(){
+        if(Number(localStorage.index) <Number(localStorage.item_total)){
+            var fenlei_str = $('#text_display').text().replace(/\t.*$/,"")+"\t"+$(this).attr("value");
+            //$('#hidden_radio').attr("checked",true);
+            var temp_str = $(this).parent().html();
+            $(this).toggle(100).toggle(50,function(){
+
+                $(this).parent().empty().prepend(temp_str);
+                //console.log(temp_str);
+                temp_str = "";
+                localStorage.setItem("ti"+localStorage.index, fenlei_str);
+                //console.log(fenlei_str);
+                $("#lastiteam").text("上一条： "+fenlei_str);
+                localStorage.index = Number(localStorage.index)+1;
+                loadtext(Number(localStorage.index));
+                output_status = 0;
+                $("#input_submit").attr("disabled" ,true);
+            });
+        }
+    });*/
+
+
+
+    /*上一条*/
+    $("#pre_btn").click(function(){
+        if(Number(localStorage.index)>0){
+            localStorage.index = Number(localStorage.index)-1;
+            loadtext(Number(localStorage.index));
+        }
+    });
+
+    
+    /*导出*/
+    function txtoutput(){
+        var txt = "";
+        for(i=0;i<Number(localStorage.index);i++){
+            txt += localStorage.getItem("ti"+i)+"\n";
+        }
+        //console.log(txt);
+        download(myid+"导出数据_"+currentTime()+".txt",txt);
+        output_status = 1;
+    }
+
+    /*下载*/
+    function download(filename,content,contentType) {
+        if (!contentType) contentType = 'application/octet-stream';
+        var a = document.createElement('a');
+        var blob = new Blob([content], { 'type': contentType });
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+    }
+
+    /*获取当前时间*/
+    function currentTime(){
+        var d = new Date(),str = '';
+        //str += d.getFullYear()+'年';
+        str  += d.getMonth() + 1+'月';
+        str  += d.getDate()+'日';
+        str += d.getHours()+'时'; 
+        str  += d.getMinutes()+'分'; 
+        str+= d.getSeconds()+'秒'; 
+        return str;
+    }
+    /*解锁*/
+    function unlock(){
+        if (!output_status){
+            $('#no_output_modal').modal('show');
+            //console.log("1");
+        }else{
+            document.getElementById("input_submit").disabled="";
+            $('#unlocked_modal').modal('show');
+            //$("#input_submit").attr({"title":"已解锁！","data-placement":"top"});//
+            //$("#input_submit").tooltip('show');
+        }
+    }
+    </script>
+</html>
