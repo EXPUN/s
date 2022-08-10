@@ -1078,7 +1078,7 @@
             let inputqueryarr = JSON.parse(JSON.parse(localStorage.getItem("ti"+index)).inputstr).q.split('\t');
             let qlistext =''
             $.each(inputqueryarr,function(i,v){qlistext += v.replace(/,\d+$/,'')+'</br>'})
-            console.log(qlistext)
+            //console.log(qlistext)
             $('#qlist .card-body').html(qlistext);
 
             //$('#search_link_mob').attr("href","https://helper.log.cx/allso/m/#"+text_display);
