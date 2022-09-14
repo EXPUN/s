@@ -22,6 +22,7 @@ body, td, input, textarea {
 <script  src="https://mat1.gtimg.com/libs/jquery2/2.2.0/jquery2.min.js"></script>
 <link href="https://lib.sinaapp.com/js/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://lib.sinaapp.com/js/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/psl/1.9.0/psl.min.js" integrity="sha512-YFdOE8bP/RIePsH38M35+7w1rSePTkneMePyR2FWrdecVbBeHw6bQp8WVxuDJiKjig9PTWDjFMGM4w0Z87tpFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 <div id="header" style="z-index:100;min-width:666px;box-shadow:0 0 5px #888;width:100%;height:30px;position:fixed;top:0;left:0px;BACKGROUND:#fbfbfb;">
@@ -36,7 +37,7 @@ body, td, input, textarea {
 <div class="panel panel-default" style="margin-left:8px;">
 <div class="panel-body">
 	<div id="" style="position:relative;top: 15px;opacity:0.75;">
-	<textarea rows="10" style="width:85%;top:50;" id="dnTextBox" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13)
+	<textarea rows="10" style="width:85%;top:50;" id="dnTextBox" onkeydown="if(event.ctrlKey&&event.keyCode==13)
 	{document.getElementById('submit').click();return false};">wenda.so.com
 www.docin.com
 www.uu898.com
@@ -49,11 +50,11 @@ brand.vogue.com.cn
 </textarea>
 	<input type="button" value="查询" id="submit" onclick="dowork();">
 
-	<hr width="660" size="1" align="left" color="#5151A2" style="border:1px; dashed #gray; FILTER: alpha(opacity=100,finishopacity=0,style=3)">
+	<hr width="100%" size="1" align="left" color="#5151A2" style="border:1px dashed gray; FILTER: alpha(opacity=100,finishopacity=0,style=3)">
 	<table width="92%" border="0" cellspacing="0" cellpadding="0" id="myTable" name="myTable" style="table-layout:fixed;word-break:break-all;">
 	  <thead><tr style="width:100%;background-color:C2C2C2;text-align:left;">
 		<td width="85">ID</td>
-		<td width="85">input</td>
+		<td width="400">input</td>
 		<td>domain</td>
 	  </tr>
 	</thead>
@@ -109,35 +110,7 @@ function doShow(i)
 		
 	}
 
-/* function parser()
-	{
-		if (s.length)
-		{
-			//alert("url="+url+"\n\reng="+eng);
-			//var url = "https://www.so.com/s?src=pingce&q="+encodeURIComponent(s);
-			//alert(url);
-			createXMLHTTPRequest();
-			xmlHttp.onreadystatechange = function(){if (xmlHttp.readyState == 4) writetb(); }                  //设置回调函数
-			//xmlHttp.timeout = 3000;
-			xmlHttp.open("GET", "http://test9.se.zzzc.qihoo.net:8360/Qsspingce/qsspingce/querydetail2/eng/ENGINE_ONLINE/id/"+s+"/location/0", false);
-			xmlHttp.send(null);
-			//xmlHttp.ontimeout = function(event){document.getElementById("adds1").value="请求超时";}
-		}
-	} */
-
 	window.setTimeout("doShow(" + (++i) + ")", 5);
-
-/* function writetb()
-	{
-		instb(i,s,querystr)
-		var locstr= xmlHttp.responseText.replace(/<style[\s\S]*?<\/style>|src=".*?"/g,"");
-		//alert(locstr); <script[\s\S]*?<\/script>|
-		var patt_engid=new RegExp(/pingcemark\s+=\s+'\{"ENGINE_360ANDROID":\{"id":"(\d+)",[^\}]*\}/);
-		var result_engid = locstr.match(patt_engid); 
-		//alert(result_engid[0]+"<br>"+result_engid[1]+"<br>"+result_engid[2]+"<br>"+result_engid[3]+"<br>"+result_engid[4]);
-		jq_ajax(i,s,querystr,result_engid[1]);
-		//console.log(result_engid[1]);
-	}	 */
 }
 
 function instb(i,ts)
@@ -157,45 +130,17 @@ function instb(i,ts)
 			otd2.innerText = "";
 			otd2.id ="is"+i;
 			tr.appendChild(otd2);
-			
-
 }	
 
 
 function jq_ajax(i,ts) {
-	var qstr="";  
-	var logstr="";
-	var parser = new DomainParser(jQuery.trim(ts));
-        parser.parse();
-	$("#is"+i).append(encodeURI(parser.getModifyName()));
-	/**jQuery.ajax({  
-		url: ts,
-		type: "GET", 
-		//data: {"content":ts},
-		//timeout:5000,
-		async : true,
-		success: function (data) {
-			//console.log("1");		
-			var wrappedObj = $("<code></code>").append($(data.replace(/<style[\s\S]*?<\/style>|src="[^"]*?"/g,"")));
-			qstr=decodeURIComponent($("a > input[value='点击下载']", wrappedObj).parent().attr("href"));
-			var titlestr = $("h3", wrappedObj).text();
-			//console.log("qstr="+qstr);
-				//totalpages = Number(data.data.totalpages);	
-			//var sourceurl =	data.data.content.original_source.url;
-				$("#is"+i).append(qstr+"|"+titlestr);
-			
-			//logstr = data.correct.length+"|"+d_display+"|"+d_score+"|"+d_force;
-			//$("#is"+i).append(data.correct.length);
-		},  
-		dataType: "html"
-		//dataType:"jsonp", 
-        //jsonp:"callback", 
-	});    **/
+	var parsed = psl.parse(ts);
+	$("#is"+i).append(`${parsed.domain}|${parsed.subdomain}|${parsed.tld}|${parsed.sld}`);
+
 }	
 
-
 var idTmr;  //toexcel
-        function  getExplorer() {  
+        function  getExplorer() {
             var explorer = window.navigator.userAgent ;  
             //ie  
             if (explorer.indexOf("MSIE") >= 0) {  
@@ -271,19 +216,6 @@ var idTmr;  //toexcel
 
 </body></html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 function DomainParser(domainName) {
 	var input = domainName;
@@ -321,10 +253,12 @@ function DomainParser(domainName) {
 		var secondLevel = parseSecondLevel(labels,topLevel);
 		if (secondLevel.labelIndex!=0 && topLevel.recognized) {
 			modifyName = secondLevel.name +"."+ topLevel.name;
+			//return modifyName;
 		}
 	}
 	
 	DomainParser.prototype.getModifyName = function() {
+		this.parse()
 		return modifyName;
 	}
 	
@@ -562,7 +496,7 @@ function DomainParser(domainName) {
 	         		    'com.so','net.so','org.so','club.tw','com.tw','ebiz.tw','game.tw','idv.tw',
 	         		    'org.tw','me.uk','org.uk','co.uz','com.uz','com.vc','net.vc','org.vc',
 	         		    'ac.vn','biz.vn','com.vn','edu.vn','gov.vn','health.vn','info.vn','int.vn',
-	         		    'name.vn','net.vn','org.vn','pro.vn'];
+	         		    'name.vn','net.vn','org.vn','pro.vn','co.jp'];
 	//https://whois.aliyun.com/js/domainparser.js
 }
 </script>
