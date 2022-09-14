@@ -1,0 +1,750 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>get_title_ol</title>
+
+<style type="text/css">
+/* 页面字体样式 */
+body, td, input, textarea {
+    font-family:宋体,Helvetica;
+    font-size:12px;
+}
+.t2 {
+	font-family:Helvetica;
+    overflow: hidden;
+    /* margin: 25px 0 15px 0; */
+    /* height: 40px; */
+	margin-left:-15px;
+    color: #0af;
+    text-shadow: 1px 1px 2px #eee;
+    font-weight: 700;
+    font-size: 24px;
+	width:200px;
+}
+.box-table{
+	display:table;
+}
+.box-tr{
+	display:table-row;
+}
+.box-td{
+	display:table-cell;
+}
+</style>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js" type="application/javascript"></script>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.26.0/axios.min.js" type="application/javascript"></script>
+<script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/jschardet/3.0.0/jschardet.min.js" type="application/javascript"></script>
+<link href="https://lib.baomitu.com/twitter-bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.3.0/js/bootstrap.min.js"></script>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/js-sha256/0.9.0/sha256.min.js" type="application/javascript"></script>
+<script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/spark-md5/3.0.0/spark-md5.min.js"></script>
+</head>
+<body class="container-fluid">
+<div id="header" class="container-fluid row" style="line-height: 30px;z-index:100;min-width:666px;box-shadow:0 0 5px #888;width:100%;height:30px;position:fixed;top:0;BACKGROUND:#fbfbfb;">
+	<span class="col-md-2 t2" >get_title_ol</span>
+	<span class="col-md-4 small">进度 : <span id="adds1" class=" small  text-success"></span><span id="adds2" class=" small  text-success"></span><span id="tempco" class=" small"></span></span>
+	<!--span class=" col-md-6">
+		<span class="progress" style="height: 10px; margin-top:10px"><span class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></span></span>
+	</span-->
+</div>
+<br>
+<div id="" class="container-fluid row" style="position:relative;top: 15px;opacity:0.75;">
+	<textarea class="col-md-10 small" rows="6" style="width:85%;" id="dnTextBox" onkeydown="if(event.ctrlKey && event.keyCode==13)
+	{document.getElementById('submit').click();return false};">http://kaijiang.500.com/shtml/dlt/19062.shtml
+https://ver.south.eu.org/allso/
+</textarea>
+	<input  class="col-md-2 small" type="button" value="查询" id="submit" onclick="dowork();">
+</div>
+<hr class="container-fluid row" width="80%" size="1" align="left" color="#5151A2" style="border:1px dashed gray; FILTER: alpha(opacity=100,finishopacity=0,style=3)">
+<table width="90%" border="0" cellspacing="0" cellpadding="0" id="myTable" name="myTable" style="table-layout:fixed;word-break:break-all;">
+  <tbody><tr style="width:100%;background-color:#C2C2C2;text-align:left;">
+    <td width="25">ID</td>
+	<td width="250">站点</td>
+	<td width="40">status</td>
+	<td width="60">meta编码</td>
+	<td width="100">header编码</td>
+	<td width="40">time</td>
+	<td>title</td>
+	<td>real_title</td>
+	<td>resUrl</td>
+	<td>Content-Length</td>
+  </tr>
+</tbody></table>
+
+<!--div class='box-table'>
+	<div class='box-tr'>
+		<div class='box-td' width="25">ID</div>
+		<div class='box-td' width="250">u</div>
+		<div class='box-td' width="250">status</div>
+		<div class='box-td' width="60">meta编码</div>
+		<div class='box-td' width="60">header编码</div>
+		<div class='box-td' width="60">time</div>
+		<div class='box-td'>title</div>
+		<div class='box-td'>realtitle</div>
+		<div class='box-td'>resUrl</div>
+	</div>
+</div-->
+
+<script language="javascript" type="text/javascript">//style="display:none"
+var qc = 0;
+var ti;
+var onoff;
+var suc_count;
+var total;
+var times = new Array();
+
+function dowork()
+{	
+	console.time('timer')
+	document.getElementById('submit').disabled = true;
+	//var rows = TB.children;while(rows.length) TB.deleteRow(0);
+	suc_count = 0 ;
+	var text = dnTextBox.value.trim();
+		//alert(text);
+		arr = text.split(/\r?\n/);
+		arr.sort(function(a, b){return 0.5 - Math.random()});
+		//document.getElementById("adds2").value="共"+arr.length+"条";
+	doShow(0);
+}
+
+function doShow(i)
+{
+	if (qc>=20){onoff =1;return;}
+	if (i>=arr.length) 
+	{
+		document.getElementById("adds1").innerHTML="Finished! //共"+arr.length+"条. "; 
+		//document.getElementById("tempco").innerHTML='<a href=# onclick="method5('+"myTable"+')">导出Excel</a>'; 
+		document.getElementById("tempco").style.display=" ";
+		document.getElementById('submit').disabled = false;
+		console.timeEnd('timer');
+		return;
+	}
+	qc += 1;
+	ti=i;
+	var ts = arr[i];//.replace(/^\s+|\s+$/g, "").split(/\t/);
+	if (ts){
+		document.getElementById("adds1").innerHTML="正在查询第"+(i+1)+"条 //共"+arr.length+"条.";  
+		document.getElementById("adds2").innerText="QC:"+qc;
+		//instb(i,ts);
+		//jq_ajax(i,ts);
+		//getxhr(i,ts);
+        axiosget(i,ts)
+	}
+	window.setTimeout("doShow(" + (++i) + ")", 0.5 * 1000);
+}
+
+function instb(i,ts)
+{
+		var tr = myTable.insertRow(-1)
+		let otd = document.createElement("td");
+			otd.innerText = i+1;
+			tr.appendChild(otd);
+			
+		otd = document.createElement("td");
+			otd.innerHTML = "<a target=_blank href="+ts+">"+ts+"</a>";
+			//otd1.id ="eng"+ts.replace(/\.|\/|:/g,"")+i;
+			tr.appendChild(otd);
+			
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="status"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+			
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="charsetstr"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+			
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="headercharsetstr"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+			
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="time"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="titlestr"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="real_titlestr"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="resUrl"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+
+		otd = document.createElement("td");
+			otd.innerText = "查询中";
+			otd.id ="conlen"+i //+ts.replace(/\.|\/|:|\?|\=|\_|\-/g,"")
+			tr.appendChild(otd);
+}	
+
+function axiosget(i,ts){
+    times[i] = (new Date()).valueOf();
+	let titlestr = ''
+	let isres = ''
+	let resstatus = ''
+	let resurl = ''
+	let restemp = ''
+	let bodysize = 0
+	let bodynodes = 0
+	let obj = {
+		"md5":SparkMD5.hashBinary(ts),
+		"info":"",
+		"url":ts,
+		"resstatus":resstatus,
+		"resurl":resurl,
+		"bodysize":bodysize,
+		"bodynodes":bodynodes,
+		"titlestr":titlestr,
+		"timestamp":times[i],
+		"reqtime":"",
+		"charset":""
+	}
+
+    axios({
+        method: 'get',
+        url: ts,
+        responseType: 'blob',
+		/*headers:{
+			'Sec-Fetch-Mode':'',
+			'Sec-Fetch-Site':''
+		},*/
+		timeout: 20 * 1000
+    })
+    .then(function (response) {
+		isres = 1
+		restemp = response
+    })
+	.catch(function(error){
+		 // 处理错误情况
+		if (error.response) {
+			// 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+			isres = 1
+			restemp = error.response
+		}else if (error.request) {
+			// 请求已经成功发起，但没有收到响应
+			isres = 0
+			resstatus = error.message
+		}else{
+			// 发送请求时出了点问题
+			isres = -1
+			resstatus = error.message
+		}
+	})
+	.then(function(){
+		// 总是会执行
+		let timestap = (new Date()).valueOf()
+		times[i] = timestap - times[i]
+		if (1=== isres){
+        let encodingPromise = new Promise((resolve, reject)=>{
+                let reader = new FileReader();
+                //reader.readAsDataURL(data); //let encoding = jschardet.detect(atob(buffer.split(';base64,')[1])).encoding || '';
+                reader.readAsBinaryString(restemp.data)
+                reader.onload = e => {
+                    let buffer = e.target.result;
+                    let encoding = jschardet.detect(e.target.result).encoding || '';
+                    resolve(encoding)
+                }
+            }).then( x => {
+                //console.log(x);
+                let reader = new FileReader();
+                reader.readAsText(restemp.data, x);
+                reader.onload = function (e) {
+					//console.log(reader.result)
+					let wrappedObj = $("<code></code>").append(reader.result.replace(/srcg?|\\r\\n/g,""));
+					titlestr = $("title", wrappedObj).html() || ""
+					resstatus = restemp.request.status || "err"
+					resurl = restemp.request.responseURL
+            		bodynodes = $("*:not(:has(*),script,noscript,style,meta,link,title,br)",wrappedObj).length || 0
+					$("br,a", wrappedObj).remove()
+             		bodysize = $("*:not(:has(*),script,noscript,style,meta,link,title)",wrappedObj).text().length || 0
+					 //console.log($(":first", wrappedObj).text())
+					let pageinfo = `${ts}\t${x}\t${resurl}\t${resstatus}\t${titlestr}\t${bodynodes}\t${bodysize}\t${times[i]}\t${timestap}`
+					//obj.info = pageinfo
+					obj.charset = x
+					obj.resurl = resurl
+					obj.resstatus = resstatus
+					obj.titlestr = titlestr.replace(/\r?\n|\t|"|&lt;\\\/title&gt.*$/g,"")
+					obj.bodynodes = bodynodes
+					obj.bodysize = bodysize
+					obj.reqtime = times[i]
+					//let keywords = $("meta[name='keywords']", wrappedObj).attr("content") || ""
+					//console.log(keywords)
+					//console.log(obj.titlestr)
+					writedb(obj)
+					//$('body').append(pageinfo+'</br>')
+                }
+            })
+		}else{
+			let pageinfo = `${ts}\tcharset\t${resurl}\t${resstatus}\t${titlestr}\t${bodynodes}\t${bodysize}\t${times[i]}\t${timestap}`
+			//obj.info = pageinfo
+			obj.resstatus = resstatus
+			writedb(obj)
+			//$('body').append(pageinfo+'</br>')
+		}
+		qc -=1; 
+		document.getElementById("adds2").innerText="QC:"+qc;
+		if (qc<=20 && onoff){
+			onoff=0;
+			doShow(++ti);
+		}
+	})
+}
+
+
+function getxhr(i,ts){
+	times[i] = (new Date()).valueOf();
+	var resultstr="无"; 
+	var titlestr="";
+	var real_titlestr="Unknown";
+	var charsetstr="";
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+			//console.log(xhr.getAllResponseHeaders());
+			//console.log(xhr.responseURL);
+		if(xhr.readyState == 4){
+			// 已经接收到全部响应数据，执行以下操作
+			var resdata = xhr.responseText;
+			if(xhr.getResponseHeader('content-type')) {var headercharsetstr = xhr.getResponseHeader('content-type').replace(/text\/html;?/,'');}
+			if(xhr.getResponseHeader('content-length')) {$("#conlen"+i).html(xhr.getResponseHeader('content-length'))}
+			//console.log(xhr.status);
+			$("#status"+i).html(xhr.status);
+			//console.log(xhr.getAllResponseHeaders());
+			//console.log(xhr.responseURL);
+			$("#resUrl"+i).html(xhr.responseURL);
+
+			var wrappedObj = $("<code></code>").append($(resdata.replace(/srcg?/g,"")));//|<[^>]*><\s*script[\s\S]*?<\s*\/\s*script\s*>|
+				if ($("title", wrappedObj).length>0){
+					titlestr = $("title", wrappedObj).html();
+				}
+				 
+				//$('script:not([src])').filter(function() { return this.innerText.match(/document\.title\s*=/); }).text();
+				//if ($("script:not([src]):contains('document.title')", wrappedObj).length>0){
+				if($('script:not([src])',wrappedObj).filter(function(){return this.innerText.match(/document\.title\s*=\s*['"]/)}).length>0){
+					//console.log($("script:not([src]):contains(document.title)", wrappedObj).text());
+					real_titlestr = $('script:not([src])',wrappedObj).filter(function() { return this.innerText.match(/document\.title\s*=\s*['"]/)}).text();//$("script:not([src]):contains('document.title')", wrappedObj).text();
+					real_titlestr = real_titlestr.replace(/[\S\s]*document\.title\s*=\s*["']/ig,"").replace(/["'][\S\s]*$/,"");
+					//console.log(real_titlestr);
+					$("#real_titlestr"+i).html(real_titlestr);
+				}
+			var bodystr = wrappedObj.text().replace(/\s/g,"");
+				//bodystr.length;
+				if ($("meta[content*='charset']",wrappedObj).length>0){
+					charsetstr = $("meta[content*='charset']",wrappedObj).attr("content").replace(/^.*charset=/,"");
+				}
+				else if ($("meta[charset]",wrappedObj).length>0){
+					charsetstr = $("meta[charset]",wrappedObj).attr("charset");
+				}
+				//if (charsetstr.match(/^gb/i)){gbk2utf8(resdata)}
+			//console.log($("body",wrappedObj).length);
+			$("#titlestr"+i).html(titlestr);
+			$("#charsetstr"+i).html(charsetstr);
+			$("#headercharsetstr"+i).html(headercharsetstr);
+		}
+    };
+	xhr.ontimeout = function (e) {
+		$("#status"+i).html('timeout');
+		console.log(`${e}timeout`);
+	};
+	xhr.onerror = function (e) {
+		$("#status"+i).html('err');
+		//console.log(e);
+	};
+	xhr.onloadend = function () {
+		xhr = null ;
+		suc_count+=1; 
+		//console.log(suc_count);
+		var prog = Math.round(1000*suc_count/arr.length)/10+"%";
+		//console.log(prog);
+		$(".progress-bar").html(prog);
+		$(".progress-bar").css("width",prog);
+		var timestamp3 = (new Date()).valueOf();
+		times[i] = timestamp3-times[i];
+		//console.log(times[i]);
+		$("#time"+i).html(times[i]);
+		
+		qc -=1; 
+		document.getElementById("adds2").innerText="QC:"+qc;
+		if (qc<=20 && onoff){
+			onoff=0;
+			doShow(++ti);
+		}
+	};
+
+	// 指定连接方式和地址----文件方式
+	xhr.open('get', ts, true);
+	// 发送请求
+	xhr.send();
+        
+}
+
+function jq_ajax(i,ts) {
+		times[i] = (new Date()).valueOf();
+		//console.log(times[i]);
+	var resultstr="无"; 
+	var titlestr="";
+	var real_titlestr="Unknown";
+	var charsetstr="";
+	//console.log(icpnum);
+	//console.log(icpname);
+	//console.log(icpentity);
+	function send_remote(data) {
+		var settings = {
+			type: "POST",
+			url: "https://getman.cn/api/request",
+			data: data,
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			complete: function (res) {
+				try {
+					json = JSON.parse(res.responseText);
+				} catch (err) {
+					json = {};
+				}
+				res_header = json.header;
+				res_cookie = json.cookie;
+				res_body = json.body;
+				res_code = json.code;
+				res_status = json.status ? json.status : res.statusText;
+				send_success = res_code == 200 ? true : false;
+				share_url = json.share_url;
+				share_alias = json.share_alias;
+				response_view();
+			}
+		};
+		$.ajax(settings);
+	}
+	var senddata = {method: 'GET', url: ts, body: ''};
+	jQuery.ajax({
+		url: ts,
+		type: "GET", 
+		timeout:50000,
+		async : true,
+		//data: senddata,
+        //headers: {
+        //'X-CSRF-TOKEN': 'OadMRgSq67RJ9xvf7aSJAT0u8pbrJAqQTT4stqi8'
+        //},
+		//times[i] = (new Date()).valueOf();
+		success: function (resdata,status,xhr) {
+			//console.log(resdata);
+            try {
+                //json = JSON.parse(resdata.responseText); 
+                json = JSON.parse(resdata); 
+				//console.log("1");
+            } catch (err) {
+                json = {};
+				//console.log("2");
+            }
+            res_header = json.header;
+            res_cookie = json.cookie;
+            res_body = json.body;
+            res_code = json.code;
+            res_status = json.status ? json.status : resdata.statusText;
+            send_success = res_code == 200 ? true : false;
+            share_url = json.share_url;
+            share_alias = json.share_alias;
+			//console.log(res_header);
+			//console.log(xhr.status);
+			var headercharsetstr = xhr.getResponseHeader('content-type').replace(/text\/html;?/,'');
+			//console.log(xhr.getResponseHeader('content-type'));
+			console.log(xhr.getAllResponseHeaders());
+			console.log(xhr.responseURL);
+			//console.log($(resdata.replace(/<\s*script[\s\S]*?<\s*\/\s*script\s*>|srcg?/g,"")));
+			
+			var wrappedObj = $("<code></code>").append($(resdata.replace(/srcg?/g,"")));//|<[^>]*><\s*script[\s\S]*?<\s*\/\s*script\s*>|
+				if ($("title", wrappedObj).length>0){
+					titlestr = $("title", wrappedObj).html();
+				}
+				if ($("script:not([src]):contains(document.title)", wrappedObj).length>0){
+					//console.log($("script:not([src]):contains(document.title)", wrappedObj).text());
+					real_titlestr = $("script:not([src]):contains(document.title)", wrappedObj).text();
+					real_titlestr = real_titlestr.replace(/[\S\s]*document\.title\s*=\s*["']/ig,"").replace(/["'].*$/,"");
+					console.log(real_titlestr);
+					
+				}
+			var bodystr = wrappedObj.text().replace(/\s/g,"");
+				//bodystr.length;
+				if ($("meta[content*='charset']",wrappedObj).length>0){
+					charsetstr = $("meta[content*='charset']",wrappedObj).attr("content").replace(/^.*charset=/,"");}
+				else if ($("meta[charset]",wrappedObj).length>0){
+					charsetstr = $("meta[charset]",wrappedObj).attr("charset");}
+
+			//console.log($("body",wrappedObj).length);
+			$("#titlestr"+i+ts[0].replace(/\.|\/|:|\?|\=|\_|\-/g,"")).html(titlestr);
+			$("#charsetstr"+i+ts[0].replace(/\.|\/|:|\?|\=|\_|\-/g,"")).html(charsetstr);
+			$("#headercharsetstr"+i+ts[0].replace(/\.|\/|:|\?|\=|\_|\-|/g,"")).html(headercharsetstr);
+			//$("#real_titlestr"+i+ts[0].replace(/\.|\/|:|\?|\=|\_|\-/g,"")).html(real_titlestr);
+		}, 
+		error:function (xhr,status,error) {
+			$("#charsetstr"+i+ts[0].replace(/\.|\/|:|\?|\=|\_|\-/g,"")).html(xhr.status+"|"+xhr.readyState+"|"+status+"|"+error);
+			//console.log(xhr.status+"|"+xhr.readyState+"|"+status+"|"+error); 
+			},
+		complete: function (xhr,status) { 
+			xhr = null ;
+			suc_count+=1; 
+			//console.log(suc_count);
+			var prog = Math.round(1000*suc_count/arr.length)/10+"%";
+			//console.log(prog);
+			$(".progress-bar").html(prog);
+			$(".progress-bar").css("width",prog);
+			var timestamp3 = (new Date()).valueOf();
+			times[i] = timestamp3-times[i];
+			$("#time"+i+ts[0].replace(/\.|\/|:|\?|\=|\_|\-/g,"")).html(times[i]);
+			
+			qc -=1; 
+			document.getElementById("adds2").innerText="QC:"+qc;
+			if (qc<=20 && onoff){
+				onoff=0;
+				doShow(++ti);
+			}
+			//console.log(times[i]);
+		},
+		dataType: "html"  
+	});   
+}
+
+/*获取当前时间*/
+function currentTime(){
+    var d = new Date(),str = '';
+    //str += d.getFullYear()+'年';
+    str  += (d.getMonth() + 1 <10)?'0'+(d.getMonth() + 1)+'月':d.getMonth() + 1+'月';
+    str  += (d.getDate()<10)?'0'+d.getDate()+'日':d.getDate()+'日';
+    str += d.getHours()+'时';
+    str  += d.getMinutes()+'分';
+    str+= d.getSeconds()+'秒';
+    return str;
+}
+
+
+function writedb(obj,callback){ //indexdb
+    /*创建indexdb*/
+    var request = indexedDB.open("mydb", 1);
+    request.onerror = function(e) {
+        console.log(e.currentTarget.error.message);
+    };
+
+    request.onsuccess = function(e) {
+       var db = e.target.result;
+        //console.log('成功打开DB');
+    };
+
+    request.addEventListener('upgradeneeded', e => {
+        var db = e.target.result;
+        if (!db.objectStoreNames.contains('deadlink')) {
+            console.log("我需要创建一个新的存储对象");
+            //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
+            var objectStore = db.createObjectStore('deadlink', {
+                keyPath: "umd5",
+                autoIncrement: false
+            });
+            //objectStore.createIndex("day", "day", { unique: false });
+            console.log('创建对象仓库成功');
+        }
+    });
+    request.addEventListener('success', e => {
+        var db = e.target.result;
+            var tx = db.transaction('deadlink', 'readwrite');
+            var store = tx.objectStore('deadlink');
+            //console.log(typeof arr[i]);
+            let jsonobj = obj;
+			var reqAdd = store.add({
+				'umd5': jsonobj.md5,
+				'url': jsonobj.url,
+				"resstatus":jsonobj.resstatus,
+				"resurl":jsonobj.resurl,
+				"bodysize":jsonobj.bodysize,
+				"bodynodes":jsonobj.bodynodes,
+				"titlestr":jsonobj.titlestr,
+				"timestamp":jsonobj.timestamp,
+				"reqtime":jsonobj.reqtime,
+				"charset":jsonobj.charset
+			});
+			reqAdd.addEventListener('success', e => {
+				//console.log("write db suc")
+			})
+			reqAdd.addEventListener('error', err => {
+				console.log("write db err")
+				jQuery("#ver").html("写入失败！");
+			})
+        if(typeof callback ==="function"){callback()}
+    });
+}
+
+function readdb(host,callback){
+    var request = indexedDB.open("mydb", 1);
+
+    request.addEventListener('upgradeneeded', e => {
+        var db = e.target.result;
+        if (!db.objectStoreNames.contains('deadlink')) {
+            console.log("我需要创建一个新的存储对象");
+            //如果表格不存在，创建一个新的表格（keyPath，主键 ； autoIncrement,是否自增），会返回一个对象（objectStore）
+            var objectStore = db.createObjectStore('deadlink', {
+                keyPath: "host",
+                autoIncrement: false
+            });
+            objectStore.createIndex("day", "day", { unique: false });
+            console.log('创建对象仓库成功');
+        }
+    });
+    request.addEventListener('success', e => {
+        var db = e.target.result;
+        var tx = db.transaction('deadlink', 'readwrite');
+        var store = tx.objectStore('deadlink');
+        var reqGet = store.get(host);
+        reqGet.addEventListener('success', e => {
+            //console.log(reqGet.result);
+            let reobj = reqGet.result;
+            //return(reobj);
+            if (typeof callback ==="function") {
+                callback(reobj);
+            }
+        })
+        /*var allRecords = store.getAll();
+        allRecords.onsuccess = function() {
+            //console.log(allRecords.result.length);
+            jQuery("#tdinfo").html("共"+allRecords.result.length+"条数据");
+        };*/
+
+        var dayindex = store.index("day");
+        /*dayindex.count(day).onsuccess = function(event) {
+            console.log(event.target.result);
+        };
+        dayindex.getAllKeys(day).onsuccess = function(event) {
+            console.log(event.target.result);
+        };*/
+        let daycount =0;
+        dayindex.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            if(cursor) {
+                if ("null" != cursor.value.delstr && cursor.value.day==day && "myid"!=cursor.value.id) daycount +=1;
+                //console.log(cursor);
+                cursor.continue();
+            } else {
+                jQuery("#tdinfo").html(myid+":今日"+daycount);//console.log(daycount);
+            }
+        }
+    })
+
+}
+
+function updatedb(obj,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        //console.log('成功打开DB');
+        var transaction = db.transaction('deadlink', 'readwrite');
+        var store = transaction.objectStore('deadlink');
+        console.log(obj);
+        var reqUp = store.get(obj.host);
+        reqUp.onsuccess = function(e) {
+            var data = e.target.result;
+            //for (a in newData) {
+            //除了keypath之外
+            //    data.a = newData.a;
+            //}
+            //console.log(data);
+            data.type = obj.type;
+            data.t = obj.t;
+            data.author = obj.author;
+            data.day = obj.day;
+            data.checkinfo = checkinfo;
+            store.put(data);
+            if (typeof callback ==="function") {
+                callback();
+            }
+        reqUp.onerror = function(){
+            console.log("写错误");
+            jQuery("#ver").html("更新失败！");
+            }
+        };
+    };
+}
+
+function deletedb(host,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        //console.log('成功打开DB');
+        var transaction = db.transaction('deadlink', 'readwrite');
+        var store = transaction.objectStore('deadlink');
+        console.log(host);
+        var reqDel = store.delete(host);
+        reqDel.onsuccess = function(e) {
+            console.log("Del suc");
+        };
+        reqDel.onerror = function(){
+            console.log("Del err");
+            jQuery("#ver").html("删除失败！");
+        }
+    };
+}
+
+function downloadfunction(daystr,callback){
+    var request = indexedDB.open("mydb", 1);
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        var transaction = db.transaction('deadlink');
+        var store = transaction.objectStore('deadlink');
+        var reqCur = store.openCursor();//打开游标
+        var dataList = new Array();
+        let txt ="";    //"id,tuwen,link,other,delete,author,day,checkinfo\n";
+        var i = 0;
+        reqCur.onsuccess = function(e) {
+            var cursor = e.target.result;
+            if (cursor) {
+                dataList[i] = cursor.value;
+                if (daystr){
+                    if(daystr==dataList[i].day){
+                        txt+=dataList[i].host+"\t"+dataList[i].type+"\t"+dataList[i].t+"\t"+dataList[i].author+"\t'"+dataList[i].day+"\t"+dataList[i].checkinfo+"\n";
+                        i++;
+                    }
+                }else{
+					txt += dataList[i].umd5+"\t"+dataList[i].url+"\t"+dataList[i].resstatus+"\t"+dataList[i].resurl+"\t"+dataList[i].bodysize+"\t"+dataList[i].bodynodes+"\t"+dataList[i].titlestr.replace(/\r?\n|\t|"/g,"")+"\t"+dataList[i].timestamp+"\t"+dataList[i].reqtime+"\t"+dataList[i].charset+"\n";
+					i++;
+                }
+                cursor.continue();
+            }else{
+                //data = dataList;
+                if (typeof callback ==="function") {
+                    callback(txt);
+                }
+            }
+        };
+        //console.log(txt);
+    }
+}
+
+/*下载*/
+function download(filename,content,contentType) {
+    //if (!contentType) contentType = 'application/octet-stream';
+    //var a = document.createElement('a');
+    //var blob = new Blob([content], { 'type': contentType });
+    //a.href = window.URL.createObjectURL(blob);
+    //a.download = filename;
+    //a.click();
+
+    //var uri = 'data:application/csv;charset=utf-8,' + escape(content); //如果数据太多，就会导致无法导出的结果，原因是浏览器对URL的长度有限制，因此要使用Blob对象和window.URL.createObjectURL()方法做一下改造。
+    var uri = new Blob([content]);//new Blob(['\ufeff' + content], {type:"text/csv,charset=UTF-8"})
+    var link = document.createElement("a");
+    //link.href = uri;
+    link.href = URL.createObjectURL(uri);
+    link.style = "visibility:hidden";
+    link.download = filename ;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+</script>
+
+</body></html>
