@@ -222,7 +222,7 @@ function respond() {
 }
 
 $('.quickdelete').click(function () {
-	$("#soinput").val("").blur();
+	$("#soinput").val("").focus();
 });
 
 /* 搜索按钮事件 */
