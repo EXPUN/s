@@ -29,7 +29,7 @@ var soinput_obj = $('#soinput'),
     objb = $('#b'),
     objc = $('#c'),
     obj_autoSO = $('#autoSO'),
-    autoSO = true;
+    autoSO = false;
 var need_respond = true;
 var obj_list1_buttons = $("td.set-list-1 button"),
     obj_list2_buttons = $("td.set-list-2 button");
@@ -43,9 +43,9 @@ respond(); //启动后的第一次响应式
 
 
 if(localStorage["allso_autoSO"]===undefined) {
-    localStorage["allso_autoSO"] = true;
-    obj_autoSO[0].checked = true;
-    autoSO = true;
+    localStorage["allso_autoSO"] = false;
+    obj_autoSO[0].checked = false;
+    autoSO = false;
 }
 else {
     obj_autoSO[0].checked = localStorage["allso_autoSO"]==='true';
@@ -222,7 +222,7 @@ function respond() {
 }
 
 $('.quickdelete').click(function () {
-	$("#soinput").val("");
+	$("#soinput").val("").blur();
 });
 
 /* 搜索按钮事件 */
