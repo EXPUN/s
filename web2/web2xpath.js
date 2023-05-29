@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         web2xpath标记可视化工具
 // @version      20230526
-// @updateURL
+// @updateURL    https://helper.log.cx/web2/web2xpath.js
 // @description  20210819_1填错后如果工具栏变形看不到重填按钮；可以在页面空白处__双击，将工具栏拉高
 // @author       You
 // @match        http://ptool.task.online/web2/*
