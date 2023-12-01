@@ -240,11 +240,11 @@ function so() {
             obja[0].src = set_url[0] + sowhat;
             objb[0].src = set_url[1] + sowhat;
             objc[0].src = set_url[2] + sowhat;
-       /* }
-        else if (localStorage["allso_state"] < 0)
-            obja[0].src = set_url[0] + sowhat;
-        else
-            objb[0].src = set_url[1] + sowhat;
+       /* //}
+        //else if (localStorage["allso_state"] < 0)
+        //    obja[0].src = set_url[0] + sowhat;
+        //else
+        //    objb[0].src = set_url[1] + sowhat;
        	*/
         location.hash = sowhat; //sowhat_str;
 		//location.search = "?q="+sowhat;
