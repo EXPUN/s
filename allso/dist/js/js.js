@@ -230,24 +230,20 @@ soinput_obj.on('input', function(){
     if(autoSO) so();
 });
 function so() {
-    //console.log(localStorage["allso_state"]);
     if ($.trim(soinput_obj[0].value) !== '') {
-        obja[0].src = ''; objb[0].src = '';
         var sowhat_str = soinput_obj[0].value,
-            sowhat = encodeURIComponent(sowhat_str);
-      		//console.log(sowhat);
-        //if (localStorage["allso_state"] == 0) {
-            obja[0].src = set_url[0] + sowhat;
-            objb[0].src = set_url[1] + sowhat;
-            objc[0].src = set_url[2] + sowhat;
-       /* //}
-        //else if (localStorage["allso_state"] < 0)
-        //    obja[0].src = set_url[0] + sowhat;
-        //else
-        //    objb[0].src = set_url[1] + sowhat;
-       	*/
+        sowhat = encodeURIComponent(sowhat_str);
+        if(obja[0].src){
+            location.hash = sowhat; //sowhat_str;
+            window.document.title = sowhat_str + ' - 对比搜索';
+            location.reload();
+            return;
+        }
+        obja[0].src = set_url[0] + sowhat;
+        objb[0].src = set_url[1] + sowhat;
+        objc[0].src = set_url[2] + sowhat;
+
         location.hash = sowhat; //sowhat_str;
-		//location.search = "?q="+sowhat;
         window.document.title = sowhat_str + ' - 对比搜索';
     }
     else {
