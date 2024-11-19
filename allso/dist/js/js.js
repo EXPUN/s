@@ -15,7 +15,7 @@ if ($(window).width() < 480) {
         //var hash = getHash();
         var query = getSearch();
         if(query)
-            window.location.href = "https://www.so.com/s?ie=utf-8&fr=360sou_newhome&src=360sou_newhome&" + query;
+            window.location.href = "https://www.so.com/s?ie=utf-8&fr=360sou_newhome&src=360sou_newhome&q=" + query;
         else
             window.location.href = "https://cn.bing.com/" ;
     }
