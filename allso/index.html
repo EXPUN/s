@@ -13,7 +13,7 @@
 <style>
 	#sobut:focus{outline:none;}
 	body{overflow:hidden;font-size: 14px;}
-	div.progress{margin:1rem;min-width:88px;width:300px;cursor:pointer}
+	div.progress{margin:1rem;min-width:88px;cursor:pointer}
 	#jdt1,#jdt2,#jdt3{width:33%}
 	div.modal-body div.checkbox{text-align:right}
 	#a,#b,#c{height:100%;width:33%;border:0;padding:0;position:absolute;top:0;left:0}
@@ -69,7 +69,7 @@
 <header class="border-bottom fixed-top">
     <div class="d-flex align-items-center">
         <span class="navbar-brand"><span>对</span><span>比</span><span>搜</span><span>索</span></span>
-        <form class="d-flex col-3" onsubmit="return false;">
+        <form class="d-flex col-4" onsubmit="return false;">
             <div class="input-group">
                 <input id="soinput" type="text" class="form-control" name="s" placeholder="" required="required" >
 				<button href="javascript:" title="清空" id="SearDel" class="quickdelete border border-0"></button>
@@ -79,7 +79,7 @@
                 <button class="btn btn-light" type="submit" onclick="site();" id="sitebtn" style="overflow:hidden;width:60px;" title="site语法查询">Site</button>
             </div>
         </form>
-        <div class="progress">
+        <div class="progress col-2">
             <div class="progress-bar bg-success" id="jdt1" onclick="change_state(1)">1</div>
             <div class="progress-bar bg--default" id="jdt2" onclick="change_state(2)">❉2</div>
             <div class="progress-bar bg-warning" id="jdt3" onclick="change_state(3)">3</div>
