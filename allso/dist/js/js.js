@@ -87,7 +87,7 @@
             set_url[a0b1] = "https://www.google.com/search?newwindow=1&q=";
             set_top[a0b1] = -85;
             set_left[a0b1] = 0;
-            set_foot[a0b1] = 80;
+            set_foot[a0b1] = 120;
         } else if (set_so == 5) {
             set_url[a0b1] = "https://www.sogou.com/web?query=";
             set_top[a0b1] = -55;
@@ -149,7 +149,7 @@
     function respond() {
         var winw = $('body').width(),
             winh = $(window).height(),
-            navh = $("nav.navbar").height(),
+            navh = $("header").height(),
             abx = winw / 3;
         if (localStorage["allso_state"] == 0) {
             obja.fadeIn('fast').animate({
