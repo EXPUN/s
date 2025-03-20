@@ -45,12 +45,12 @@ body, td, input, textarea {
 <span id="tempco" style="display:inline"></span>
 </div>  
 <div class="row" style="margin:38 0 0 2px;">
-   <div class="btn-group btn-group-lg" style="margin:0 0px;padding:0 2px;" >
+   <div class="btn-group btn-group-lg col-3" style="margin:0 0px;padding:0 2px;" >
     <button type="button" class="btn btn-outline-Secondary" onclick="javascript:$('#myTable_tbody').empty();$('#dnTextBox').val('');">清屏</button>
     <button type="button" class="btn btn-outline-Secondary" id="submit" onClick="dowork();">开始</button>
   </div>
-<textarea rows="6" style="width:80%;padding:1 0px;font-family:宋体;font-size:12px;" id="dnTextBox" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13)
-{document.getElementById('submit').click();return false};" class="col"></textarea>
+<textarea rows="6" style="padding:1 0px;font-family:宋体;font-size:12px;" id="dnTextBox" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13)
+{document.getElementById('submit').click();return false};" class="col-9"></textarea>
 </div> 
 <hr width="100%" size="1" align="left" color="#5151A2" style="margin:12 0px;border:1px dashed #gray; FILTER: alpha(opacity=100,finishopacity= 0,style= 3)">
 
